@@ -89,15 +89,15 @@ public class P11StepDefinitions {
   
   @Then("the following {string} shall be raised \\(p11)")
   public void the_following_shall_be_raised_p11(String string) {
-	  assertEquals(string,error);
+	  assertTrue(error.contains(string));
     //throw new io.cucumber.java.PendingException();
   }
 
   @Then("the guide account information will not be updated and will keep {string}, {string}, {string}, and {string} \\(p11)")
   public void the_guide_account_information_will_not_be_updated_and_will_keep_and_p11(String string,
       String string2, String string3, String string4) {
-	  assertEquals("", error); //assert no equal ?? case where there is an error
-	  assertEquals(0, errorCntr);
+	  //assertEquals("", error); //assert no equal ?? case where there is an error
+	  //assertEquals(0, errorCntr);
 	  Guide guide = (Guide) Guide.getWithEmail(string);
 	  assertEquals(guide.getEmail(), string);
 	  assertEquals(guide.getPassword(), string2);
@@ -106,6 +106,11 @@ public class P11StepDefinitions {
 	  //throw new io.cucumber.java.PendingException();
 	  
   }
+  
+  @After
+  public void tearDown() {
+	  climbSafe.delete();
+	}
   
 
 private void callController(Executable executable) { //from the btms step definitions in the tutorial, for @When
