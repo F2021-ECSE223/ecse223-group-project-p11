@@ -10,6 +10,26 @@ public class ClimbSafeFeatureSet3Controller {
 	public static void registerGuide(String email, String password, String name, String emergencyContact)
 			throws InvalidInputException {
 		String error = "";
+		if(password.equals("")){
+			error = "Password cannot be empty";
+		}
+		
+		if(name.equals("")) {
+			error = "Name cannot be empty";	
+		}
+		
+		if(emergencyContact.equals("")) {
+			error = "Emergency contact cannot be empty";
+		}
+	
+		if(email.equals("")) {
+			error = "Email cannot be empty";
+		}
+		
+		if (!error.isEmpty()) {
+		      throw new InvalidInputException(error);
+	    }
+		
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
 		try {
 			climbSafe.addGuide(email, password, name, emergencyContact);
@@ -27,23 +47,22 @@ public class ClimbSafeFeatureSet3Controller {
 			throws InvalidInputException {
 		String error = "";
 		
-		if(newPassword == ""){
-			error = "Password cannot be empty";
+		if(newPassword.equals("")){
+			error += "Password cannot be empty";
 		}
 		
-		if(newName == "") {
-			error = "Name cannot be empty";	
+		if(newName.equals("")) {
+			error += "Name cannot be empty";	
 		}
 		
-		if(newEmergencyContact == "") {
-			error = "Emergency contact cannot be empty";
+		if(newEmergencyContact.equals("")) {
+			error += "Emergency contact cannot be empty";
 		}
 		
 		if (!error.isEmpty()) {
 		      throw new InvalidInputException(error);
 	    }
 		
-		//ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
 		try {
 			Guide guideToUpdate = (Guide) Guide.getWithEmail(email);
 			guideToUpdate.setPassword(newPassword);

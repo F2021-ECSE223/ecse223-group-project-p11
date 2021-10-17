@@ -52,8 +52,6 @@ public class P11StepDefinitions {
 	      String name = row.get("name");
 	      String emergencyContact = row.get("emergencyContact");
 	      climbSafe.addGuide(email, password, name, emergencyContact);
-	 
-	      
 	    }
     //throw new io.cucumber.java.PendingException();
 	  
@@ -96,8 +94,6 @@ public class P11StepDefinitions {
   @Then("the guide account information will not be updated and will keep {string}, {string}, {string}, and {string} \\(p11)")
   public void the_guide_account_information_will_not_be_updated_and_will_keep_and_p11(String string,
       String string2, String string3, String string4) {
-	  //assertEquals("", error); //assert no equal ?? case where there is an error
-	  //assertEquals(0, errorCntr);
 	  Guide guide = (Guide) Guide.getWithEmail(string);
 	  assertEquals(guide.getEmail(), string);
 	  assertEquals(guide.getPassword(), string2);
