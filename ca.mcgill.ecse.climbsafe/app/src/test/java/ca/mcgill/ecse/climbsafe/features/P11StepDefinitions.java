@@ -18,10 +18,24 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+
+/* The step definitions were mostly implemented as a team, all the members of the team contributed
+ * and worked on the implementation of all the methods, not only to the ones they were assigned to.
+ */
+
+
 public class P11StepDefinitions {
 	private ClimbSafe climbSafe;
 	private String error;
 	private int errorCntr;
+
+	/**
+	 * This function creates the ClimbSafe system and sets its parameters, and
+	 * initialize the error message and error count.
+	 * 
+	 * @author Can Akin, Maxime Drouin
+	 * @param dataTable
+	 */
 
 	@Given("the following ClimbSafe system exists: \\(p11)")
 	public void the_following_climb_safe_system_exists_p11(io.cucumber.datatable.DataTable dataTable) {
@@ -39,6 +53,14 @@ public class P11StepDefinitions {
 
 	}
 
+	/**
+	 * This function creates the guides with the given information form the Table
+	 * into the climbSafe system.
+	 * 
+	 * @author Anaëlle Drai Laguéns
+	 * @param dataTable
+	 */
+
 	@Given("the following guides exist in the system: \\(p11)")
 	public void the_following_guides_exist_in_the_system_p11(io.cucumber.datatable.DataTable dataTable) {
 
@@ -54,28 +76,57 @@ public class P11StepDefinitions {
 
 	}
 
+	/**
+	 * This method calls the controller method and updates the guide information
+	 * using it.
+	 * 
+	 * @author Oliver Cafferty
+	 * @param string, string2, string3, string4
+	 * 
+	 */
+
 	@When("the guide with {string} attempts to update their account information to {string}, {string}, and {string} \\(p11)")
 	public void the_guide_with_attempts_to_update_their_account_information_to_and_p11(String string, String string2,
 			String string3, String string4) {
-		// Try executing the update guide method from the controller with the given strings, and if an error occurs, increment error count and store the message
+		// Try executing the update guide method from the controller with the given
+		// strings, and if an error occurs, increment error count and store the message
 		callController(() -> ClimbSafeFeatureSet3Controller.updateGuide(string, string2, string3, string4));
 	}
+
+	/**
+	 * This method asserts the error count is 0 and message is empty, finds the
+	 * guide in the system and checks whether the updated informations match the
+	 * provided strings
+	 * 
+	 * @author Samuel Snodgrass
+	 * @param string, string2, string3, string4
+	 */
 
 	@Then("their guide account information will be updated and is now {string}, {string}, {string}, and {string} \\(p11)")
 	public void their_guide_account_information_will_be_updated_and_is_now_and_p11(String string, String string2,
 			String string3, String string4) {
-		// check there was no error by checking the error string is empty and the errorCntr is equal to 0
+		// check there was no error by checking the error string is empty and the
+		// errorCntr is equal to 0
 		assertEquals("", error);
 		assertEquals(0, errorCntr);
 
 		Guide guide = (Guide) Guide.getWithEmail(string); // find the guide that was updated using its unique email
 
-		// check if its email, password, name and emergency contacts match the updated information
+		// check if its email, password, name and emergency contacts match the updated
+		// information
 		assertEquals(guide.getEmail(), string);
 		assertEquals(guide.getPassword(), string2);
 		assertEquals(guide.getName(), string3);
 		assertEquals(guide.getEmergencyContact(), string4);
 	}
+
+	/**
+	 * This method asserts whether the number of guides in the system corresponds to
+	 * the provided integer.
+	 * 
+	 * @author Lee Brickman
+	 * @param int1
+	 */
 
 	@Then("the number of guides in the system is {int} \\(p11)")
 	public void the_number_of_guides_in_the_system_is_p11(Integer int1) {
@@ -84,11 +135,28 @@ public class P11StepDefinitions {
 															// integer
 	}
 
+	/**
+	 * This method asserts whether the error string (which means the error that was
+	 * caught), matches the required error string
+	 * 
+	 * @author Lee Brickman
+	 * @param string
+	 */
+
 	@Then("the following {string} shall be raised \\(p11)")
 	public void the_following_shall_be_raised_p11(String string) {
 
 		assertTrue(error.contains(string)); // check the error string corresponds to the given string
 	}
+
+	/**
+	 * This method asserts the guide information was not changed and corresponds to
+	 * the previous information if an error occurs.
+	 * 
+	 * @author Lee Brickman, Samuel Snodgrass, Oliver Cafferty, Can Akin, Maxime
+	 *         Drouin, Anaëlle Drai Laguéns
+	 * @param string, string2, string3, string4
+	 */
 
 	@Then("the guide account information will not be updated and will keep {string}, {string}, {string}, and {string} \\(p11)")
 	public void the_guide_account_information_will_not_be_updated_and_will_keep_and_p11(String string, String string2,
@@ -96,7 +164,8 @@ public class P11StepDefinitions {
 
 		Guide guide = (Guide) Guide.getWithEmail(string); // find the guide that was updated using its unique email
 
-		// check its information corresponds to the strings which correspond to his previous informations
+		// check its information corresponds to the strings which correspond to his
+		// previous informations
 		assertEquals(guide.getEmail(), string);
 		assertEquals(guide.getPassword(), string2);
 		assertEquals(guide.getName(), string3);
@@ -109,6 +178,13 @@ public class P11StepDefinitions {
 		climbSafe.delete();
 	}
 
+	/**
+	 * This method executes a function and catches potential errors. In the case an
+	 * error occurs, it stores the error message and increments error count
+	 * 
+	 * @author Oliver Cafferty
+	 * @param executable
+	 */
 	private void callController(Executable executable) { // from the btms step definitions in tutorial 6
 		try { // try executing the function
 			executable.execute();
