@@ -18,11 +18,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-
 /* The step definitions were mostly implemented as a team, all the members of the team contributed
  * and worked on the implementation of all the methods, not only to the ones they were assigned to.
  */
-
 
 public class P11StepDefinitions {
 	private ClimbSafe climbSafe;
@@ -81,16 +79,17 @@ public class P11StepDefinitions {
 	 * using it.
 	 * 
 	 * @author Oliver Cafferty
-	 * @param string, string2, string3, string4
+	 * @param email, newPassword, newName, newEmergencyContact
 	 * 
 	 */
 
 	@When("the guide with {string} attempts to update their account information to {string}, {string}, and {string} \\(p11)")
-	public void the_guide_with_attempts_to_update_their_account_information_to_and_p11(String string, String string2,
-			String string3, String string4) {
+	public void the_guide_with_attempts_to_update_their_account_information_to_and_p11(String email, String newPassword,
+			String newName, String newEmergencyContact) {
 		// Try executing the update guide method from the controller with the given
 		// strings, and if an error occurs, increment error count and store the message
-		callController(() -> ClimbSafeFeatureSet3Controller.updateGuide(string, string2, string3, string4));
+		callController(
+				() -> ClimbSafeFeatureSet3Controller.updateGuide(email, newPassword, newName, newEmergencyContact));
 	}
 
 	/**
@@ -99,25 +98,25 @@ public class P11StepDefinitions {
 	 * provided strings
 	 * 
 	 * @author Samuel Snodgrass
-	 * @param string, string2, string3, string4
+	 * @param email, newPassword, newName, newEmergencyContact
 	 */
 
 	@Then("their guide account information will be updated and is now {string}, {string}, {string}, and {string} \\(p11)")
-	public void their_guide_account_information_will_be_updated_and_is_now_and_p11(String string, String string2,
-			String string3, String string4) {
+	public void their_guide_account_information_will_be_updated_and_is_now_and_p11(String email, String newPassword,
+			String newName, String newEmergencyContact) {
 		// check there was no error by checking the error string is empty and the
 		// errorCntr is equal to 0
 		assertEquals("", error);
 		assertEquals(0, errorCntr);
 
-		Guide guide = (Guide) Guide.getWithEmail(string); // find the guide that was updated using its unique email
+		Guide guide = (Guide) Guide.getWithEmail(email); // find the guide that was updated using its unique email
 
 		// check if its email, password, name and emergency contacts match the updated
 		// information
-		assertEquals(guide.getEmail(), string);
-		assertEquals(guide.getPassword(), string2);
-		assertEquals(guide.getName(), string3);
-		assertEquals(guide.getEmergencyContact(), string4);
+		assertEquals(guide.getEmail(), email);
+		assertEquals(guide.getPassword(), newPassword);
+		assertEquals(guide.getName(), newName);
+		assertEquals(guide.getEmergencyContact(), newEmergencyContact);
 	}
 
 	/**
@@ -125,14 +124,14 @@ public class P11StepDefinitions {
 	 * the provided integer.
 	 * 
 	 * @author Lee Brickman
-	 * @param int1
+	 * @param numOfGuides
 	 */
 
 	@Then("the number of guides in the system is {int} \\(p11)")
-	public void the_number_of_guides_in_the_system_is_p11(Integer int1) {
+	public void the_number_of_guides_in_the_system_is_p11(Integer numOfGuides) {
 
-		assertEquals(climbSafe.getGuides().size(), int1); // check the number of guides in the system corresponds to the
-															// integer
+		assertEquals(climbSafe.getGuides().size(), numOfGuides); // check the number of guides in the system corresponds
+																 // to the integer
 	}
 
 	/**
@@ -140,13 +139,13 @@ public class P11StepDefinitions {
 	 * caught), matches the required error string
 	 * 
 	 * @author Lee Brickman
-	 * @param string
+	 * @param errorMessage
 	 */
 
 	@Then("the following {string} shall be raised \\(p11)")
-	public void the_following_shall_be_raised_p11(String string) {
+	public void the_following_shall_be_raised_p11(String errorMessage) {
 
-		assertTrue(error.contains(string)); // check the error string corresponds to the given string
+		assertTrue(error.contains(errorMessage)); // check the error string corresponds to the given string
 	}
 
 	/**
@@ -155,21 +154,21 @@ public class P11StepDefinitions {
 	 * 
 	 * @author Lee Brickman, Samuel Snodgrass, Oliver Cafferty, Can Akin, Maxime
 	 *         Drouin, Anaëlle Drai Laguéns
-	 * @param string, string2, string3, string4
+	 * @param email, password, name, emergencyContact
 	 */
 
 	@Then("the guide account information will not be updated and will keep {string}, {string}, {string}, and {string} \\(p11)")
-	public void the_guide_account_information_will_not_be_updated_and_will_keep_and_p11(String string, String string2,
-			String string3, String string4) {
+	public void the_guide_account_information_will_not_be_updated_and_will_keep_and_p11(String email, String password,
+			String name, String emergencyContact) {
 
-		Guide guide = (Guide) Guide.getWithEmail(string); // find the guide that was updated using its unique email
+		Guide guide = (Guide) Guide.getWithEmail(email); // find the guide that was updated using its unique email
 
 		// check its information corresponds to the strings which correspond to his
 		// previous informations
-		assertEquals(guide.getEmail(), string);
-		assertEquals(guide.getPassword(), string2);
-		assertEquals(guide.getName(), string3);
-		assertEquals(guide.getEmergencyContact(), string4);
+		assertEquals(guide.getEmail(), email);
+		assertEquals(guide.getPassword(), password);
+		assertEquals(guide.getName(), name);
+		assertEquals(guide.getEmergencyContact(), emergencyContact);
 
 	}
 
