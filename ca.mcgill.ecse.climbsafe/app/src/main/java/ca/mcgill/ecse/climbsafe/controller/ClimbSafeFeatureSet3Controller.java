@@ -48,15 +48,15 @@ public class ClimbSafeFeatureSet3Controller {
 		String error = "";
 		
 		if(newPassword.equals("")){
-			error += "Password cannot be empty";
+			error = "Password cannot be empty";
 		}
 		
 		if(newName.equals("")) {
-			error += "Name cannot be empty";	
+			error = "Name cannot be empty";	
 		}
 		
 		if(newEmergencyContact.equals("")) {
-			error += "Emergency contact cannot be empty";
+			error = "Emergency contact cannot be empty";
 		}
 		
 		if (!error.isEmpty()) {
