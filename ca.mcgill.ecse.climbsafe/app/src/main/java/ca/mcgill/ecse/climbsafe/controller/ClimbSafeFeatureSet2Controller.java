@@ -70,10 +70,10 @@ public class ClimbSafeFeatureSet2Controller {
         // check if emergency contact
 
         if (NamedUser.hasWithEmail(email)  &&  NamedUser.getWithEmail(email) instanceof Guide) {
-        	e = "A guide with this email already exists";
+            e = "A guide with this email already exists";
         }
         if (NamedUser.hasWithEmail(email)  &&  NamedUser.getWithEmail(email) instanceof Member) {
-        	e = "A member with this email already exists";
+            e = "A member with this email already exists";
         }
         if (emergencyContact.equals("")) {
             e = "The emergency contact cannot be empty";
@@ -138,50 +138,51 @@ public class ClimbSafeFeatureSet2Controller {
             List<Integer> newItemQuantities) throws InvalidInputException {
 
         ClimbSafe cs = ClimbSafeApplication.getClimbSafe();
-//
-//        String e = "";
-//
-//        if (!(NamedUser.getWithEmail(email) == null) || !(NamedUser.getWithEmail(email) instanceof Member)) {
-//            e = "Member not found";
-//        }
-//        // condition for which the email already exists
-//
-//        if (newPassword == null) {
-//            e = "The password cannot be empty";
-//        }
-//        if (newPassword.equals("")) {
-//            e = "The password cannot be empty";
-//        }
-//        if (newName.equals("") || newName == null) {
-//            e = "The name cannot be empty";
-//        }
-//        // check if emergency contact
-//
-//        if (newEmergencyContact.equals("")) {
-//            e = "The emergence contact cannot be empty";
-//        }
-//
-//        if (newNrWeeks <= 0) {
-//            e = "The number of weeks must be greater than zero and less than or equal to the number of climbing weeks in the climbing season";
-//        }
-//        if (newNrWeeks > cs.getNrWeeks()) {
-//            e = "The number of weeks must be greater than zero and less than or equal to the number of climbing weeks in the climbing season";
-//        }
-//
-//        for (Integer i : newItemQuantities) {
-//            if (i < 1) {
-//                e = "If item is added it must be greater than 0";
-//            }
-//        }
-//        for (String s : newItemNames) {
-//            if (BookableItem.getWithName(s) == null) {
-//                e = "Requested item not found";
-//            }
-//
-//        }
-//
-//        if (!e.isEmpty())
-//            throw new InvalidInputException(e);
+
+        String e = "";
+
+        if (!(NamedUser.getWithEmail(email) instanceof Member)) {
+            e = "Member not found";
+        }
+        // condition for which the email already exists
+
+        if (newPassword == null) {
+            e = "The password cannot be empty";
+        }
+        if (newPassword.equals("")) {
+            e = "The password cannot be empty";
+        }
+        if (newName.equals("") || newName == null) {
+            e = "The name cannot be empty";
+        }
+        // check if emergency contact
+
+        if (newEmergencyContact.equals("")) {
+            e = "The emergency contact cannot be empty";
+        }
+
+        if (newNrWeeks <= 0) {
+            e = "The number of weeks must be greater than zero and less than or equal to the number of climbing weeks in the climbing season";
+        }
+        if (newNrWeeks > cs.getNrWeeks()) {
+            e = "The number of weeks must be greater than zero and less than or equal to the number of climbing weeks in the climbing season";
+        }
+
+        for (Integer i : newItemQuantities) {
+            if (i < 1) {
+                e = "If item is added it must be greater than 0";
+            }
+        }
+        for (String s : newItemNames) {
+            if (BookableItem.getWithName(s) == null) {
+                e = "Requested item not found";
+            }
+
+        }
+
+        if (!e.isEmpty())
+            throw new InvalidInputException(e);
+        
         try {
             Member uMem = (Member) Member.getWithEmail(email);
             uMem.setPassword(newPassword);
@@ -190,13 +191,20 @@ public class ClimbSafeFeatureSet2Controller {
             uMem.setNrWeeks(newNrWeeks);
             uMem.setGuideRequired(newGuideRequired);
             uMem.setHotelRequired(newHotelRequired);
-            for (BookedItem item : uMem.getBookedItems()) {
-            	uMem.removeBookedItem(item);
+            int size = uMem.getBookedItems().size();
+            for (int i =0; i < size; i++) {
+                uMem.getBookedItem(0).delete();
+                
+                
+                
             }
+      
             for (int i = 0; i < newItemQuantities.size(); i++) {
                 BookableItem item = BookableItem.getWithName(newItemNames.get(i));
                 uMem.addBookedItem(newItemQuantities.get(i), cs, item);
+                
             }
+            
         } catch (Exception e1) {
             throw new InvalidInputException(e1.getMessage());
         }
