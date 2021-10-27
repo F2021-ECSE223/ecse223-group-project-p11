@@ -7,6 +7,18 @@ import ca.mcgill.ecse.climbsafe.model.*;
 
 
 public class ClimbSafeFeatureSet5Controller {
+	
+	
+	/*** This controller method checks if the input is valid, then adds a new Equipment Bundle
+	 * if no errors are found.
+	 * 
+	 * @author Sam Snodgrass
+	 * @param name
+	 * @param discount
+	 * @param equipmentNames
+	 * @param equipmentQuantities
+	 * @throws InvalidInputException
+	 */
 
   public static void addEquipmentBundle(String name, int discount, List<String> equipmentNames,
       List<Integer> equipmentQuantities) throws InvalidInputException {
@@ -55,7 +67,7 @@ public class ClimbSafeFeatureSet5Controller {
 	  if(discount > 100) {
 		  error = "Discount must be no more than 100";
 	  }
-	  if(name == "") {
+	  if(name.equals("")) {
 		  error = "Equipment bundle name cannot be empty";
 	  }
 	  // check for duplicates in the equipment names
@@ -82,6 +94,18 @@ public class ClimbSafeFeatureSet5Controller {
 	  }}
 	  
 	 
+  
+  /*** This controller method checks if the input is valid, then updates the Equipment Bundle
+	 * if no errors are found.
+	 * 
+	 * @author Sam Snodgrass
+	 * @param oldName
+	 * @param newName
+	 * @param newDiscount
+	 * @param newEquipmentNames
+	 * @param newEquipmentQuantities
+	 * @throws InvalidInputException
+	 */
 
   public static void updateEquipmentBundle(String oldName, String newName, int newDiscount,
       List<String> newEquipmentNames, List<Integer> newEquipmentQuantities)
@@ -172,7 +196,7 @@ public class ClimbSafeFeatureSet5Controller {
 			String bundleAsString = temp.toString();
 			
 			d.setDiscount(newDiscount);
-			//for loop of newEquipmentNames check if all equipment names match, if not, add the one that doesnt
+			
 			for(int h= 0; h<newEquipmentNames.size();h++) {
 				if(!bundleAsString.contains(newEquipmentNames.get(h))) {
 					d.addBundleItem(newEquipmentQuantities.get(h), climbSafe, (Equipment) BookableItem.getWithName(newEquipmentNames.get(h)));
