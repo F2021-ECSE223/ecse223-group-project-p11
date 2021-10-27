@@ -32,10 +32,6 @@ public class ClimbSafeFeatureSet3Controller {
 			error = "Password cannot be empty";
 		}
 		
-		if (password.contains(" ")) {
-			error = "Password must not contain any spaces";
-		}
-
 		if (name.equals("") || name == null) {
 			error = "Name cannot be empty";
 		}
@@ -109,10 +105,6 @@ public class ClimbSafeFeatureSet3Controller {
 		
 		if (newPassword.equals("")) {
 			error = "Password cannot be empty";
-		}
-		
-		if (newPassword.contains(" ")) {
-			error = "Password must not contain any spaces";
 		}
 		
 		if (newName == null) {
