@@ -134,7 +134,7 @@ public class ClimbSafeFeatureSet2Controller {
 
         String e = "";
 
-        if (!(NamedUser.getWithEmail(email) == null) {|| !(NamedUser.getWithEmail(email) instanceof Member)) {
+        if (!(NamedUser.getWithEmail(email) == null) || !(NamedUser.getWithEmail(email) instanceof Member)) {
             e = "Member not found";
         }
         // condition for which the email already exists
@@ -193,5 +193,6 @@ public class ClimbSafeFeatureSet2Controller {
             throw new InvalidInputException(e1.getMessage());
         }
 
+        
     }
 }
