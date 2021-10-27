@@ -184,6 +184,7 @@ public class ClimbSafeFeatureSet2Controller {
 			uMem.setNrWeeks(newNrWeeks);
 			uMem.setGuideRequired(newGuideRequired);
 			uMem.setHotelRequired(newHotelRequired);
+			uMem.getBookedItems().clear();
 			for (int i = 0; i < newItemQuantities.size(); i++) {
 				BookableItem item = BookableItem.getWithName(newItemNames.get(i));
 				uMem.addBookedItem(newItemQuantities.get(i), cs, item);

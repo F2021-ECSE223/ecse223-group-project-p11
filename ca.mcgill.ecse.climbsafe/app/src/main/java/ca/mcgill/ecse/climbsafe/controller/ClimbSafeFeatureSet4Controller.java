@@ -78,8 +78,7 @@ public class ClimbSafeFeatureSet4Controller {
     
     if(Equipment.getWithName(newName) instanceof Equipment && !newName.equals(oldName)) {
         error = "The piece of equipment already exists";
-      }
-      
+    }
     
     if(!error.isEmpty()) {
       throw new InvalidInputException(error);
