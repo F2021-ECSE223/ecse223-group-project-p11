@@ -48,7 +48,6 @@ public class ClimbSafeFeatureSet4Controller {
       throw new InvalidInputException(error);
     }
     
-    
   }
 
   public static void updateEquipment(String oldName, String newName, int newWeight,
@@ -72,10 +71,15 @@ public class ClimbSafeFeatureSet4Controller {
       error = "The piece of equipment does not exist";
     }
   
-      
     if((EquipmentBundle.getWithName(newName) instanceof EquipmentBundle)) {
       error = "An equipment bundle with the same name already exists";
     }
+    
+    
+    if((Equipment.getWithName(newName) instanceof Equipment)) {
+        error = "The piece of equipment already exists";
+      }
+      
     
     if(!error.isEmpty()) {
       throw new InvalidInputException(error);
