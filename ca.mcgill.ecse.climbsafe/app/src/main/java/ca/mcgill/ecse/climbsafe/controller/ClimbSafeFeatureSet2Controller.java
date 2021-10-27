@@ -8,6 +8,7 @@ import ca.mcgill.ecse.climbsafe.model.BookedItem;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.model.Equipment;
 import ca.mcgill.ecse.climbsafe.model.EquipmentBundle;
+import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Member;
 import ca.mcgill.ecse.climbsafe.model.NamedUser;
 
@@ -38,19 +39,19 @@ public class ClimbSafeFeatureSet2Controller {
         String e = "";
 
         if (!(email.indexOf("@") > 0)) {
-            e = "Invalid Email";
+            e = "Invalid email";
         }
         if (email.contains("@") == false) {
-            e = "Invalid Email";
+            e = "Invalid email";
         }
         if (!(email.indexOf("@") == email.lastIndexOf("@"))) {
-            e = "Invalid Email";
+            e = "Invalid email";
         }
         if (!(email.indexOf("@") < email.lastIndexOf(".") - 1)) {
-            e = "Invalid Email";
+            e = "Invalid email";
         }
         if (!(email.lastIndexOf(".") < email.length() - 1)) {
-            e = "Invalid Email";
+            e = "Invalid email";
         }
         if (email.contains(" ") == true) {
             e = "The email must not contain any spaces";
@@ -68,12 +69,18 @@ public class ClimbSafeFeatureSet2Controller {
         }
         // check if emergency contact
 
+        if (NamedUser.hasWithEmail(email)  &&  NamedUser.getWithEmail(email) instanceof Guide) {
+        	e = "A guide with this email already exists";
+        }
+        if (NamedUser.hasWithEmail(email)  &&  NamedUser.getWithEmail(email) instanceof Member) {
+        	e = "A member with this email already exists";
+        }
         if (emergencyContact.equals("")) {
-            e = "Emergency contact cannot be empty";
+            e = "The emergency contact cannot be empty";
         }
 
         if (email.equals("admin@nmc.nt")) {
-            e = "Email cannot be admin@nmc.nt";
+            e = "The email entered is not allowed for members";
         }
 
         if (nrWeeks <= 0) {
@@ -90,7 +97,7 @@ public class ClimbSafeFeatureSet2Controller {
         }
         for (String s : itemNames) {
             if (BookableItem.getWithName(s) == null) {
-                e = "Item does not exist";
+                e = "Requested item not found";
             }
 
         }
@@ -175,7 +182,6 @@ public class ClimbSafeFeatureSet2Controller {
 
         if (!e.isEmpty())
             throw new InvalidInputException(e);
-
         try {
             Member uMem = (Member) Member.getWithEmail(email);
             uMem.setPassword(newPassword);
@@ -184,7 +190,10 @@ public class ClimbSafeFeatureSet2Controller {
             uMem.setNrWeeks(newNrWeeks);
             uMem.setGuideRequired(newGuideRequired);
             uMem.setHotelRequired(newHotelRequired);
-            uMem.getBookedItems().clear();
+            for (BookedItem item : uMem.getBookedItems()) {
+            	uMem.removeBookedItem(item);
+            }
+      
             for (int i = 0; i < newItemQuantities.size(); i++) {
                 BookableItem item = BookableItem.getWithName(newItemNames.get(i));
                 uMem.addBookedItem(newItemQuantities.get(i), cs, item);
@@ -193,6 +202,5 @@ public class ClimbSafeFeatureSet2Controller {
             throw new InvalidInputException(e1.getMessage());
         }
 
-        
     }
 }
