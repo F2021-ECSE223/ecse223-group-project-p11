@@ -2,7 +2,7 @@ package ca.mcgill.ecse.climbsafe.controller;
 
 import java.util.List;
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
-
+import ca.mcgill.ecse.climbsafe.model.BookableItem;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.model.Equipment;
 import ca.mcgill.ecse.climbsafe.model.EquipmentBundle;
@@ -29,16 +29,13 @@ public class ClimbSafeFeatureSet4Controller {
     
     List<Equipment> currentEquipment = climbSafeApp.getEquipment();
     
-    for(Equipment e: currentEquipment) {
-      
-      if(e.hasWithName(name)) {
-        error = "The piece of equipment already exists";
-      }   
-    }
+    if (BookableItem.hasWithName(name) && BookableItem.getWithName(name) instanceof Equipment) {
+    	error = "The piece of equipment already exists";
+    } 
     
-    if((EquipmentBundle.getWithName(name) instanceof EquipmentBundle)) {
-      error = "The equipment bundle already exists";
-    }
+    if (BookableItem.hasWithName(name) && BookableItem.getWithName(name) instanceof EquipmentBundle) {
+    	error = "The equipment bundle already exists";
+    } 
     
      
     if(!error.isEmpty()) {
@@ -74,19 +71,7 @@ public class ClimbSafeFeatureSet4Controller {
     if(Equipment.getWithName(oldName)==null) {
       error = "The piece of equipment does not exist";
     }
-    
-    //error = The piece of equipment already exists";
-    /*
-    ClimbSafe climbSafeApp = ClimbSafeApplication.getClimbSafe();
-    
-    List<Equipment> currentEquipment = climbSafeApp.getEquipment();
-    
-    for(Equipment e: currentEquipment) {
-      
-      if(e.hasWithName(name)) {
-        error = "The piece of equipment already exists";
-      }   
-    }*/
+  
       
     if((EquipmentBundle.getWithName(newName) instanceof EquipmentBundle)) {
       error = "An equipment bundle with the same name already exists";
