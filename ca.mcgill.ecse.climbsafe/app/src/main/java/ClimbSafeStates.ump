@@ -1,0 +1,34 @@
+namespace ca.mcgill.ecse.climbsafe.model;
+
+class Member {
+    BanStatus {
+        NotBanned {
+            toggleBanStatus() -> Banned;
+            assign(int startWeek, int endWeek) / {
+                doAssign(startWeek, endWeek);
+            } -> NotBanned;
+        }
+        Banned {
+            toggleBanStatus() -> NotBanned;
+            assign(int startWeek, int endWeek) / { 
+                rejectAssign(startWeek, endWeek); 
+            } -> Banned;
+        }
+    }
+
+    private void doAssign(int startWeek, int endWeek) {
+        Assignment assignment = this.getAssignment();
+        if (assignment == null) {
+            getClimbSafe().addAssignment(startWeek, endWeek, this);
+        }
+        else {
+          assignment.setStartWeek(startWeek);
+          assignment.setEndWeek(endWeek);
+          
+        }
+    }
+
+    private void rejectAssign(int startWeek, int endWeek, this) {
+        throw new RuntimeException("A banned member cannot be assigned a climbing session");
+    }
+}
