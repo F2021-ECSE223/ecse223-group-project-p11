@@ -1,0 +1,103 @@
+external interface Serializable {}
+
+class ClimbSafe {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 1L;
+
+    public void reinitialize() {
+        List<User> users = new ArrayList<>();
+        for(Customer user : this.getCustomers()){
+          users.add(user);
+        }
+        if(this.getOwner() != null){
+          users.add(this.getOwner());
+        }
+        User.reinitializeUsernames(users);
+        BookableService.reinitializeBookableServicesName(this.getBookableServices());
+    }
+}
+
+class User {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 11L;
+    public static void reinitializeUsernames(List<User> users){
+      usersByUsername = new HashMap<String, User>();
+      for(User user : users){
+        usersByUsername.put(user.getUsername(), user);
+      }
+    }
+}
+
+class Administrator {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 2L;
+}
+
+class BookableItem {
+  depend java.io.Serializable;
+  internal const long serialVersionUID = 3L;
+  isA Serializable;
+}
+
+class BookedItem {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 4L;
+}
+
+class BundleItem {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 5L;
+}
+  
+class Equipment {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 6L;
+}
+
+class Assignment {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 12L;
+    public static void reinitializeAssignment(List<Assignment> assignments){
+      assignmentsByName = new HashMap<String, Assignment>();
+      for(Assignmenst ass : assignments){
+        assignmentsByName.put(ass.getName(), ass);
+      }
+    }
+}
+
+class EquipmentBundle {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 7L;
+}
+
+class Guide {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 8L;
+}
+
+class Hotel {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 9L;
+}
+
+class Member {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 10L;
+}
+
+class NamedUser {
+  depend java.io.Serializable;
+  isA Serializable;
+  internal const long serialVersionUID = 10L;
+}
