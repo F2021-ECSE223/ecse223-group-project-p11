@@ -5,7 +5,7 @@ import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 
 public class ClimbSafePersistence {
 
-  private static String filename = "data.btms";
+  private static String filename = "data.climbsafe";
 
   public static void setFilename(String filename) {
     ClimbSafePersistence.filename = filename;

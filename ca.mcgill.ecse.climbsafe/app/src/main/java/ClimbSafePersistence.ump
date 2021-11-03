@@ -21,7 +21,7 @@ class ClimbSafe {
 class User {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 11L;
+  internal const long serialVersionUID = -2683593616927798071L;
     public static void reinitializeUsernames(List<User> users){
       usersByUsername = new HashMap<String, User>();
       for(User user : users){
