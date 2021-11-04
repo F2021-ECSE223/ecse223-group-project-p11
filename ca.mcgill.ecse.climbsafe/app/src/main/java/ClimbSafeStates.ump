@@ -32,3 +32,53 @@ class Member {
         throw new RuntimeException("A banned member cannot be assigned a climbing session");
     }
 }
+
+
+class Assignment {
+	 assignmentStatus{
+       Assigned {
+         togglePaidStatus -> Paid;
+         toggleCanceledStatus -> Cancelled;
+       }
+       Paid {
+         toggleStartedStatus -> Started; 
+         toggleCanceledStatus -> Cancelled;
+       }
+       Started {
+         toggleFinishedStatus -> Finished;
+       }
+       Cancelled {
+         toggleCanceledStatus -> Cancelled;
+       }
+       
+       Finished {
+         
+       }	    
+	 }
+	 
+	  private void doAssign(?) {
+	  	for (Member member: this.climbsafe.getMembers() {
+		  	if (member.isGuideRequired()) {
+		      	for (Guide guide : this.climbsafe.getGuides()) {
+		      	Assignment lastAssignment;
+		      	int lastweekassigned = 0;
+		      		for (Assignment ass: guide.getAssignments()) {
+		      			if (lastweekAssgined < ass.getEndWeek) {
+		      				lastWeekAssigned = ass.getEndWeek);
+		      				lastAssignment = ass;
+		      			}
+		      		}
+		      	if (lastAssignment.getEndWeek() + 1 + member.getNrWeeks() < this.climbsafe.getNrWeeks() {
+		      		// assign guide member
+		      	}
+		    } else {
+		    	this.setStartWeek(1);
+		    	this.setEndWeek(1 + member.getNrWeeks();
+		   }
+     	}
+    }
+
+    private void rejectAssign(int startWeek, int endWeek, this) {
+        throw new RuntimeException("A banned member cannot be assigned a climbing session");
+    }
+}
