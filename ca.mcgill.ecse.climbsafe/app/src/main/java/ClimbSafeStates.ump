@@ -1,84 +1,91 @@
-namespace ca.mcgill.ecse.climbsafe.model;
-
-class Member {
-    BanStatus {
-        NotBanned {
-            toggleBanStatus() -> Banned;
-            assign(int startWeek, int endWeek) / {
-                doAssign(startWeek, endWeek);
-            } -> NotBanned;
-        }
-        Banned {
-            toggleBanStatus() -> NotBanned;
-            assign(int startWeek, int endWeek) / { 
-                rejectAssign(startWeek, endWeek); 
-            } -> Banned;
-        }
-    }
-
-    private void doAssign(int startWeek, int endWeek) {
-        Assignment assignment = this.getAssignment();
-        if (assignment == null) {
-            getClimbSafe().addAssignment(startWeek, endWeek, this);
-        }
-        else {
-          assignment.setStartWeek(startWeek);
-          assignment.setEndWeek(endWeek);
-          
-        }
-    }
-
-    private void rejectAssign(int startWeek, int endWeek, this) {
-        throw new RuntimeException("A banned member cannot be assigned a climbing session");
-    }
-}
-
-
 class Assignment {
 	 assignmentStatus{
        Assigned {
-         togglePaidStatus -> Paid;
-         toggleCanceledStatus -> Cancelled;
+         paid() [isSameAmount()]-> /{AuthorizationCode(String s);}Paid; //add condition to get amount paid = amount due
+         paid()[!isSameAmount()]->/{rejectPaid()} Assigned;//if not same amount throw error(I dont think this is in the feautre section though but cant hurt)
+         cancel() -> Cancelled;
        }
        Paid {
-         toggleStartedStatus -> Started; 
-         toggleCanceledStatus -> Cancelled;
+         start() [isSameWeek()] -> Started;//check week  if not throw error cannot start
+         start() [!isSameWeek()]->/{rejectStart()} Paid; //throw error cannot start if not same week <>
+         cancel() ->/{refund(50);} Cancelled;
        }
        Started {
-         toggleFinishedStatus -> Finished;
+         finish() [isEndWeek()]-> Finished;
+         finish() [!isEndWeek()]->/{rejectEnd();} Started;
+          cancel() ->/{refund(10);} Cancelled;
        }
        Cancelled {
-         toggleCanceledStatus -> Cancelled;
+         cancel()-> /{rejectCancel();}Cancelled;
        }
        
        Finished {
-         
+         //i dont think we have to do anything maybe send to final state
+        //end -> Final
        }	    
 	 }
 	 
-	  private void doAssign(?) {
-	  	for (Member member: this.climbsafe.getMembers() {
+	 private Boolean isSameAmount() {
+	 
+	 
+	 }
+	 
+	 private Boolean isSameWeek() {
+	 
+	 }
+	 
+	 private Boolean isEndWeek() {
+	 
+	 }
+	 
+	 private void rejectUpdateAppointment(){
+	 	throw new RuntimeException("The payment was unsuccesful");
+  	 }
+  	 
+  	 private void rejectStart(){
+	 	throw new RuntimeException("The start was unsuccesful");
+  	 }
+  	 
+  	 private void rejectEnd(){
+	 	throw new RuntimeException("The end was unsuccesful");
+  	 }
+  	 
+  	 private void rejecCancel(){
+	 	throw new RuntimeException("The assignment was already cancelled");
+  	 }
+  	 
+  	 private void rejectAssign(int startWeek, int endWeek, this) {
+        throw new RuntimeException("A banned member cannot be assigned a climbing session");
+     }
+	
+	 private void start() {
+	 	if(!this.member.hasPaid()) {
+	 		this.member.setBanned(True);
+	 	}
+	 }
+	 
+	 
+	 
+	 private void doAssign() {
+	  	for (Member member: this.climbsafe.getMembers()) {
 		  	if (member.isGuideRequired()) {
 		      	for (Guide guide : this.climbsafe.getGuides()) {
 		      	Assignment lastAssignment;
 		      	int lastweekassigned = 0;
 		      		for (Assignment ass: guide.getAssignments()) {
 		      			if (lastweekAssgined < ass.getEndWeek) {
-		      				lastWeekAssigned = ass.getEndWeek);
+		      				lastWeekAssigned = ass.getEndWeek;
 		      				lastAssignment = ass;
 		      			}
 		      		}
-		      	if (lastAssignment.getEndWeek() + 1 + member.getNrWeeks() < this.climbsafe.getNrWeeks() {
+                }
+		      	if (lastAssignment.getEndWeek() + 1 + member.getNrWeeks() < this.climbsafe.getNrWeeks()) {
 		      		// assign guide member
 		      	}
 		    } else {
 		    	this.setStartWeek(1);
-		    	this.setEndWeek(1 + member.getNrWeeks();
+		    	this.setEndWeek(1 + member.getNrWeeks());
 		   }
      	}
-    }
-
-    private void rejectAssign(int startWeek, int endWeek, this) {
-        throw new RuntimeException("A banned member cannot be assigned a climbing session");
     }
 }
