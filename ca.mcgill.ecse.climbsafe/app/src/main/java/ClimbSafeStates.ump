@@ -41,6 +41,11 @@ class Assignment {
 	 private void banMember() {
 	 	this.member.setBanned(True);
 	 }
+	 
+	 private void refund(int percentage) {
+	 
+	 }
+	 
 	 private void rejectUpdateAppointment(){
 	 	throw new RuntimeException("The payment was unsuccesful");
   	 }
