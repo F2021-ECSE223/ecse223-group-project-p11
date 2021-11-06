@@ -4,10 +4,11 @@ class Assignment {
          paid() [isSameAmount()]-> /{AuthorizationCode(String s);}Paid; //add condition to get amount paid = amount due
          paid()[!isSameAmount()]->/{rejectPaid()} Assigned;//if not same amount throw error(I dont think this is in the feautre section though but cant hurt)
          cancel() -> Cancelled;
+         start() [isStartWeek()]->/{banMember()} Final; //if the climb starts but the member did not pay
        }
        Paid {
-         start() [isSameWeek()] -> Started;//check week  if not throw error cannot start
-         start() [!isSameWeek()]->/{rejectStart()} Paid; //throw error cannot start if not same week <>
+         start() [isStarted()] -> Started;//check week  if not throw error cannot start
+         start() [!isStarted()]->/{rejectStart()} Paid; //throw error cannot start if not same week <>
          cancel() ->/{refund(50);} Cancelled;
        }
        Started {
@@ -20,8 +21,7 @@ class Assignment {
        }
        
        Finished {
-         //i dont think we have to do anything maybe send to final state
-        //end -> Final
+         end -> Final
        }	    
 	 }
 	 
@@ -30,7 +30,7 @@ class Assignment {
 	 
 	 }
 	 
-	 private Boolean isSameWeek() {
+	 private Boolean isStarted() {
 	 
 	 }
 	 
@@ -38,6 +38,9 @@ class Assignment {
 	 
 	 }
 	 
+	 private void banMember() {
+	 	this.member.setBanned(True);
+	 }
 	 private void rejectUpdateAppointment(){
 	 	throw new RuntimeException("The payment was unsuccesful");
   	 }
