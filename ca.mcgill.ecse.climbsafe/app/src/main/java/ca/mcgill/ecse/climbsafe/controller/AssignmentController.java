@@ -20,12 +20,7 @@ public class AssignmentController {
 		}
 	}
 	
-	
-	public static void payAssignment(Assignment assignment, String authorizationCode) {
-
-	}
-	
-	public void FinishTrips (int weekNumber) {
+	public void finishTrips(int weekNumber) {
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
 		for (Assignment assignment: climbSafe.getAssignments()) {
 			if (assignment.getStartWeek() == weekNumber) {
@@ -33,6 +28,16 @@ public class AssignmentController {
 			}
 		}
 	}
+	
+	public void cancelTrip(String email) {
+		
+	}
+	
+	public static void payTrip(String email, String authorizationCode) {
+	
+	}
+	
+
 	
 	
 	public void initiateAssignment() {
@@ -102,16 +107,4 @@ public class AssignmentController {
 		
 		
 	}
-	
-	
-	
-	
-	public void processAssignment() {
-		
-		
-		
-		
-		
-	}
-
 }

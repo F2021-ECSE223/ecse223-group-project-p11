@@ -85,7 +85,7 @@ class Hotel {
       public static void reinitializeHotels(List<Hotel> hotels){
      	 hotelsByName = new HashMap<String, Hotel>();
      	 for(Hotel h : hotels){
-         hotelsByName.put(h.getName(), h);
+         	hotelsByName.put(h.getName(), h);
       }
     }
 }
