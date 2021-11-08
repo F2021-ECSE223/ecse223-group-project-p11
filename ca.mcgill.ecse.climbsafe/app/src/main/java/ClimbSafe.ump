@@ -1,7 +1,7 @@
 namespace ca.mcgill.ecse.climbsafe.model;
 
-use ClimbSafePersistence.ump;
 use ClimbSafeStates.ump; 
+
 
 class ClimbSafe {
   Date startDate;
@@ -83,6 +83,8 @@ class Hotel {
 } 
 
 class Assignment {
+  lazy String authorizationCode;
+  lazy Integer refundPercentage;
   Integer startWeek;
   Integer endWeek;
   0..1 -- 1 Member member;

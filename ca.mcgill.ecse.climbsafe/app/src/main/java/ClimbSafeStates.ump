@@ -115,11 +115,12 @@ class Assignment {
 	 }
 	 
 	 private void banMember() {
-	 	this.member.setBanned(True);
+	 	this.member.setBannedStatus(True);
 	 }
     private void isBanned() {
-	 	this.member.getBanned();
+	 	this.member.getBannedStatus();
 	 }
+    
     private int totalCost(){
         ClimpSafe cs= ClimbSafeApplication.getClimbSafe();
         int sum=0;
@@ -149,10 +150,11 @@ class Assignment {
         
         sum*=this.endWeek-this.startWeek;//sum is weekly sum until multiplied by number of weeks
         return sum;
-      }
+     }
+     
 	 private void refund(int percentage) {
        int refund= (int)((100-percentage) *totalCost)/100;
-       this.refund=refund;
+       this.refundPercentage=refund;
 	 }
   	 
   	 private void rejectStart(){
@@ -166,27 +168,4 @@ class Assignment {
   	 private void rejectAssign(int startWeek, int endWeek, this) {
         throw new RuntimeException("A banned member cannot be assigned a climbing session");
      }
-
-	 private void doAssign() {
-	  	for (Member member: this.climbsafe.getMembers()) {
-		  	if (member.isGuideRequired()) {
-		      	for (Guide guide : this.climbsafe.getGuides()) {
-		      	Assignment lastAssignment;
-		      	int lastweekassigned = 0;
-		      		for (Assignment ass: guide.getAssignments()) {
-		      			if (lastweekAssgined < ass.getEndWeek) {
-		      				lastWeekAssigned = ass.getEndWeek;
-		      				lastAssignment = ass;
-		      			}
-		      		}
-                }
-		      	if (lastAssignment.getEndWeek() + 1 + member.getNrWeeks() < this.climbsafe.getNrWeeks()) {
-		      		// assign guide member
-		      	}
-		    } else {
-		    	this.setStartWeek(1);
-		    	this.setEndWeek(1 + member.getNrWeeks());
-		   }
-     	}
-    }
 }
