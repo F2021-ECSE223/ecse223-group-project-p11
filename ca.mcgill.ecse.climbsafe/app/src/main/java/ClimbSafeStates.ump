@@ -120,7 +120,7 @@ class Assignment {
     private void isBanned() {
 	 	this.member.getBanned();
 	 }
-      private int totalCost(){
+    private int totalCost(){
         ClimpSafe cs= ClimbSafeApplication.getClimbSafe();
         int sum=0;
         for (BookedItem item : this.member.getBookedItems()) {
@@ -154,16 +154,12 @@ class Assignment {
        int refund= (int)((100-percentage) *totalCost)/100;
        this.refund=refund;
 	 }
-	 
-	 private void rejectUpdateAppointment(){
-	 	throw new RuntimeException("The payment was unsuccesful");
-  	 }
   	 
   	 private void rejectStart(){
 	 	throw new RuntimeException("The start was unsuccesful");
   	 }
   	 
-  	 private void rejecCancel(){
+  	 private void rejectCancel(){
 	 	throw new RuntimeException("The assignment was already cancelled");
   	 }
   	 
