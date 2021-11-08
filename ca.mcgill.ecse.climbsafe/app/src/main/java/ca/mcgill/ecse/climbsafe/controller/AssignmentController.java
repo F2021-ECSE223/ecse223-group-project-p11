@@ -4,68 +4,127 @@ import ca.mcgill.ecse.climbsafe.model.Assignment;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Member;
+import ca.mcgill.ecse.climbsafe.model.User;
 
 import java.util.List;
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 
 public class AssignmentController {
-	
-	public void startTrips(int weekNumber) {
-		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
-		for (Assignment assignment: climbSafe.getAssignments()) {
-			if (assignment.getStartWeek() == weekNumber) {
-				assignment.setHasStarted(True);
-			}
-		}
-	}
-	
-	public void finishTrips(int weekNumber) {
-		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
-		for (Assignment assignment: climbSafe.getAssignments()) {
-			if (assignment.getStartWeek() == weekNumber) {
-				assignment.setHasFinished(True);
-			}
-		}
-	}
-	
-	public void cancelTrip(String email) {
-		
-	}
-	
-	public static void payTrip(String email, String authorizationCode) {
-	
-	}
-	
 
-	
-	
-	public void initiateAssignment() {
-		
+	public static void startTrips(int weekNumber) throws InvalidInputException {
+
+		String error = "";
+		if (weekNumber < 1) {
+			error = "Invalid week number";
+		}
+
+		if (!error.isEmpty()) {
+			throw new InvalidInputException(error);
+		}
+
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
+		for (Assignment assignment : climbSafe.getAssignments()) {
+			if (assignment.getStartWeek() == weekNumber) {
+				try {
+					assignment.startAssignment();
+				} catch (RuntimeException c) {
+					throw new InvalidInputException(c.getMessage());
+				}
+			}
+		}
+	}
+
+	public static void finishTrip(String email) throws InvalidInputException {
+		String error = "";
+		if (!(User.getWithEmail(email) instanceof Member)) {
+			error = "The user with this email is not a member";
+		}
+		if (User.getWithEmail(email) == null) {
+			error = "Member with email address " + email + " does not exist";
+		}
+
+		if (!error.isEmpty()) {
+			throw new InvalidInputException(error);
+		}
+		Member member = (Member) User.getWithEmail(email);
+		Assignment assignment = member.getAssignment();
+		try {
+			assignment.finishAssignment();
+		} catch (RuntimeException c) {
+			throw new InvalidInputException(c.getMessage());
+		}
 		
-		
-		for(Guide guide : climbSafe.getGuides()) {
+	}
+
+	public static void cancelTrip(String email) throws InvalidInputException {
+		String error = "";
+		if (!(User.getWithEmail(email) instanceof Member)) {
+			error = "The user with this email is not a member";
+		}
+		if (User.getWithEmail(email) == null) {
+			error = "Member with email address " + email + " does not exist";
+		}
+
+		if (!error.isEmpty()) {
+			throw new InvalidInputException(error);
+		}
+
+		Member member = (Member) User.getWithEmail(email);
+		Assignment assignment = member.getAssignment();
+		try {
+			assignment.cancelAssignment();
+		} catch (RuntimeException c) {
+			throw new InvalidInputException(c.getMessage());
+		}
+	}
+
+	public static void payTrip(String email, String authorizationCode) throws InvalidInputException {
+		String error = "";
+		if (!(User.getWithEmail(email) instanceof Member)) {
+			error = "The user with this email is not a member";
+		}
+		if (User.getWithEmail(email) == null) {
+			error = "Member with email address " + email + " does not exist";
+		}
+
+		if (!error.isEmpty()) {
+			throw new InvalidInputException(error);
+		}
+
+		Member member = (Member) User.getWithEmail(email);
+		Assignment assignment = member.getAssignment();
+		try {
+			assignment.payAssignment(authorizationCode);
+		} catch (RuntimeException c) {
+			throw new InvalidInputException(c.getMessage());
+		}
+	}
+
+	public static void initiateAssignment() {
+
+		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
+
+		for (Guide guide : climbSafe.getGuides()) {
 			int currentWeek = 1;
-			for( Member member: climbSafe.getMembers()) {
-				
-				if(!member.hasAssignment() && member.getNrWeeks() <= climbSafe.getNrWeeks()) {
-					if(!member.isGuideRequired()) {
+			for (Member member : climbSafe.getMembers()) {
+
+				if (!member.hasAssignment() && member.getNrWeeks() <= climbSafe.getNrWeeks()) {
+					if (!member.isGuideRequired()) {
 						climbSafe.addAssignment(1, member.getNrWeeks(), member);
-						
-					}
-					else {
-						
-						if(!guide.hasAssignments()) {
-							
+
+					} else {
+
+						if (!guide.hasAssignments()) {
+
 							Assignment newAssignment = climbSafe.addAssignment(1, member.getNrWeeks(), member);
 							newAssignment.setGuide(guide);
 							currentWeek = newAssignment.getEndWeek();
 						}
-						
-							
-						else if(currentWeek + member.getNrWeeks() <= climbSafe.getNrWeeks()){
-							Assignment newAssignment = climbSafe.addAssignment(currentWeek + 1,currentWeek +  member.getNrWeeks(), member);
+
+						else if (currentWeek + member.getNrWeeks() <= climbSafe.getNrWeeks()) {
+							Assignment newAssignment = climbSafe.addAssignment(currentWeek + 1,
+									currentWeek + member.getNrWeeks(), member);
 							newAssignment.setGuide(guide);
 							currentWeek = newAssignment.getEndWeek();
 						}
@@ -73,38 +132,22 @@ public class AssignmentController {
 				}
 			}
 		}
-		if(climbSafe.getAssignments().size() < climbSafe.getMembers().size()) {
-			//throw Error("Assignments could not be completed for all members");
+		if (climbSafe.getAssignments().size() < climbSafe.getMembers().size()) {
+			// throw Error("Assignments could not be completed for all members");
 		}
-		
-		
+
 		/*
-		for (Member member: climbSafe.getMembers()) {
-		  	if (member.isGuideRequired()) {
-		      	for (Guide guide : climbSafe.getGuides()) {
-		      	Assignment lastAssignment;
-		      	int lastweekassigned = 0;
-		      		for (Assignment as: guide.getAssignments()) {
-		      			if (lastweekassigned < as.getEndWeek()) {
-		      				lastweekassigned = as.getEndWeek();
-		      				lastAssignment = as;
-		      			}
-		      		}
-                }
-		      	if (lastAssignment.getEndWeek() + 1 + member.getNrWeeks() < climbSafe.getNrWeeks()) {
-		      		// assign guide member
-		      	}
-		    } else {
-		    	climbSafe.setStartDate(1);
-		    	.setEndWeek(1 + member.getNrWeeks());
-		   }
-     	}
-		
-		
-		
-		*/
-		
-		
-		
+		 * for (Member member: climbSafe.getMembers()) { if (member.isGuideRequired()) {
+		 * for (Guide guide : climbSafe.getGuides()) { Assignment lastAssignment; int
+		 * lastweekassigned = 0; for (Assignment as: guide.getAssignments()) { if
+		 * (lastweekassigned < as.getEndWeek()) { lastweekassigned = as.getEndWeek();
+		 * lastAssignment = as; } } } if (lastAssignment.getEndWeek() + 1 +
+		 * member.getNrWeeks() < climbSafe.getNrWeeks()) { // assign guide member } }
+		 * else { climbSafe.setStartDate(1); .setEndWeek(1 + member.getNrWeeks()); } }
+		 * 
+		 * 
+		 * 
+		 */
+
 	}
 }

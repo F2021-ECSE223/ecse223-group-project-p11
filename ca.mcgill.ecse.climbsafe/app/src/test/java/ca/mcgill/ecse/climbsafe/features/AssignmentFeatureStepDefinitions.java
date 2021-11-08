@@ -1,13 +1,18 @@
 package ca.mcgill.ecse.climbsafe.features;
 
 import ca.mcgill.ecse.climbsafe.controller.AssignmentController;
+import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.jupiter.api.function.Executable;
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.model.Assignment;
@@ -99,8 +104,7 @@ public class AssignmentFeatureStepDefinitions {
 
 	@When("the administrator attempts to initiate the assignment process") // todo
 	public void the_administrator_attempts_to_initiate_the_assignment_process() {
-
-		throw new io.cucumber.java.PendingException();
+		 callController(() -> AssignmentController.initiateAssignment());
 	}
 
 	@Then("the following assignments shall exist in the system:") // copied from p5
@@ -121,10 +125,10 @@ public class AssignmentFeatureStepDefinitions {
 	}
 
 	@Then("the assignment for {string} shall be marked as {string}")
-	public void the_assignment_for_shall_be_marked_as(String email, String assigned) {
+	public void the_assignment_for_shall_be_marked_as(String email, String AssignmentStatus) {
 		Member m = (Member) User.getWithEmail(email);
 		Assignment a = m.getAssignment();
-		a.markAs(string2);
+		assertEquals(AssignmentStatus, a.getAssignmentStatus());
 	}
 
 	@Then("the number of assignments in the system shall be {string}")
@@ -166,8 +170,9 @@ public class AssignmentFeatureStepDefinitions {
 	}
 
 	@When("the administrator attempts to confirm payment for {string} using authorization code {string}") // todo
-	public void the_administrator_attempts_to_confirm_payment_for_using_authorization_code(String string,
-			String string2) {
+	public void the_administrator_attempts_to_confirm_payment_for_using_authorization_code(String email,
+			String authorizationCode) {
+		callController(() -> AssignmentController.payTrip(email, authorizationCode));
 
 	}
 
@@ -175,97 +180,96 @@ public class AssignmentFeatureStepDefinitions {
 	public void the_assignment_for_shall_record_the_authorization_code(String email, String authorizationCode) {
 		Member member = (Member) User.getWithEmail(email);
 		Assignment assignment = member.getAssignment();
-		AssignmentController.payAssignment(assignment, authorizationCode);
-		assertEqual(authorizationCode, assignment.getAuthorizationCode());
+		assertEquals(authorizationCode, assignment.getAuthorizationCode());
 	}
 
 	@Then("the member account with the email {string} does not exist") // fix
-	public void the_member_account_with_the_email_does_not_exist(String string) {
-		assertTrue(null, (Member) User.getWithEmail(string));
-		throw new io.cucumber.java.PendingException();
+	public void the_member_account_with_the_email_does_not_exist(String email) {
+		assertEquals(null, (Member) User.getWithEmail(email));
 	}
 
 	@Then("there are {string} members in the system")
 	public void there_are_members_in_the_system(String numOfMembers) {
 		assertEquals(Integer.parseInt(numOfMembers), climbSafe.getMembers().size());
-		throw new io.cucumber.java.PendingException();
 	}
 
 	@Then("the error {string} shall be raised")
 	public void the_error_shall_be_raised(String errorMessage) {
 		assertTrue(error.contains(errorMessage));
-		throw new io.cucumber.java.PendingException();
 	}
 
 	@When("the administrator attempts to cancel the trip for {string}") // todo
-	public void the_administrator_attempts_to_cancel_the_trip_for(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_administrator_attempts_to_cancel_the_trip_for(String email) {
+		callController(() -> AssignmentController.cancelTrip(email));
 	}
 
 	@Given("the member with {string} has paid for their trip") // not sure maybe check ban
-	public void the_member_with_has_paid_for_their_trip(String string) {
-		Member member = (Member) User.getWithEmail(string);
-		assertTrue(member.getAssignment().getisPaid());
-
-		// Write code here that turns the phrase above into concrete actions
+	public void the_member_with_has_paid_for_their_trip(String email) {
+		Member member = (Member) User.getWithEmail(email);
+		assertEquals(Paid, member.getAssignment().getAssignmentStatus());
 	}
 
 	@Then("the member with email address {string} shall receive a refund of {string} percent") // todo
 	public void the_member_with_email_address_shall_receive_a_refund_of_percent(String email, String refundPercentage) {
 		Member member = (Member) User.getWithEmail(email);
-		assertEquals(Integer.parseInt(refundPercentage), member.getRefundAmount());
+		assertEquals(Integer.parseInt(refundPercentage), member.getAssignment().getRefundAmount());
 	}
 
-	@Given("the member with {string} has started their trip") // not sure maybe check week or if paid or ban
-	public void the_member_with_has_started_their_trip(String string) {
-		Member m = (Member) User.getWithEmail(string);
+	@Given("the member with {string} has started their trip") // 
+	public void the_member_with_has_started_their_trip(String email) {
+		Member m = (Member) User.getWithEmail(email);
 		Assignment a = m.getAssignment();
-		assertTrue("Started", m.getAssignment().getisStarted());
+		assertEquals(Started, m.getAssignment().getAssignmentStatus());
 	}
 
 	@When("the administrator attempts to finish the trip for the member with email {string}") // todo
-	public void the_administrator_attempts_to_finish_the_trip_for_the_member_with_email(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_administrator_attempts_to_finish_the_trip_for_the_member_with_email(String email) {
+		callController(() -> AssignmentController.finishTrip(email));
 	}
 
 	@Given("the member with {string} is banned") // todo
-	public void the_member_with_is_banned(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_member_with_is_banned(String email) {
+
 	}
 
 	@Then("the member with email {string} shall be {string}") // todo
 	public void the_member_with_email_shall_be(String email, String status) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		Member member = (Member) User.getWithEmail(email);
 	}
 
 	@When("the administrator attempts to start the trips for week {string}") // todo
-	public void the_administrator_attempts_to_start_the_trips_for_week(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_administrator_attempts_to_start_the_trips_for_week(String weekNumber) {
+		callController(() -> AssignmentController.startTrips(Integer.parseInt(weekNumber)));
 	}
 
 	@Given("the member with {string} has cancelled their trip") // todo
-	public void the_member_with_has_cancelled_their_trip(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_member_with_has_cancelled_their_trip(String email) {
+		Member member = (Member) User.getWithEmail(email);
+		assertEquals(Cancelled, member.getAssignment().getAssignmentStatus());
 	}
 
 	@Given("the member with {string} has finished their trip") // not sure
 	public void the_member_with_has_finished_their_trip(String string) {
-		Member m = (Member) User.getWithEmail(string);
-		Assignment a = m.getAssignment();
-		a.setMark("Finished");
-		assertTrue("Finished", m.getAssignment().getMark());
-		throw new io.cucumber.java.PendingException();
+		Member member = (Member) User.getWithEmail(email);
+		assertEquals(Finished, member.getAssignment().getAssignmentStatus());
 	}
 
 	@Then("the member with email {string} shall be banned")
 	public void the_member_with_email_shall_be_banned(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		Member member = (Member) User.getWithEmail(email);
+		assertTrue(member.getBanned());
+	}
+
+	private void callController(Executable executable) { // from the btms step definitions in tutorial
+		// 6
+		try { // try executing the function
+			executable.execute();
+		} catch (InvalidInputException e) { // in case an error occurs, store the message and increment
+			// error count
+			error += e.getMessage();
+			errorcount += 1;
+		} catch (Throwable t) {
+			fail();
+		}
 	}
 }

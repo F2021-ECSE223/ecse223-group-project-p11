@@ -1,46 +1,51 @@
 class Assignment {
 	 assignmentStatus{
        Assigned {
-         payAssignment(String authorizationCode) [isCorrectCode(authorizationCode)] /{doPayAssignment();
-         }->Paid;
+         payAssignment(String authorizationCode) [isBanned()] -> Assigned; //banned reject dont need to check authorization code because is banned error has higher priority I assume
+         payAssignment(String authorizationCode) [!isCorrectCode(authorizationCode) && !isBanned()] /{rejectPayAssignment();}->Assigned;
+         payAssignment(String authorizationCode) [isCorrectCode(authorizationCode) && !isBanned()] /{doPayAssignment();}->Paid;
          
-         payAssignment(String authorizationCode) [isCorrectCode(authorizationCode)] /{rejectPayAssignment();
-         }->Assigned;
+         cancelAssignment() [isBanned()] /{rejectCancelBanned();} -> Assigned;
+         cancelAssignment() [!isBanned()] -> Cancelled;
+ 
+         startAssignment() [isBanned()] /{rejectStartBanned();} -> Assigned;
+         startAssignment() [!isBanned()] /{banMember()} -> Assigned; //if the climb starts but the member did not pay
          
-         cancelAssignment() / {refund(100);} -> Cancelled;
-         
-         startAssignment() /{banMember()} -> Banned; //if the climb starts but the member did not pay
-         
-         finishAssignment() / {rejectFinished()} -> Assigned;
+         finishAssignment() [isBanned()] /{rejectFinishBanned();} -> Assigned;
+         finishAssignment() [!isBanned()] / {rejectFinished()} -> Assigned;
        }
+       
        Paid {
          startAssignment() -> Started; 
+         
 	 	 payAssignment(String authorizationCode) /{alreadyPaid();
          }->Paid;
+         
          cancelAssignment() / {refund(50);} -> Cancelled;
-         finishAssignment() / {rejectFinished()} -> Assigned;
+         
+         finishAssignment() / {rejectFinished()} -> Paid;
        }
+       
        Started {
          finishAssignment() [isEndWeek()]-> Finished;
-         finish() [!isEndWeek()]->/{rejectEnd();} Started;
+        
+         finishAssignment() [!isEndWeek()]->/{rejectEnd();} Started;
+         
          cancelAssignment() ->/{refund(10);} Cancelled;
        }
        Cancelled {
-         payAssignment(String authorizationCode)-> /{rejectPayCancelled();} -> Cancelled;
-         finishAssignment()-> /{rejectFinishCancelled();} -> Cancelled;
-         startAssignment()-> /{rejectStartCancelled();} -> Cancelled;
+         payAssignment(String authorizationCode) /{rejectPayCancelled();} -> Cancelled;
+         finishAssignment() /{rejectFinishCancelled();} -> Cancelled;
+         startAssignment() /{rejectStartCancelled();} -> Cancelled;
        }
        
        Finished {
-         end -> Final
+        payAssignment(String authorizationCode)-> /{rejectPayFinished();}Finished;
+        startAssignment()-> /{rejectStartFinished();}Finished;
+        cancelAssignment()-> /{rejectCancelFinished();}Finished;
+         //end -> Final
        }
-       Banned {
-       	 startAssignment() /{rejectStartBanned();} -> Banned;
-       	 payAssignment(String authorizationCode) /{rejectFinishBanned();} -> Banned;
-       	 cancelAssignment() /{rejectCancelBanned();} -> Banned;
-       	 finishAssignment() /{rejectFinishBanned();} -> Banned;
-       	 
-       }	    
+       	    
 	 }
 	 
 	 private Boolean isCorrectCode(String authorizationCode) {
@@ -112,9 +117,42 @@ class Assignment {
 	 private void banMember() {
 	 	this.member.setBanned(True);
 	 }
-	 
+    private void isBanned() {
+	 	this.member.getBanned();
+	 }
+      private int totalCost(){
+        ClimpSafe cs= ClimbSafeApplication.getClimbSafe();
+        int sum=0;
+        for (BookedItem item : this.member.getBookedItems()) {
+				// if it is a bundle, compute bundle cost
+				if (item.getItem() instanceof EquipmentBundle) {
+					double bundleCost = 0;
+					EquipmentBundle equipmentBundle = (EquipmentBundle) item.getItem();
+					for (BundleItem bI : equipmentBundle.getBundleItems()) {
+						Equipment e = bI.getEquipment();
+						bundleCost += e.getPricePerWeek() * bI.getQuantity();
+					}
+					if (this.member.getGuideRequired()) {
+						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
+					}
+					sum += bundleCost * item.getQuantity();
+
+				} else if (item.getItem() instanceof Equipment) {
+					Equipment e = (Equipment) item.getItem();
+					sum += e.getPricePerWeek() * item.getQuantity();
+				}
+                 
+        }
+        if (this.member.getGuideRequired()){
+          sum+=cs.getPriceOfGuidePerWeek();
+        }
+        
+        sum*=this.endWeek-this.startWeek;//sum is weekly sum until multiplied by number of weeks
+        return sum;
+      }
 	 private void refund(int percentage) {
-	 
+       int refund= (int)((100-percentage) *totalCost)/100;
+       this.refund=refund;
 	 }
 	 
 	 private void rejectUpdateAppointment(){
