@@ -54,7 +54,7 @@ public class AssignmentController {
 		} catch (RuntimeException c) {
 			throw new InvalidInputException(c.getMessage());
 		}
-		
+
 	}
 
 	public static void cancelTrip(String email) throws InvalidInputException {
@@ -135,19 +135,5 @@ public class AssignmentController {
 		if (climbSafe.getAssignments().size() < climbSafe.getMembers().size()) {
 			// throw Error("Assignments could not be completed for all members");
 		}
-
-		/*
-		 * for (Member member: climbSafe.getMembers()) { if (member.isGuideRequired()) {
-		 * for (Guide guide : climbSafe.getGuides()) { Assignment lastAssignment; int
-		 * lastweekassigned = 0; for (Assignment as: guide.getAssignments()) { if
-		 * (lastweekassigned < as.getEndWeek()) { lastweekassigned = as.getEndWeek();
-		 * lastAssignment = as; } } } if (lastAssignment.getEndWeek() + 1 +
-		 * member.getNrWeeks() < climbSafe.getNrWeeks()) { // assign guide member } }
-		 * else { climbSafe.setStartDate(1); .setEndWeek(1 + member.getNrWeeks()); } }
-		 * 
-		 * 
-		 * 
-		 */
-
 	}
 }
