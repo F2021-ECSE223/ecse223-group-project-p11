@@ -1,33 +1,104 @@
 class Assignment {
 	 assignmentStatus{
        Assigned {
-         paid() [isSameAmount()]-> /{AuthorizationCode(String s);}Paid; //add condition to get amount paid = amount due
-         paid()[!isSameAmount()]->/{rejectPaid()} Assigned;//if not same amount throw error(I dont think this is in the feautre section though but cant hurt)
-         cancel() -> Cancelled;
-         start() [isStartWeek()]->/{banMember()} Final; //if the climb starts but the member did not pay
+         payAssignment(String authorizationCode) [isCorrectCode(authorizationCode)] /{doPayAssignment();
+         }->Paid;
+         
+         payAssignment(String authorizationCode) [isCorrectCode(authorizationCode)] /{rejectPayAssignment();
+         }->Assigned;
+         
+         cancelAssignment() / {refund(100);} -> Cancelled;
+         
+         startAssignment() /{banMember()} -> Banned; //if the climb starts but the member did not pay
+         
+         finishAssignment() / {rejectFinished()} -> Assigned;
        }
        Paid {
-         start() [isStarted()] -> Started;//check week  if not throw error cannot start
-         start() [!isStarted()]->/{rejectStart()} Paid; //throw error cannot start if not same week <>
-         cancel() ->/{refund(50);} Cancelled;
+         startAssignment() -> Started; 
+	 	 payAssignment(String authorizationCode) /{alreadyPaid();
+         }->Paid;
+         cancelAssignment() / {refund(50);} -> Cancelled;
+         finishAssignment() / {rejectFinished()} -> Assigned;
        }
        Started {
-         finish() [isEndWeek()]-> Finished;
+         finishAssignment() [isEndWeek()]-> Finished;
          finish() [!isEndWeek()]->/{rejectEnd();} Started;
-          cancel() ->/{refund(10);} Cancelled;
+         cancelAssignment() ->/{refund(10);} Cancelled;
        }
        Cancelled {
-         cancel()-> /{rejectCancel();}Cancelled;
+         payAssignment(String authorizationCode)-> /{rejectPayCancelled();} -> Cancelled;
+         finishAssignment()-> /{rejectFinishCancelled();} -> Cancelled;
+         startAssignment()-> /{rejectStartCancelled();} -> Cancelled;
        }
        
        Finished {
          end -> Final
+       }
+       Banned {
+       	 startAssignment() /{rejectStartBanned();} -> Banned;
+       	 payAssignment(String authorizationCode) /{rejectFinishBanned();} -> Banned;
+       	 cancelAssignment() /{rejectCancelBanned();} -> Banned;
+       	 finishAssignment() /{rejectFinishBanned();} -> Banned;
+       	 
        }	    
 	 }
 	 
-	 private Boolean isSameAmount() {
+	 private Boolean isCorrectCode(String authorizationCode) {
+	 	return !authorizationCode.equals("");
+	 }
 	 
+	 private void rejectPayAssignment() {
+	 	throw new RuntimeException("Invalid authorization code");
+	 }
 	 
+	 private void alreadyPaid() {
+	 	throw new RuntimeException("Trip has already been paid for");
+	 }
+	 private void rejectBanPaid() {
+	 	throw new RuntimeException("Cannot pay for the trip due to a ban");
+	 }
+	 
+	 private void rejectCancelBanned() {
+	 	throw new RuntimeException("Cannot cancel the trip due to a ban");
+	 }
+	 
+	 private void rejectStartBanned() {
+	 	throw new RuntimeException("Cannot start the trip due to a ban");
+	 }
+	 private void rejectFinishBanned() {
+	 	throw new RuntimeException("Cannot finish the trip due to a ban");
+	 }	 
+	 
+	 private void rejectFinished(){
+	 	throw new RuntimeException("Cannot finish a trip which has not started");
+  	 }
+  	 
+  	 private void rejectPayCancelled() {
+  	 	throw new RuntimeException("Cannot pay for a trip which has been cancelled");
+  	 }
+  	 
+  	 private void rejectStartCancelled() {
+  	 	throw new RuntimeException("Cannot start a trip which has been cancelled");
+  	 }
+  	 
+  	 private void rejectFinishCancelled() {
+  	 	throw new RuntimeException("Cannot finish a trip which has been cancelled");
+  	 }
+  	 
+  	 private void rejectPayFinished() {
+  	 	throw new RuntimeException("Cannot pay for a trip which has finished");
+  	 }
+  	 
+  	 private void rejectStartFinished() {
+  	 	throw new RuntimeException("Cannot start a trip which has finished");
+  	 }
+  	 
+  	 private void rejectCancelFinished() {
+  	 	throw new RuntimeException("Cannot cancel a trip which has finished");
+  	 }
+  	 
+	 private void doPayAssignment() {
+	 	//comprendre
 	 }
 	 
 	 private Boolean isStarted() {
@@ -54,10 +125,6 @@ class Assignment {
 	 	throw new RuntimeException("The start was unsuccesful");
   	 }
   	 
-  	 private void rejectEnd(){
-	 	throw new RuntimeException("The end was unsuccesful");
-  	 }
-  	 
   	 private void rejecCancel(){
 	 	throw new RuntimeException("The assignment was already cancelled");
   	 }
@@ -65,15 +132,7 @@ class Assignment {
   	 private void rejectAssign(int startWeek, int endWeek, this) {
         throw new RuntimeException("A banned member cannot be assigned a climbing session");
      }
-	
-	 private void start() {
-	 	if(!this.member.hasPaid()) {
-	 		this.member.setBanned(True);
-	 	}
-	 }
-	 
-	 
-	 
+
 	 private void doAssign() {
 	  	for (Member member: this.climbsafe.getMembers()) {
 		  	if (member.isGuideRequired()) {

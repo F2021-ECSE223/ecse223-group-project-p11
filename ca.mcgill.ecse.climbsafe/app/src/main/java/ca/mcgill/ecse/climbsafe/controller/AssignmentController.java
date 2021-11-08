@@ -11,10 +11,33 @@ import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 
 public class AssignmentController {
 	
+	public void startTrips(int weekNumber) {
+		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
+		for (Assignment assignment: climbSafe.getAssignments()) {
+			if (assignment.getStartWeek() == weekNumber) {
+				assignment.setHasStarted(True);
+			}
+		}
+	}
+	
+	
+	public static void payAssignment(Assignment assignment, String authorizationCode) {
+
+	}
+	
+	public void FinishTrips (int weekNumber) {
+		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
+		for (Assignment assignment: climbSafe.getAssignments()) {
+			if (assignment.getStartWeek() == weekNumber) {
+				assignment.setHasFinished(True);
+			}
+		}
+	}
+	
+	
 	public void initiateAssignment() {
 		
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
-		
 		
 		
 		for(Guide guide : climbSafe.getGuides()) {

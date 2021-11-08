@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.climbsafe.features;
 
+import ca.mcgill.ecse.climbsafe.controller.AssignmentController;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -171,20 +172,18 @@ public class AssignmentFeatureStepDefinitions {
 	}
 
 	@Then("the assignment for {string} shall record the authorization code {string}")
-  public void the_assignment_for_shall_record_the_authorization_code(String string,
-      String string2) {
-	  Member m= (Member) User.getWithEmail(string); 
-	  Assignment a=m.getAssignment;
-	  a.setAuthorizationCode(string2);
-	  assertEqual(string2, Assignment.getAuthorizationCode())
-    throw new io.cucumber.java.PendingException();
-  }
+	public void the_assignment_for_shall_record_the_authorization_code(String email, String authorizationCode) {
+		Member member = (Member) User.getWithEmail(email);
+		Assignment assignment = member.getAssignment();
+		AssignmentController.payAssignment(assignment, authorizationCode);
+		assertEqual(authorizationCode, assignment.getAuthorizationCode());
+	}
 
-	@Then("the member account with the email {string} does not exist")//fix
-  public void the_member_account_with_the_email_does_not_exist(String string) {
-    assertTrue(null, (Member)User.getWithEmail(string));
-    throw new io.cucumber.java.PendingException();
-  }
+	@Then("the member account with the email {string} does not exist") // fix
+	public void the_member_account_with_the_email_does_not_exist(String string) {
+		assertTrue(null, (Member) User.getWithEmail(string));
+		throw new io.cucumber.java.PendingException();
+	}
 
 	@Then("there are {string} members in the system")
 	public void there_are_members_in_the_system(String numOfMembers) {
@@ -206,29 +205,23 @@ public class AssignmentFeatureStepDefinitions {
 
 	@Given("the member with {string} has paid for their trip") // not sure maybe check ban
 	public void the_member_with_has_paid_for_their_trip(String string) {
-		Member m = (Member) User.getWithEmail(string);
-		Assignment a = m.getAssignment();
-		a.setMark("Paid");
-		assertTrue("Paid", m.getAssignment().getMark());
+		Member member = (Member) User.getWithEmail(string);
+		assertTrue(member.getAssignment().getisPaid());
 
 		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
 	}
 
 	@Then("the member with email address {string} shall receive a refund of {string} percent") // todo
-	public void the_member_with_email_address_shall_receive_a_refund_of_percent(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_member_with_email_address_shall_receive_a_refund_of_percent(String email, String refundPercentage) {
+		Member member = (Member) User.getWithEmail(email);
+		assertEquals(Integer.parseInt(refundPercentage), member.getRefundAmount());
 	}
 
 	@Given("the member with {string} has started their trip") // not sure maybe check week or if paid or ban
 	public void the_member_with_has_started_their_trip(String string) {
 		Member m = (Member) User.getWithEmail(string);
 		Assignment a = m.getAssignment();
-		a.setMark("Started");
-		assertTrue("Started", m.getAssignment().getMark());
-
-		throw new io.cucumber.java.PendingException();
+		assertTrue("Started", m.getAssignment().getisStarted());
 	}
 
 	@When("the administrator attempts to finish the trip for the member with email {string}") // todo
@@ -244,7 +237,7 @@ public class AssignmentFeatureStepDefinitions {
 	}
 
 	@Then("the member with email {string} shall be {string}") // todo
-	public void the_member_with_email_shall_be(String string, String string2) {
+	public void the_member_with_email_shall_be(String email, String status) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
