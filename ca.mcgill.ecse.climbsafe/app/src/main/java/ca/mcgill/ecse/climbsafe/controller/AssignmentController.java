@@ -101,7 +101,7 @@ public class AssignmentController {
 		}
 	}
 
-	public static void initiateAssignment() {
+	public static void initiateAssignment() throws InvalidInputException {
 
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
 
@@ -133,7 +133,7 @@ public class AssignmentController {
 			}
 		}
 		if (climbSafe.getAssignments().size() < climbSafe.getMembers().size()) {
-			// throw Error("Assignments could not be completed for all members");
+			 throw new InvalidInputException("Assignments could not be completed for all members");
 		}
 	}
 }

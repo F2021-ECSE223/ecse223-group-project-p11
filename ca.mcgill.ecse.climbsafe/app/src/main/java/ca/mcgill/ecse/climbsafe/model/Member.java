@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.climbsafe.model;
 import java.util.*;
 
-// line 39 "../../../../../ClimbSafe.ump"
+// line 42 "../../../../../ClimbSafe.ump"
 public class Member extends NamedUser
 {
 
@@ -16,6 +16,7 @@ public class Member extends NamedUser
   private int nrWeeks;
   private boolean guideRequired;
   private boolean hotelRequired;
+  private boolean banStatus;
 
   //Member Associations
   private ClimbSafe climbSafe;
@@ -32,6 +33,7 @@ public class Member extends NamedUser
     nrWeeks = aNrWeeks;
     guideRequired = aGuideRequired;
     hotelRequired = aHotelRequired;
+    banStatus = false;
     boolean didAddClimbSafe = setClimbSafe(aClimbSafe);
     if (!didAddClimbSafe)
     {
@@ -68,6 +70,14 @@ public class Member extends NamedUser
     return wasSet;
   }
 
+  public boolean setBanStatus(boolean aBanStatus)
+  {
+    boolean wasSet = false;
+    banStatus = aBanStatus;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getNrWeeks()
   {
     return nrWeeks;
@@ -82,6 +92,11 @@ public class Member extends NamedUser
   {
     return hotelRequired;
   }
+
+  public boolean getBanStatus()
+  {
+    return banStatus;
+  }
   /* Code from template attribute_IsBoolean */
   public boolean isGuideRequired()
   {
@@ -91,6 +106,11 @@ public class Member extends NamedUser
   public boolean isHotelRequired()
   {
     return hotelRequired;
+  }
+  /* Code from template attribute_IsBoolean */
+  public boolean isBanStatus()
+  {
+    return banStatus;
   }
   /* Code from template association_GetOne */
   public ClimbSafe getClimbSafe()
@@ -285,7 +305,8 @@ public class Member extends NamedUser
     return super.toString() + "["+
             "nrWeeks" + ":" + getNrWeeks()+ "," +
             "guideRequired" + ":" + getGuideRequired()+ "," +
-            "hotelRequired" + ":" + getHotelRequired()+ "]" + System.getProperties().getProperty("line.separator") +
+            "hotelRequired" + ":" + getHotelRequired()+ "," +
+            "banStatus" + ":" + getBanStatus()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "climbSafe = "+(getClimbSafe()!=null?Integer.toHexString(System.identityHashCode(getClimbSafe())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "assignment = "+(getAssignment()!=null?Integer.toHexString(System.identityHashCode(getAssignment())):"null");
   }

@@ -16,7 +16,6 @@ import org.junit.jupiter.api.function.Executable;
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.model.Assignment;
-import ca.mcgill.ecse.climbsafe.model.Assignment.AssignmentStatus;
 import ca.mcgill.ecse.climbsafe.model.BundleItem;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.model.Equipment;
@@ -62,7 +61,7 @@ public class AssignmentFeatureStepDefinitions {
 		for (var row : rows) {
 			EquipmentBundle bundle = climbSafe.addBundle(row.get("name"), Integer.parseInt(row.get("discount")));
 			String items = row.get("items");
-			String quantities = row.get("quantities");
+			String quantities = row.get("quantity");
 			List<String> itemList = Arrays.asList(items.split(","));
 			List<String> quantityList = Arrays.asList(quantities.split(","));
 			for (int i = 0; i < itemList.size(); i++) {
@@ -105,7 +104,7 @@ public class AssignmentFeatureStepDefinitions {
 
 	@When("the administrator attempts to initiate the assignment process") // todo
 	public void the_administrator_attempts_to_initiate_the_assignment_process() {
-		callController(() -> AssignmentController.initiateAssignment());
+		 callController(() -> AssignmentController.initiateAssignment());
 	}
 
 	@Then("the following assignments shall exist in the system:") // copied from p5
@@ -119,9 +118,14 @@ public class AssignmentFeatureStepDefinitions {
 			int startWeek = Integer.valueOf(assignmentData.get("startWeek"));
 			int endWeek = Integer.valueOf(assignmentData.get("endWeek"));
 
-			Assignment newAssignment = climbSafe.addAssignment(startWeek, endWeek, assignmentMember);
-			newAssignment.setGuide(assignmentGuide);
-			newAssignment.setHotel(assignmentHotel);
+			
+				
+			assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
+			assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
+			assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
+			assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
+			
+			
 		}
 	}
 
@@ -129,7 +133,7 @@ public class AssignmentFeatureStepDefinitions {
 	public void the_assignment_for_shall_be_marked_as(String email, String AssignmentStatus) {
 		Member m = (Member) User.getWithEmail(email);
 		Assignment a = m.getAssignment();
-		assertEquals(AssignmentStatus, a.getAssignmentStatusFullName());
+		assertEquals(AssignmentStatus, a.getAssignmentStatus().toString());
 	}
 
 	@Then("the number of assignments in the system shall be {string}")
@@ -207,19 +211,20 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has paid for their trip") // not sure maybe check ban
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		member.getAssignment().payAssignment("23313");
+		assertEquals(Paid, member.getAssignment().getAssignmentStatus());
 	}
 
 	@Then("the member with email address {string} shall receive a refund of {string} percent") // todo
 	public void the_member_with_email_address_shall_receive_a_refund_of_percent(String email, String refundPercentage) {
 		Member member = (Member) User.getWithEmail(email);
-		assertEquals(Integer.parseInt(refundPercentage), member.getAssignment().getRefundPercentage());
+		assertEquals(Integer.parseInt(refundPercentage), member.getAssignment().getRefundAmount());
 	}
 
-	@Given("the member with {string} has started their trip") //
+	@Given("the member with {string} has started their trip") // 
 	public void the_member_with_has_started_their_trip(String email) {
 		Member m = (Member) User.getWithEmail(email);
-		m.getAssignment().startAssignment();
+		Assignment a = m.getAssignment();
+		assertEquals(Started, m.getAssignment().getAssignmentStatus());
 	}
 
 	@When("the administrator attempts to finish the trip for the member with email {string}") // todo
@@ -229,13 +234,13 @@ public class AssignmentFeatureStepDefinitions {
 
 	@Given("the member with {string} is banned") // todo
 	public void the_member_with_is_banned(String email) {
-		Member member = (Member) User.getWithEmail(email);
-		member.setBanStatus(true);
+
 	}
 
 	@Then("the member with email {string} shall be {string}") // todo
 	public void the_member_with_email_shall_be(String email, String status) {
 		Member member = (Member) User.getWithEmail(email);
+		assertEquals(member.getBanStatus(), status);
 	}
 
 	@When("the administrator attempts to start the trips for week {string}") // todo
@@ -246,19 +251,19 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has cancelled their trip") // todo
 	public void the_member_with_has_cancelled_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		member.getAssignment().cancelAssignment();
+		assertEquals(Cancelled, member.getAssignment().getAssignmentStatus());
 	}
 
 	@Given("the member with {string} has finished their trip") // not sure
-	public void the_member_with_has_finished_their_trip(String email) {
+	public void the_member_with_has_finished_their_trip(String string) {
 		Member member = (Member) User.getWithEmail(email);
-		member.getAssignment().finishAssignment();
+		assertEquals(Finished, member.getAssignment().getAssignmentStatus());
 	}
 
 	@Then("the member with email {string} shall be banned")
-	public void the_member_with_email_shall_be_banned(String email) {
+	public void the_member_with_email_shall_be_banned(String string) {
 		Member member = (Member) User.getWithEmail(email);
-		assertTrue(member.getBanStatus());
+		assertTrue(member.getBanned());
 	}
 
 	private void callController(Executable executable) { // from the btms step definitions in tutorial
