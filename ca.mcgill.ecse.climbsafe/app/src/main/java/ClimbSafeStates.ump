@@ -1,18 +1,18 @@
 class Assignment {
 	 assignmentStatus{
        Assigned {
-         payAssignment(String authorizationCode) [isBanned()] -> Assigned; //banned reject dont need to check authorization code because is banned error has higher priority I assume
+         payAssignment(String authorizationCode) [isBanned()] /{rejectBanPaid();} -> Assigned; //banned reject dont need to check authorization code because is banned error has higher priority I assume
          payAssignment(String authorizationCode) [!isCorrectCode(authorizationCode) && !isBanned()] /{rejectPayAssignment();}->Assigned;
-         payAssignment(String authorizationCode) [isCorrectCode(authorizationCode) && !isBanned()] /{doPayAssignment();}->Paid;
+         payAssignment(String authorizationCode) [isCorrectCode(authorizationCode) && !isBanned()] /{doPayAssignment(authorizationCode);}->Paid;
          
          cancelAssignment() [isBanned()] /{rejectCancelBanned();} -> Assigned;
          cancelAssignment() [!isBanned()] -> Cancelled;
  
          startAssignment() [isBanned()] /{rejectStartBanned();} -> Assigned;
-         startAssignment() [!isBanned()] /{banMember()} -> Assigned; //if the climb starts but the member did not pay
+         startAssignment() [!isBanned()] /{banMember();} -> Assigned; //if the climb starts but the member did not pay
          
          finishAssignment() [isBanned()] /{rejectFinishBanned();} -> Assigned;
-         finishAssignment() [!isBanned()] / {rejectFinished()} -> Assigned;
+         finishAssignment() [!isBanned()] / {rejectFinished();} -> Assigned;
        }
        
        Paid {
@@ -23,13 +23,15 @@ class Assignment {
          
          cancelAssignment() / {refund(50);} -> Cancelled;
          
-         finishAssignment() / {rejectFinished()} -> Paid;
+         finishAssignment() / {rejectFinished();} -> Paid;
        }
        
        Started {
-         finishAssignment() [isEndWeek()]-> Finished;
+         finishAssignment() -> Finished;
+         
+         payAssignment(String authorizationCode) /{alreadyPaid();} -> Started;
         
-         finishAssignment() [!isEndWeek()]->/{rejectEnd();} Started;
+         finishAssignment()->/{rejectEnd();} Started;
          
          cancelAssignment() ->/{refund(10);} Cancelled;
        }
@@ -42,7 +44,7 @@ class Assignment {
        Finished {
         payAssignment(String authorizationCode)-> /{rejectPayFinished();}Finished;
         startAssignment()-> /{rejectStartFinished();}Finished;
-        cancelAssignment()-> /{rejectCancelFinished();}Finished;
+        cancelAssignment()-> /{rejectCancelFinished(); refund(0);}Finished;
          //end -> Final
        }
        	    
@@ -102,27 +104,21 @@ class Assignment {
   	 	throw new RuntimeException("Cannot cancel a trip which has finished");
   	 }
   	 
-	 private void doPayAssignment() {
-	 	//comprendre
+	 private void doPayAssignment(String authorizationCode) {
+	 	this.authorizationCode = authorizationCode;
 	 }
 	 
-	 private Boolean isStarted() {
-	 
-	 }
-	 
-	 private Boolean isEndWeek() {
-	 
-	 }
 	 
 	 private void banMember() {
-	 	this.member.setBannedStatus(True);
+	 	this.member.setBanStatus(true);
 	 }
-    private void isBanned() {
-	 	this.member.getBannedStatus();
+    private boolean isBanned() {
+	 	return this.member.getBanStatus();
 	 }
     
+    /*
     private int totalCost(){
-        ClimpSafe cs= ClimbSafeApplication.getClimbSafe();
+        ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
         int sum=0;
         for (BookedItem item : this.member.getBookedItems()) {
 				// if it is a bundle, compute bundle cost
@@ -150,11 +146,11 @@ class Assignment {
         
         sum*=this.endWeek-this.startWeek;//sum is weekly sum until multiplied by number of weeks
         return sum;
-     }
+     } */
      
 	 private void refund(int percentage) {
-       int refund= (int)((100-percentage) *totalCost)/100;
-       this.refundPercentage=refund;
+      // int refund= (int)((100-percentage) *totalCost)/100;
+       this.refundPercentage=percentage;
 	 }
   	 
   	 private void rejectStart(){
@@ -165,7 +161,5 @@ class Assignment {
 	 	throw new RuntimeException("The assignment was already cancelled");
   	 }
   	 
-  	 private void rejectAssign(int startWeek, int endWeek, this) {
-        throw new RuntimeException("A banned member cannot be assigned a climbing session");
-     }
+  	 
 }
