@@ -104,7 +104,7 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 
-	@When("the administrator attempts to initiate the assignment process") // todo
+	@When("the administrator attempts to initiate the assignment process") 
 	public void the_administrator_attempts_to_initiate_the_assignment_process() {
 		callController(() -> AssignmentController.initiateAssignment());
 	}
@@ -191,7 +191,7 @@ public class AssignmentFeatureStepDefinitions {
 		assertEquals(authorizationCode, assignment.getAuthorizationCode());
 	}
 
-	@Then("the member account with the email {string} does not exist") // fix
+	@Then("the member account with the email {string} does not exist") 
 	public void the_member_account_with_the_email_does_not_exist(String email) {
 		assertEquals(null, (Member) User.getWithEmail(email));
 	}
@@ -206,18 +206,18 @@ public class AssignmentFeatureStepDefinitions {
 		assertTrue(error.contains(errorMessage));
 	}
 
-	@When("the administrator attempts to cancel the trip for {string}") // todo
+	@When("the administrator attempts to cancel the trip for {string}") 
 	public void the_administrator_attempts_to_cancel_the_trip_for(String email) {
 		callController(() -> AssignmentController.cancelTrip(email));
 	}
 
-	@Given("the member with {string} has paid for their trip") // not sure maybe check ban
+	@Given("the member with {string} has paid for their trip") 
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
 		member.getAssignment().payAssignment("23313");
 	}
 
-	@Then("the member with email address {string} shall receive a refund of {string} percent") // todo
+	@Then("the member with email address {string} shall receive a refund of {string} percent") 
 	public void the_member_with_email_address_shall_receive_a_refund_of_percent(String email, String refundPercentage) {
 		Member member = (Member) User.getWithEmail(email);
 		assertEquals(Integer.parseInt(refundPercentage), member.getAssignment().getRefundPercentage());
@@ -235,7 +235,7 @@ public class AssignmentFeatureStepDefinitions {
 		callController(() -> AssignmentController.finishTrip(email));
 	}
 
-	@Given("the member with {string} is banned") // todo
+	@Given("the member with {string} is banned") 
 	public void the_member_with_is_banned(String email) {
 		Member member = (Member) User.getWithEmail(email);
 		member.setBanStatus(BanStatus.Banned);

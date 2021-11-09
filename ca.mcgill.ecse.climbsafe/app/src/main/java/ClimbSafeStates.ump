@@ -42,7 +42,7 @@ class Assignment {
        }
        
        Finished {
-        payAssignment(String authorizationCode)-> /{rejectPayFinished();}Finished;
+        payAssignment(String authorizationCode) /{rejectPayFinished();} -> Finished;
         startAssignment()/{rejectStartFinished();} -> Finished;
         cancelAssignment() /{rejectCancelFinished(); refund(0);} -> Finished;
          //end -> Final
