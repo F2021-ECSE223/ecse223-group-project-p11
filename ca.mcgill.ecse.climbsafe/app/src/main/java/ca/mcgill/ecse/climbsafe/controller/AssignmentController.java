@@ -5,6 +5,7 @@ import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Member;
 import ca.mcgill.ecse.climbsafe.model.User;
+import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class AssignmentController {
 				}
 			}
 		}
+		ClimbSafePersistence.save(climbSafe);
 	}
 
 	public static void finishTrip(String email) throws InvalidInputException {
@@ -54,7 +56,7 @@ public class AssignmentController {
 		} catch (RuntimeException c) {
 			throw new InvalidInputException(c.getMessage());
 		}
-
+		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
 	public static void cancelTrip(String email) throws InvalidInputException {
@@ -77,6 +79,7 @@ public class AssignmentController {
 		} catch (RuntimeException c) {
 			throw new InvalidInputException(c.getMessage());
 		}
+		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
 	public static void payTrip(String email, String authorizationCode) throws InvalidInputException {
@@ -99,6 +102,7 @@ public class AssignmentController {
 		} catch (RuntimeException c) {
 			throw new InvalidInputException(c.getMessage());
 		}
+		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
 	public static void initiateAssignment() throws InvalidInputException {
@@ -135,5 +139,6 @@ public class AssignmentController {
 		if (climbSafe.getAssignments().size() < climbSafe.getMembers().size()) {
 			 throw new InvalidInputException("Assignments could not be completed for all members");
 		}
+		ClimbSafePersistence.save(climbSafe);
 	}
 }

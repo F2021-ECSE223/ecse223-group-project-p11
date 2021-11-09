@@ -11,6 +11,7 @@ import ca.mcgill.ecse.climbsafe.model.EquipmentBundle;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Member;
 import ca.mcgill.ecse.climbsafe.model.NamedUser;
+import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 
 public class ClimbSafeFeatureSet2Controller {
 
@@ -110,6 +111,7 @@ public class ClimbSafeFeatureSet2Controller {
                 BookableItem item = BookableItem.getWithName(itemNames.get(i));
                 member.addBookedItem(itemQuantities.get(i), cs, item);
             }
+            ClimbSafePersistence.save(cs);
 
         } catch (RuntimeException e1) {
             throw new InvalidInputException(e1.getMessage());
@@ -204,6 +206,7 @@ public class ClimbSafeFeatureSet2Controller {
                 uMem.addBookedItem(newItemQuantities.get(i), cs, item);
                 
             }
+            ClimbSafePersistence.save(cs);
             
         } catch (Exception e1) {
             throw new InvalidInputException(e1.getMessage());

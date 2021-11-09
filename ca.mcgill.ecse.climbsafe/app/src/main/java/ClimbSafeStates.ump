@@ -31,9 +31,9 @@ class Assignment {
          
          payAssignment(String authorizationCode) /{alreadyPaid();} -> Started;
         
-         finishAssignment()->/{rejectEnd();} Started;
+         //finishAssignment()->/{rejectEnd();} Started;
          
-         cancelAssignment() ->/{refund(10);} Cancelled;
+         cancelAssignment() /{refund(10);} -> Cancelled;
        }
        Cancelled {
          payAssignment(String authorizationCode) /{rejectPayCancelled();} -> Cancelled;
@@ -43,8 +43,8 @@ class Assignment {
        
        Finished {
         payAssignment(String authorizationCode)-> /{rejectPayFinished();}Finished;
-        startAssignment()-> /{rejectStartFinished();}Finished;
-        cancelAssignment()-> /{rejectCancelFinished(); refund(0);}Finished;
+        startAssignment()/{rejectStartFinished();} -> Finished;
+        cancelAssignment() /{rejectCancelFinished(); refund(0);} -> Finished;
          //end -> Final
        }
        	    
@@ -149,7 +149,6 @@ class Assignment {
      } */
      
 	 private void refund(int percentage) {
-      // int refund= (int)((100-percentage) *totalCost)/100;
        this.refundPercentage=percentage;
 	 }
   	 

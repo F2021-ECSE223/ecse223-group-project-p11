@@ -6,6 +6,7 @@ import ca.mcgill.ecse.climbsafe.model.EquipmentBundle;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Hotel;
 import ca.mcgill.ecse.climbsafe.model.Member;
+import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 import ca.mcgill.ecse.climbsafe.model.Assignment;
 import ca.mcgill.ecse.climbsafe.model.BookableItem;
 import ca.mcgill.ecse.climbsafe.model.BookedItem;
@@ -39,6 +40,7 @@ public class ClimbSafeFeatureSet6Controller {
 			}
 			found.delete();
 		}
+		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
 	/*
@@ -58,7 +60,7 @@ public class ClimbSafeFeatureSet6Controller {
 			EquipmentBundle equipmentBundle = (EquipmentBundle) BookableItem.getWithName(name);
 			equipmentBundle.delete();
 		}
-
+		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
 	/*

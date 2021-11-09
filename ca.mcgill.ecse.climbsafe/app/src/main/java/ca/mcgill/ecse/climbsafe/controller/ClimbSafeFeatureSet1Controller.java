@@ -10,6 +10,7 @@ import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Member;
 import ca.mcgill.ecse.climbsafe.model.NamedUser;
+import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 
 public class ClimbSafeFeatureSet1Controller {
   /** This controller method validates the given input to set the climbing season start date, number of weeks in the
@@ -39,6 +40,7 @@ public class ClimbSafeFeatureSet1Controller {
 			climbSafe.setStartDate(startDate);
 			climbSafe.setPriceOfGuidePerWeek(priceOfGuidePerWeek);
 			climbSafe.setNrWeeks(nrWeeks);
+			ClimbSafePersistence.save(climbSafe);
 
 		} catch (RuntimeException e) {
 			error = e.getMessage();
@@ -60,6 +62,7 @@ public class ClimbSafeFeatureSet1Controller {
 
 				Member memberToDelete = (Member) Member.getWithEmail(email);
 				memberToDelete.delete();
+				ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	
 		}
 
@@ -77,6 +80,7 @@ public class ClimbSafeFeatureSet1Controller {
 	
 				Guide memberToDelete = (Guide) Guide.getWithEmail(email);
 				memberToDelete.delete();
+				ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 		}
 	}
 

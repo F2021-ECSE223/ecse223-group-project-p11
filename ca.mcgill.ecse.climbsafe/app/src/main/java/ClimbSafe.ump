@@ -2,7 +2,6 @@ namespace ca.mcgill.ecse.climbsafe.model;
 
 use ClimbSafeStates.ump; 
 
-
 class ClimbSafe {
   Date startDate;
   Integer nrWeeks;
@@ -45,7 +44,7 @@ class Member {
   Boolean guideRequired;
   Boolean hotelRequired;
   enum BanStatus {Banned, NotBanned}
-  lazy BanStatus banStatus = BanStatus.NotBanned; 
+  BanStatus banStatus = BanStatus.NotBanned; 
   
 }
 
@@ -93,3 +92,5 @@ class Assignment {
   * -- 0..1 Guide guide;
   * -- 0..1 Hotel hotel;
 }
+
+use ClimbSafePersistence.ump;

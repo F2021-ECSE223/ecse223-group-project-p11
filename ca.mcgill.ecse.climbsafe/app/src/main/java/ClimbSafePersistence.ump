@@ -3,20 +3,21 @@ external interface Serializable {}
 class ClimbSafe {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2045406856025012133L;
+
 
     public void reinitialize() {
-        User.reinitializeUserNames(this.getUsers());
-        BookableItem.reinitializeBookableItems(this.getBookableItems);
-        Hotel.reinitializeHotel(this.getHotels);
+        User.reinitializeUserName(this.getUsers());
+        BookableItem.reinitializeBookableItem(this.getBookableItems());
+        Hotel.reinitializeHotel(this.getHotels());
     }
 }
 
 class User {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 2L;
-    public static void reinitializeUsernames(List<User> users){
+  private static final long serialVersionUID = 2L;
+    public static void reinitializeUsername(List<User> users){
       usersByUsername = new HashMap<String, User>();
       for(User user : users){
         usersByUsername.put(user.getUsername(), user);
@@ -27,14 +28,14 @@ class User {
 class Administrator {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 3L;
+  private static final long serialVersionUID = 3L;
 }
 
 class BookableItem {
   depend java.io.Serializable;
-  internal const long serialVersionUID = 4L;
+  private static final long serialVersionUID = 4L;
   isA Serializable;
-  public static void reinitializeBookableItems (List<BookableItem> bookableItems){
+  public static void reinitializeBookableItem(List<BookableItem> bookableItems){
       bookableItemsByName = new HashMap<String, BookableItem>();
       for(BookableItem bi : bookableItems){
         bookableItemsByName.put(bi.getName(), bi);
@@ -45,44 +46,44 @@ class BookableItem {
 class BookedItem {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 5L;
+  private static final long serialVersionUID = 5L;
 }
 
 class BundleItem {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 6L;
+  private static final long serialVersionUID = 6L;
 }
   
 class Equipment {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 7L;
+  private static final long serialVersionUID = 7L;
 }
 
 class Assignment {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 8L;
+  private static final long serialVersionUID = 8L;
 }
 
 class EquipmentBundle {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 9L;
+  private static final long serialVersionUID = 9L;
 }
 
 class Guide {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 10L;
+  private static final long serialVersionUID = 10L;
 }
 
 class Hotel {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 11L;
-      public static void reinitializeHotels(List<Hotel> hotels){
+  private static final long serialVersionUID = 11L;
+      public static void reinitializeHotel(List<Hotel> hotels){
      	 hotelsByName = new HashMap<String, Hotel>();
      	 for(Hotel h : hotels){
          	hotelsByName.put(h.getName(), h);
@@ -93,11 +94,11 @@ class Hotel {
 class Member {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 12L;
+  private static final long serialVersionUID = 12L;
 }
 
 class NamedUser {
   depend java.io.Serializable;
   isA Serializable;
-  internal const long serialVersionUID = 13L;
+  private static final long serialVersionUID = 13L;
 }
