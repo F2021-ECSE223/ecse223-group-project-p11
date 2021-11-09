@@ -261,9 +261,13 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has finished their trip") // not sure
 	public void the_member_with_has_finished_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		member.getAssignment().payAssignment("jsh");
-		member.getAssignment().startAssignment();
-		member.getAssignment().finishAssignment();
+		//member.getAssignment().payAssignment("jsh");
+		//member.getAssignment().startAssignment();
+		//member.getAssignment().finishAssignment();
+		Assignment a =member.getAssignment();
+		a.setAssignmentState(AssignmentStatus.Finished);
+		
+		//a.setAssignmentStatus(AssignmentStatus.Finished);
 	}
 
 	@Then("the member with email {string} shall be banned")

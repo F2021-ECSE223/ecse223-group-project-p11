@@ -2,10 +2,13 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse.climbsafe.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 42 "../../../../../ClimbSafe.ump"
-public class Member extends NamedUser
+// line 3 "../../../../../ClimbSafeExtended.ump"
+// line 45 "../../../../../ClimbSafe.ump"
+// line 129 "../../../../../ClimbSafePersistence.ump"
+public class Member extends NamedUser implements Serializable
 {
 
   //------------------------
@@ -19,10 +22,10 @@ public class Member extends NamedUser
   //------------------------
 
   //Member Attributes
+  private BanStatus banStatus;
   private int nrWeeks;
   private boolean guideRequired;
   private boolean hotelRequired;
-  private BanStatus banStatus;
 
   //Member Associations
   private ClimbSafe climbSafe;
@@ -36,10 +39,10 @@ public class Member extends NamedUser
   public Member(String aEmail, String aPassword, String aName, String aEmergencyContact, int aNrWeeks, boolean aGuideRequired, boolean aHotelRequired, ClimbSafe aClimbSafe)
   {
     super(aEmail, aPassword, aName, aEmergencyContact);
+    banStatus = BanStatus.NotBanned;
     nrWeeks = aNrWeeks;
     guideRequired = aGuideRequired;
     hotelRequired = aHotelRequired;
-    banStatus = BanStatus.NotBanned;
     boolean didAddClimbSafe = setClimbSafe(aClimbSafe);
     if (!didAddClimbSafe)
     {
@@ -51,6 +54,14 @@ public class Member extends NamedUser
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setBanStatus(BanStatus aBanStatus)
+  {
+    boolean wasSet = false;
+    banStatus = aBanStatus;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setNrWeeks(int aNrWeeks)
   {
@@ -76,12 +87,9 @@ public class Member extends NamedUser
     return wasSet;
   }
 
-  public boolean setBanStatus(BanStatus aBanStatus)
+  public BanStatus getBanStatus()
   {
-    boolean wasSet = false;
-    banStatus = aBanStatus;
-    wasSet = true;
-    return wasSet;
+    return banStatus;
   }
 
   public int getNrWeeks()
@@ -97,11 +105,6 @@ public class Member extends NamedUser
   public boolean getHotelRequired()
   {
     return hotelRequired;
-  }
-
-  public BanStatus getBanStatus()
-  {
-    return banStatus;
   }
   /* Code from template attribute_IsBoolean */
   public boolean isGuideRequired()
@@ -300,6 +303,14 @@ public class Member extends NamedUser
     super.delete();
   }
 
+  // line 134 "../../../../../ClimbSafePersistence.ump"
+   public static  void reinitializeMemberEmail(List<Member> systemMembers){
+    Map<String, Member> membersByEmail = new HashMap<String, Member>();
+      for(Member mem : systemMembers){
+        membersByEmail.put(mem.getEmail(), mem);
+      }
+  }
+
 
   public String toString()
   {
@@ -310,5 +321,13 @@ public class Member extends NamedUser
             "  " + "banStatus" + "=" + (getBanStatus() != null ? !getBanStatus().equals(this)  ? getBanStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "climbSafe = "+(getClimbSafe()!=null?Integer.toHexString(System.identityHashCode(getClimbSafe())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "assignment = "+(getAssignment()!=null?Integer.toHexString(System.identityHashCode(getAssignment())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 132 "../../../../../ClimbSafePersistence.ump"
+  private static final long serialVersionUID = 12L ;
+
+  
 }

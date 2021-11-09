@@ -1,6 +1,10 @@
 namespace ca.mcgill.ecse.climbsafe.model;
 
+
 use ClimbSafeStates.ump; 
+use ClimbSafeExtended.ump;
+
+
 
 class ClimbSafe {
   Date startDate;
@@ -43,9 +47,6 @@ class Member {
   Integer nrWeeks;
   Boolean guideRequired;
   Boolean hotelRequired;
-  enum BanStatus {Banned, NotBanned}
-  BanStatus banStatus = BanStatus.NotBanned; 
-  
 }
 
 associationClass BookedItem {
@@ -84,8 +85,6 @@ class Hotel {
 } 
 
 class Assignment {
-  lazy String authorizationCode;
-  lazy Integer refundPercentage;
   Integer startWeek;
   Integer endWeek;
   0..1 -- 1 Member member;

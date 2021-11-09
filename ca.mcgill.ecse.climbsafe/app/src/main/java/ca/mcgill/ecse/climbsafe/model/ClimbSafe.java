@@ -2,11 +2,13 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse.climbsafe.model;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
 
-// line 6 "../../../../../ClimbSafe.ump"
-public class ClimbSafe
+// line 9 "../../../../../ClimbSafe.ump"
+// line 3 "../../../../../ClimbSafePersistence.ump"
+public class ClimbSafe implements Serializable
 {
 
   //------------------------
@@ -1012,6 +1014,24 @@ public class ClimbSafe
     
   }
 
+  // line 10 "../../../../../ClimbSafePersistence.ump"
+   public void reinitialize(){
+    //User.reinitializeUserName(this.getUsers());
+        
+        
+        Member.reinitializeMemberEmail(this.getMembers());
+        Guide.reinitializeGuideEmail(this.getGuides());
+        Administrator.reinitializeAdminEmail(this.getAdministrator());
+        
+        //BookableItem.reinitializeBookableItem(this.getBookableItems());
+        
+        //Equipment.reinitializeEquipment(this.getEquipment());
+        
+        //EquipmentBundle.reinitializeBundle(this.getBundles());
+        BookableItem.reinitializeUniqueBookableEquipment(this.getBundles(),this.getEquipment() );
+        Hotel.reinitializeHotel(this.getHotels());
+  }
+
 
   public String toString()
   {
@@ -1020,5 +1040,13 @@ public class ClimbSafe
             "priceOfGuidePerWeek" + ":" + getPriceOfGuidePerWeek()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "administrator = "+(getAdministrator()!=null?Integer.toHexString(System.identityHashCode(getAdministrator())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 6 "../../../../../ClimbSafePersistence.ump"
+  private static final long serialVersionUID = 2045406856025012133L ;
+
+  
 }

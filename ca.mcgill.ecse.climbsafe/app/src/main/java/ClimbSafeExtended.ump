@@ -1,0 +1,20 @@
+namespace ca.mcgill.ecse.climbsafe.model;
+
+class Member{
+  enum BanStatus {Banned, NotBanned}
+  BanStatus banStatus = BanStatus.NotBanned; 
+
+}
+
+class Assignment{
+  depend ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
+  lazy String authorizationCode;
+  lazy Integer refundPercentage;
+  public void setAssignmentState(AssignmentStatus status){
+      setAssignmentStatus(status);
+      }
+      
+  
+  
+ }
+  

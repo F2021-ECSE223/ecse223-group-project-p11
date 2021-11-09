@@ -2,12 +2,14 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse.climbsafe.model;
-
 import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
+import java.io.Serializable;
 
 // line 1 "../../../../../ClimbSafeStates.ump"
+// line 9 "../../../../../ClimbSafeExtended.ump"
 // line 87 "../../../../../ClimbSafe.ump"
-public class Assignment
+// line 93 "../../../../../ClimbSafePersistence.ump"
+public class Assignment implements Serializable
 {
 
   //------------------------
@@ -594,18 +596,22 @@ public class Assignment
    */
   // line 152 "../../../../../ClimbSafeStates.ump"
    private void refund(int percentage){
-    // int refund= (int)((100-percentage) *totalCost)/100;
-       this.refundPercentage=percentage;
+    this.refundPercentage=percentage;
   }
 
-  // line 157 "../../../../../ClimbSafeStates.ump"
+  // line 156 "../../../../../ClimbSafeStates.ump"
    private void rejectStart(){
     throw new RuntimeException("The start was unsuccesful");
   }
 
-  // line 161 "../../../../../ClimbSafeStates.ump"
+  // line 160 "../../../../../ClimbSafeStates.ump"
    private void rejectCancel(){
     throw new RuntimeException("The assignment was already cancelled");
+  }
+
+  // line 14 "../../../../../ClimbSafeExtended.ump"
+   public void setAssignmentState(AssignmentStatus status){
+    setAssignmentStatus(status);
   }
 
 
@@ -620,5 +626,13 @@ public class Assignment
             "  " + "guide = "+(getGuide()!=null?Integer.toHexString(System.identityHashCode(getGuide())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "hotel = "+(getHotel()!=null?Integer.toHexString(System.identityHashCode(getHotel())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "climbSafe = "+(getClimbSafe()!=null?Integer.toHexString(System.identityHashCode(getClimbSafe())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 96 "../../../../../ClimbSafePersistence.ump"
+  private static final long serialVersionUID = 8L ;
+
+  
 }
