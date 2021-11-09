@@ -9,6 +9,12 @@ public class Member extends NamedUser
 {
 
   //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum BanStatus { Banned, NotBanned }
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
@@ -16,7 +22,7 @@ public class Member extends NamedUser
   private int nrWeeks;
   private boolean guideRequired;
   private boolean hotelRequired;
-  private boolean banStatus;
+  private BanStatus banStatus;
 
   //Member Associations
   private ClimbSafe climbSafe;
@@ -33,7 +39,7 @@ public class Member extends NamedUser
     nrWeeks = aNrWeeks;
     guideRequired = aGuideRequired;
     hotelRequired = aHotelRequired;
-    banStatus = false;
+    banStatus = BanStatus.NotBanned;
     boolean didAddClimbSafe = setClimbSafe(aClimbSafe);
     if (!didAddClimbSafe)
     {
@@ -70,7 +76,7 @@ public class Member extends NamedUser
     return wasSet;
   }
 
-  public boolean setBanStatus(boolean aBanStatus)
+  public boolean setBanStatus(BanStatus aBanStatus)
   {
     boolean wasSet = false;
     banStatus = aBanStatus;
@@ -93,7 +99,7 @@ public class Member extends NamedUser
     return hotelRequired;
   }
 
-  public boolean getBanStatus()
+  public BanStatus getBanStatus()
   {
     return banStatus;
   }
@@ -106,11 +112,6 @@ public class Member extends NamedUser
   public boolean isHotelRequired()
   {
     return hotelRequired;
-  }
-  /* Code from template attribute_IsBoolean */
-  public boolean isBanStatus()
-  {
-    return banStatus;
   }
   /* Code from template association_GetOne */
   public ClimbSafe getClimbSafe()
@@ -305,8 +306,8 @@ public class Member extends NamedUser
     return super.toString() + "["+
             "nrWeeks" + ":" + getNrWeeks()+ "," +
             "guideRequired" + ":" + getGuideRequired()+ "," +
-            "hotelRequired" + ":" + getHotelRequired()+ "," +
-            "banStatus" + ":" + getBanStatus()+ "]" + System.getProperties().getProperty("line.separator") +
+            "hotelRequired" + ":" + getHotelRequired()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "banStatus" + "=" + (getBanStatus() != null ? !getBanStatus().equals(this)  ? getBanStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "climbSafe = "+(getClimbSafe()!=null?Integer.toHexString(System.identityHashCode(getClimbSafe())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "assignment = "+(getAssignment()!=null?Integer.toHexString(System.identityHashCode(getAssignment())):"null");
   }

@@ -3,8 +3,10 @@
 
 package ca.mcgill.ecse.climbsafe.model;
 
+import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
+
 // line 1 "../../../../../ClimbSafeStates.ump"
-// line 85 "../../../../../ClimbSafe.ump"
+// line 87 "../../../../../ClimbSafe.ump"
 public class Assignment
 {
 
@@ -549,12 +551,12 @@ public class Assignment
 
   // line 113 "../../../../../ClimbSafeStates.ump"
    private void banMember(){
-    this.member.setBanStatus(true);
+    this.member.setBanStatus(BanStatus.Banned);
   }
 
   // line 116 "../../../../../ClimbSafeStates.ump"
    private boolean isBanned(){
-    return this.member.getBanStatus();
+    return(this.member.getBanStatus() == BanStatus.Banned);
   }
 
 

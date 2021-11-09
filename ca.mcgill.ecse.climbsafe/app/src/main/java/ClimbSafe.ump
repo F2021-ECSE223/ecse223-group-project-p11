@@ -44,7 +44,9 @@ class Member {
   Integer nrWeeks;
   Boolean guideRequired;
   Boolean hotelRequired;
-  Boolean banStatus = false;
+  enum BanStatus {Banned, NotBanned}
+  lazy BanStatus banStatus = BanStatus.NotBanned; 
+  
 }
 
 associationClass BookedItem {

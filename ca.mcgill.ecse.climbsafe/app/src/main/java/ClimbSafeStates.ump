@@ -110,10 +110,10 @@ class Assignment {
 	 
 	 
 	 private void banMember() {
-	 	this.member.setBanStatus(true);
+	 	this.member.setBanStatus(BanStatus.Banned);
 	 }
     private boolean isBanned() {
-	 	return this.member.getBanStatus();
+	 	return(this.member.getBanStatus() == BanStatus.Banned);
 	 }
     
     /*

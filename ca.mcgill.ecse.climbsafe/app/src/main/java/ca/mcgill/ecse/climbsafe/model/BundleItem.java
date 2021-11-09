@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse.climbsafe.model;
 
-// line 72 "../../../../../ClimbSafe.ump"
+// line 74 "../../../../../ClimbSafe.ump"
 public class BundleItem
 {
 

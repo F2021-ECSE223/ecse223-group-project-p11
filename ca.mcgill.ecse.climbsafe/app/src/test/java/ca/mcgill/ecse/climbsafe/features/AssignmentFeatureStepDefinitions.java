@@ -24,6 +24,7 @@ import ca.mcgill.ecse.climbsafe.model.EquipmentBundle;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Hotel;
 import ca.mcgill.ecse.climbsafe.model.Member;
+import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
 import ca.mcgill.ecse.climbsafe.model.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -237,13 +238,13 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} is banned") // todo
 	public void the_member_with_is_banned(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		member.setBanStatus(true);
+		member.setBanStatus(BanStatus.Banned);
 	}
 
 	@Then("the member with email {string} shall be {string}") // todo
 	public void the_member_with_email_shall_be(String email, String status) {
 		Member member = (Member) User.getWithEmail(email);
-		assertTrue(member.getBanStatus());
+		assertEquals(member.getBanStatus().toString(), status);
 	}
 
 	@When("the administrator attempts to start the trips for week {string}") // todo
@@ -268,7 +269,7 @@ public class AssignmentFeatureStepDefinitions {
 	@Then("the member with email {string} shall be banned")
 	public void the_member_with_email_shall_be_banned(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		assertTrue(member.getBanStatus());
+		assertEquals(member.getBanStatus(), BanStatus.Banned);
 	}
 
 	private void callController(Executable executable) { // from the btms step definitions in tutorial
