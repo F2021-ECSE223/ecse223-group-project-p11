@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 30 "../../../../../ClimbSafe.ump"
-// line 39 "../../../../../ClimbSafePersistence.ump"
+// line 40 "../../../../../ClimbSafePersistence.ump"
 public class Administrator extends User implements Serializable
 {
 
@@ -78,18 +78,12 @@ public class Administrator extends User implements Serializable
     }
     super.delete();
   }
-
-  // line 44 "../../../../../ClimbSafePersistence.ump"
-   public static  void reinitializeAdminEmail(Administrator admin){
-    Map<String, Administrator> adminByEmail = new HashMap<String, Administrator>();
-      adminByEmail.put(admin.getEmail(), admin);
-  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 42 "../../../../../ClimbSafePersistence.ump"
+  // line 43 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 3L ;
 
   

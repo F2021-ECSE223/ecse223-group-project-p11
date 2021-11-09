@@ -1021,7 +1021,8 @@ public class ClimbSafe implements Serializable
         
         Member.reinitializeMemberEmail(this.getMembers());
         Guide.reinitializeGuideEmail(this.getGuides());
-        Administrator.reinitializeAdminEmail(this.getAdministrator());
+        //Administrator.reinitializeAdminEmail(this.getAdministrator());
+        
         
         //BookableItem.reinitializeBookableItem(this.getBookableItems());
         

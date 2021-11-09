@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 80 "../../../../../ClimbSafe.ump"
-// line 117 "../../../../../ClimbSafePersistence.ump"
+// line 119 "../../../../../ClimbSafePersistence.ump"
 public class Hotel implements Serializable
 {
 
@@ -259,7 +259,7 @@ public class Hotel implements Serializable
     }
   }
 
-  // line 122 "../../../../../ClimbSafePersistence.ump"
+  // line 124 "../../../../../ClimbSafePersistence.ump"
    public static  void reinitializeHotel(List<Hotel> hotels){
     Map<String, Hotel> hotelsByName = new HashMap<String, Hotel>();
      	 for(Hotel h : hotels){
@@ -280,7 +280,7 @@ public class Hotel implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 120 "../../../../../ClimbSafePersistence.ump"
+  // line 122 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 11L ;
 
   

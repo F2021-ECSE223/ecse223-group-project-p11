@@ -7,7 +7,7 @@ import java.util.*;
 
 // line 3 "../../../../../ClimbSafeExtended.ump"
 // line 45 "../../../../../ClimbSafe.ump"
-// line 129 "../../../../../ClimbSafePersistence.ump"
+// line 131 "../../../../../ClimbSafePersistence.ump"
 public class Member extends NamedUser implements Serializable
 {
 
@@ -303,7 +303,7 @@ public class Member extends NamedUser implements Serializable
     super.delete();
   }
 
-  // line 134 "../../../../../ClimbSafePersistence.ump"
+  // line 136 "../../../../../ClimbSafePersistence.ump"
    public static  void reinitializeMemberEmail(List<Member> systemMembers){
     Map<String, Member> membersByEmail = new HashMap<String, Member>();
       for(Member mem : systemMembers){
@@ -326,7 +326,7 @@ public class Member extends NamedUser implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 132 "../../../../../ClimbSafePersistence.ump"
+  // line 134 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 12L ;
 
   

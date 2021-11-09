@@ -8,7 +8,7 @@ import java.io.Serializable;
 // line 1 "../../../../../ClimbSafeStates.ump"
 // line 9 "../../../../../ClimbSafeExtended.ump"
 // line 87 "../../../../../ClimbSafe.ump"
-// line 93 "../../../../../ClimbSafePersistence.ump"
+// line 95 "../../../../../ClimbSafePersistence.ump"
 public class Assignment implements Serializable
 {
 
@@ -631,7 +631,7 @@ public class Assignment implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 96 "../../../../../ClimbSafePersistence.ump"
+  // line 98 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 8L ;
 
   
