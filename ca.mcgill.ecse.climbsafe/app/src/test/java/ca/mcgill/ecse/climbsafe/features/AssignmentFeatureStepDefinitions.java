@@ -7,12 +7,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.function.Executable;
+
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.model.Assignment;
@@ -26,6 +28,8 @@ import ca.mcgill.ecse.climbsafe.model.Hotel;
 import ca.mcgill.ecse.climbsafe.model.Member;
 import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
 import ca.mcgill.ecse.climbsafe.model.User;
+import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -34,6 +38,17 @@ public class AssignmentFeatureStepDefinitions {
 	private ClimbSafe climbSafe;
 	private String error = "";
 	private int errorcount;
+	private static String filename = "test.climbsafe";
+	
+	
+	@Before
+	  public static void setUp() {
+	    ClimbSafePersistence.setFilename(filename);
+	    // remove test file
+	    new File(filename).delete();
+	    // clear all data
+	    ClimbSafeApplication.getClimbSafe().delete();
+	  }
 
 	@Given("the following ClimbSafe system exists:")
 	public void the_following_climb_safe_system_exists(io.cucumber.datatable.DataTable dataTable) {
@@ -122,10 +137,18 @@ public class AssignmentFeatureStepDefinitions {
 
 			
 				
-			assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
-			assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
-			assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
-			assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
+			for(Assignment assignment : climbSafe.getAssignments()) {
+				if(assignmentMember == assignment.getMember()) {
+					assertEquals(assignmentGuide, assignment.getGuide());
+					assertEquals(startWeek, assignment.getStartWeek());
+					assertEquals(endWeek, assignment.getEndWeek());
+					
+				}
+			}
+			//assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
+			//assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
+			//assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
+			//assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
 			
 			
 		}
@@ -214,7 +237,8 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has paid for their trip") 
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		member.getAssignment().payAssignment("23313");
+		//member.getAssignment().payAssignment("23313");
+		member.getAssignment().setAssignmentState(AssignmentStatus.Paid);
 	}
 
 	@Then("the member with email address {string} shall receive a refund of {string} percent") 
@@ -226,8 +250,9 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has started their trip") //
 	public void the_member_with_has_started_their_trip(String email) {
 		Member m = (Member) User.getWithEmail(email);
-		m.getAssignment().payAssignment("23234");
-		m.getAssignment().startAssignment();
+		//m.getAssignment().payAssignment("23234");
+		//m.getAssignment().startAssignment();
+		m.getAssignment().setAssignmentState(AssignmentStatus.Started);
 	}
 
 	@When("the administrator attempts to finish the trip for the member with email {string}") // todo
