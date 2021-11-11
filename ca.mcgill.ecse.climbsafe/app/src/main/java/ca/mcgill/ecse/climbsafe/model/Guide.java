@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 41 "../../../../../ClimbSafe.ump"
-// line 92 "../../../../../ClimbSafePersistence.ump"
+// line 107 "../../../../../ClimbSafePersistence.ump"
 public class Guide extends NamedUser implements Serializable
 {
 
@@ -177,7 +177,7 @@ public class Guide extends NamedUser implements Serializable
     super.delete();
   }
 
-  // line 97 "../../../../../ClimbSafePersistence.ump"
+  // line 112 "../../../../../ClimbSafePersistence.ump"
    public static  void reinitializeGuideEmail(List<Guide> guides){
     Map<String, Guide> guidesByEmail = new HashMap<String, Guide>();
       for(Guide guide : guides){
@@ -189,7 +189,7 @@ public class Guide extends NamedUser implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 95 "../../../../../ClimbSafePersistence.ump"
+  // line 110 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 10L ;
 
   

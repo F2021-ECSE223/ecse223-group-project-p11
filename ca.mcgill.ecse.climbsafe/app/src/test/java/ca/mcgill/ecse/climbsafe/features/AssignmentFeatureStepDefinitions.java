@@ -339,9 +339,6 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has paid for their trip") 
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-
-		member.getAssignment().payAssignment("23313");
-
 		member.getAssignment().setAssignmentState(AssignmentStatus.Paid);
 
 	}
@@ -366,10 +363,6 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has started their trip") //
 	public void the_member_with_has_started_their_trip(String email) {
 		Member m = (Member) User.getWithEmail(email);
-
-		m.getAssignment().payAssignment("23234");
-		m.getAssignment().startAssignment();
-
 		m.getAssignment().setAssignmentState(AssignmentStatus.Started);
 
 	}
@@ -435,17 +428,9 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has finished their trip") // not sure
 	public void the_member_with_has_finished_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-
-		//member.getAssignment().payAssignment("jsh");
-		//member.getAssignment().startAssignment();
-		//member.getAssignment().finishAssignment();
 		Assignment a =member.getAssignment();
 		a.setAssignmentState(AssignmentStatus.Finished);
 		
-		//a.setAssignmentStatus(AssignmentStatus.Finished);
-
-		Assignment a1 = member.getAssignment();
-		a1.setAssignmentState(AssignmentStatus.Finished);
 
 
 

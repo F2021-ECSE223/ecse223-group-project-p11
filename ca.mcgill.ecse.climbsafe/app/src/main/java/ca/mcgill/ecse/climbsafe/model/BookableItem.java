@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 58 "../../../../../ClimbSafe.ump"
-// line 44 "../../../../../ClimbSafePersistence.ump"
+// line 53 "../../../../../ClimbSafePersistence.ump"
 public abstract class BookableItem implements Serializable
 {
 
@@ -189,7 +189,7 @@ public abstract class BookableItem implements Serializable
     }
   }
 
-  // line 50 "../../../../../ClimbSafePersistence.ump"
+  // line 59 "../../../../../ClimbSafePersistence.ump"
    public static  void reinitializeUniqueBookableEquipment(List<EquipmentBundle> eBs, List<Equipment> es){
     Map<String, BookableItem> BookableItemByName= new HashMap<String, BookableItem>();
 
@@ -211,7 +211,7 @@ public abstract class BookableItem implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 46 "../../../../../ClimbSafePersistence.ump"
+  // line 55 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 4L ;
 
   
