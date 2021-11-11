@@ -34,7 +34,12 @@ public class AssignmentFeatureStepDefinitions {
 	private ClimbSafe climbSafe;
 	private String error = "";
 	private int errorcount;
-
+/**
+ * 
+ * @param dataTable
+ * @author Anaëlle Drai-Laguens
+ * setting start date, number of weeks, price of guide per week
+ */
 	@Given("the following ClimbSafe system exists:")
 	public void the_following_climb_safe_system_exists(io.cucumber.datatable.DataTable dataTable) {
 
@@ -46,7 +51,11 @@ public class AssignmentFeatureStepDefinitions {
 			climbSafe.setPriceOfGuidePerWeek(Integer.parseInt(row.get("priceOfGuidePerWeek")));
 		}
 	}
-
+/**
+ * @author Anaëlle Drai-Laguens
+ * @param dataTable
+ * adding equipment to instance of climbsafe
+ */
 	@Given("the following pieces of equipment exist in the system:") // copied from p1
 	public void the_following_pieces_of_equipment_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		var rows = dataTable.asMaps();
@@ -56,7 +65,11 @@ public class AssignmentFeatureStepDefinitions {
 					Integer.parseInt(row.get("pricePerWeek")));
 		}
 	}
-
+/**
+ * @author Anaëlle Drai-Laguens
+ * @param dataTable
+ * creating available bundles
+ */
 	@Given("the following equipment bundles exist in the system:") // copied from p2
 	public void the_following_equipment_bundles_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> rows = dataTable.asMaps();
@@ -76,7 +89,12 @@ public class AssignmentFeatureStepDefinitions {
 			}
 		}
 	}
-
+/**
+ * 
+ * @param dataTable
+ * @author Anaëlle Drai-Laguens
+ * instance of a guide and guide's data in climbsafe
+ */
 	@Given("the following guides exist in the system:") // copied from p3
 	public void the_following_guides_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> guideList = dataTable.asMaps();
@@ -91,7 +109,12 @@ public class AssignmentFeatureStepDefinitions {
 			climbSafe.addGuide(guideEmail, guidePassword, guideName, guideEmergencyContact);
 		}
 	}
-
+/**
+ * 
+ * @param dataTable
+ * @author Can Akin
+ * instance of a member in climbsafe
+ */
 	@Given("the following members exist in the system:") // copied from p3
 	public void the_following_members_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> memberList = dataTable.asMaps();
@@ -103,12 +126,21 @@ public class AssignmentFeatureStepDefinitions {
 					Boolean.parseBoolean(memberList.get(i).get("hotelRequired")));
 		}
 	}
-
+/**
+ * @author Can Akin
+ * The admin initiates the assignment process via controller
+ */
 	@When("the administrator attempts to initiate the assignment process") 
 	public void the_administrator_attempts_to_initiate_the_assignment_process() {
 		callController(() -> AssignmentController.initiateAssignment());
 	}
-
+/**
+ * 
+ * @param dataTable
+ * @author Can Akin
+ * successful initialization of assignment and associated assignment data
+ * 
+ */
 	@Then("the following assignments shall exist in the system:") // copied from p5
 	public void the_following_assignments_shall_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> cucumberData = dataTable.asMaps();
@@ -131,24 +163,45 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 
-
+/**
+ * 
+ * @param email
+ * @param AssignmentStatus
+ * @author Maxime Drouin
+ * a member is given an assignment status
+ */
 	@Then("the assignment for {string} shall be marked as {string}")
 	public void the_assignment_for_shall_be_marked_as(String email, String AssignmentStatus) {
 		Member m = (Member) User.getWithEmail(email);
 		Assignment a = m.getAssignment();
 		assertEquals(AssignmentStatus, a.getAssignmentStatusFullName());
 	}
-
+/**
+ * 
+ * @param numOfAssignments
+ * @author Maxime Drouin
+ * sets number pof assignments currently in the climbsafe system
+ */
 	@Then("the number of assignments in the system shall be {string}")
 	public void the_number_of_assignments_in_the_system_shall_be(String numOfAssignments) {
 		assertEquals(Integer.parseInt(numOfAssignments), climbSafe.getAssignments().size());
 	}
-
+/**
+ * 
+ * @param errorMessage
+ * @author Maxime Drouin
+ * check error message is correct
+ */
 	@Then("the system shall raise the error {string}")
 	public void the_system_shall_raise_the_error(String errorMessage) {
 		assertTrue(error.contains(errorMessage));
 	}
-
+/**
+ * 
+ * @param dataTable
+ * @author Oliver Cafferty
+ * adds name,weight and price of equipment to climbsafe
+ */
 	@Given("the following equipment exists in the system:") // copied from p2
 	public void the_following_equipment_exists_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> rows = dataTable.asMaps();
@@ -159,7 +212,12 @@ public class AssignmentFeatureStepDefinitions {
 			climbSafe.addEquipment(name, weight, pricePerWeek);
 		}
 	}
-
+/**
+ * 
+ * @param dataTable
+ * @author Oliver Cafferty
+ * creating new assignment, setting hotel and guide for assignment
+ */
 	@Given("the following assignments exist in the system:") // copied from p5
 	public void the_following_assignments_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> cucumberData = dataTable.asMaps();
@@ -176,88 +234,167 @@ public class AssignmentFeatureStepDefinitions {
 			newAssignment.setHotel(assignmentHotel);
 		}
 	}
-
+/**
+ * 
+ * @param email
+ * @param authorizationCode
+ * @author Oliver Cafferty
+ * admin confirms payment via controller call
+ */
 	@When("the administrator attempts to confirm payment for {string} using authorization code {string}") // todo
 	public void the_administrator_attempts_to_confirm_payment_for_using_authorization_code(String email,
 			String authorizationCode) {
 		callController(() -> AssignmentController.payTrip(email, authorizationCode));
 
 	}
-
+/**
+ * 
+ * @param email
+ * @param authorizationCode
+ * @author Sam Snodgrass
+ * checks that the inputed authorization code matches that of the assignment
+ */
 	@Then("the assignment for {string} shall record the authorization code {string}")
 	public void the_assignment_for_shall_record_the_authorization_code(String email, String authorizationCode) {
 		Member member = (Member) User.getWithEmail(email);
 		Assignment assignment = member.getAssignment();
 		assertEquals(authorizationCode, assignment.getAuthorizationCode());
 	}
-
+/**
+ * 
+ * @param email
+ * @author Sam Snodgrass
+ * confirms member does not actually exists with this email
+ */
 	@Then("the member account with the email {string} does not exist") 
 	public void the_member_account_with_the_email_does_not_exist(String email) {
 		assertEquals(null, (Member) User.getWithEmail(email));
 	}
-
+/**
+ * 
+ * @param numOfMembers
+ * @author Sam Snodgrass
+ * throws assertion error if ammount oif members are not equal
+ * 
+ */
 	@Then("there are {string} members in the system")
 	public void there_are_members_in_the_system(String numOfMembers) {
 		assertEquals(Integer.parseInt(numOfMembers), climbSafe.getMembers().size());
 	}
-
+/**
+ * 
+ * @param errorMessage
+ * @author Sam Snodgrass
+ * check if proper error is raised
+ */
 	@Then("the error {string} shall be raised")
 	public void the_error_shall_be_raised(String errorMessage) {
 		assertTrue(error.contains(errorMessage));
 	}
-
+/**
+ * 
+ * @param email
+ * @author Lee Brickman
+ * admin attempts to cancel trip via controller call
+ */
 	@When("the administrator attempts to cancel the trip for {string}") 
 	public void the_administrator_attempts_to_cancel_the_trip_for(String email) {
 		callController(() -> AssignmentController.cancelTrip(email));
 	}
-
+/**
+ * 
+ * @param email
+ * @author Lee Brickman
+ * user with input email pays for trip
+ */
 	@Given("the member with {string} has paid for their trip") 
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
 		member.getAssignment().payAssignment("23313");
 	}
-
+/**
+ * 
+ * @param email
+ * @param refundPercentage
+ * @author Lee Brickman
+ * confirms refund percentage matches refund of member
+ */
 	@Then("the member with email address {string} shall receive a refund of {string} percent") 
 	public void the_member_with_email_address_shall_receive_a_refund_of_percent(String email, String refundPercentage) {
 		Member member = (Member) User.getWithEmail(email);
 		assertEquals(Integer.parseInt(refundPercentage), member.getAssignment().getRefundPercentage());
 	}
-
+/**
+ * 
+ * @param email
+ * @author Lee Brickman
+ * member has payed assignment and started their trip
+ */
 	@Given("the member with {string} has started their trip") //
 	public void the_member_with_has_started_their_trip(String email) {
 		Member m = (Member) User.getWithEmail(email);
 		m.getAssignment().payAssignment("23234");
 		m.getAssignment().startAssignment();
 	}
-
+/**
+ * @param email
+ * @author Lee Brickman 
+ * admin tries to finish trip via controller call
+ */
 	@When("the administrator attempts to finish the trip for the member with email {string}") // todo
 	public void the_administrator_attempts_to_finish_the_trip_for_the_member_with_email(String email) {
 		callController(() -> AssignmentController.finishTrip(email));
 	}
-
+/**
+ * 
+ * @param email
+ * @author Maxime Drouin
+ * set the member with string email as banned
+ */
 	@Given("the member with {string} is banned") 
 	public void the_member_with_is_banned(String email) {
 		Member member = (Member) User.getWithEmail(email);
 		member.setBanStatus(BanStatus.Banned);
 	}
-
+/**
+ * 
+ * @param email
+ * @param status
+ * @author Maxime Drouin
+ * confirms member is indeed banned
+ */
 	@Then("the member with email {string} shall be {string}") // todo
 	public void the_member_with_email_shall_be(String email, String status) {
 		Member member = (Member) User.getWithEmail(email);
 		assertEquals(member.getBanStatus().toString(), status);
 	}
-
+/**
+ * 
+ * @param weekNumber
+ * @author Sam Snodgrass
+ * admin starts climbing trips for given week
+ */
 	@When("the administrator attempts to start the trips for week {string}") // todo
 	public void the_administrator_attempts_to_start_the_trips_for_week(String weekNumber) {
 		callController(() -> AssignmentController.startTrips(Integer.parseInt(weekNumber)));
 	}
-
+/**
+ * 
+ * @param email
+ * @author Sam Snodgrass
+ * the member has actually cancelled their trip
+ */
 	@Given("the member with {string} has cancelled their trip") // todo
 	public void the_member_with_has_cancelled_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
 		member.getAssignment().cancelAssignment();
 	}
-
+/**
+ * 
+ * @param email
+ * @author Sam Snodgrass
+ * set the member's assignment status as finished
+ */
 	@Given("the member with {string} has finished their trip") // not sure
 	public void the_member_with_has_finished_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
@@ -269,7 +406,12 @@ public class AssignmentFeatureStepDefinitions {
 		
 		//a.setAssignmentStatus(AssignmentStatus.Finished);
 	}
-
+/**
+ * 
+ * @param email
+ * @author Sam Snodgrass
+ * Ban the member
+ */
 	@Then("the member with email {string} shall be banned")
 	public void the_member_with_email_shall_be_banned(String email) {
 		Member member = (Member) User.getWithEmail(email);

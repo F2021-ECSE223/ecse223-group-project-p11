@@ -12,7 +12,14 @@ import java.util.List;
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 
 public class AssignmentController {
-
+/**
+ * 
+ * @param weekNumber
+ * @throws InvalidInputException
+ * @author Oliver Cafferty
+ * Checks if what assignment starts during the inputed week number, attempts to start assignment or throws
+ * or throws runtime exception
+ */
 	public static void startTrips(int weekNumber) throws InvalidInputException {
 
 		String error = "";
@@ -36,7 +43,13 @@ public class AssignmentController {
 		}
 		ClimbSafePersistence.save(climbSafe);
 	}
-
+/**
+ * 
+ * @param email
+ * @throws InvalidInputException
+ * @author Maxime Drouin 
+ * Check if instance of member is valid,finishes assignment and saves or throws runtime exception
+ */
 	public static void finishTrip(String email) throws InvalidInputException {
 		String error = "";
 		if (!(User.getWithEmail(email) instanceof Member)) {
@@ -58,7 +71,13 @@ public class AssignmentController {
 		}
 		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
-
+/**
+ * 
+ * @param email
+ * @throws InvalidInputException
+ * @author Anaëlle Drai-Laguens
+ * Checks validity of member instance,cancels assignment and saves cancellation or throws runtime exception.
+ */
 	public static void cancelTrip(String email) throws InvalidInputException {
 		String error = "";
 		if (!(User.getWithEmail(email) instanceof Member)) {
@@ -81,7 +100,16 @@ public class AssignmentController {
 		}
 		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
-
+/**
+ * 
+ * @param email
+ * @param authorizationCode
+ * @throws InvalidInputException
+ * @author Lee Brickman
+ * Checks whether member is valid instance,if email exists,attempts to allow member to pay assignment
+ * and saves data, or throws runtime exception
+ * 
+ */
 	public static void payTrip(String email, String authorizationCode) throws InvalidInputException {
 		String error = "";
 		if (!(User.getWithEmail(email) instanceof Member)) {
@@ -104,6 +132,12 @@ public class AssignmentController {
 		}
 		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
+/**
+ * 
+ * @throws InvalidInputException
+ * @author Sam Snodgrass
+ * attempts to initiate assignment dependent on member and guide conditions, otherwise throws invalid input exception 
+ */
 
 	public static void initiateAssignment() throws InvalidInputException {
 
