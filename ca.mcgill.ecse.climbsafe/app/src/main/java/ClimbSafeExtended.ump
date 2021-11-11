@@ -9,15 +9,16 @@ class Assignment{
   depend ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
   lazy String authorizationCode;
   lazy Integer refundPercentage;
-  double totalCost = 0;
+  Integer totalEquipmentCost = 0;
+  Integer totalGuideCost = 0;
   public void setAssignmentState(AssignmentStatus status){
       setAssignmentStatus(status);
       }
 
-  public double assignmentCost(){
-
-        ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
-        double sum=0;
+  public void assignmentEquipmentCost(){
+    ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
+        int sum=0;
+        
         for (BookedItem item : this.member.getBookedItems()) {
 				// if it is a bundle, compute bundle cost
 				if (item.getItem() instanceof EquipmentBundle) {
@@ -29,7 +30,6 @@ class Assignment{
 					}
 					if (this.member.getGuideRequired()) {
 						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
-						sum += cs.getPriceOfGuidePerWeek();
 					}
 					sum += bundleCost * item.getQuantity();
 				} else if (item.getItem() instanceof Equipment) {
@@ -41,8 +41,22 @@ class Assignment{
 
 
         sum *= this.getMember().getNrWeeks();//sum is weekly sum until multiplied by number of weeks
-        this.setTotalCost(sum);
-        return sum;
+        this.setTotalEquipmentCost(sum);
+        
+  }
+  
+  public void assignmentGuideCost(){
+      ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
+      int sum = 0;
+      if (this.getMember().getGuideRequired()){
+          sum += cs.getPriceOfGuidePerWeek() * this.getMember().getNrWeeks();
+          this.setTotalGuideCost(sum);
       }
+  }
+  
+  public void assignmentCost(){
+      assignmentGuideCost();
+      assignmentEquipmentCost();
+
       
-      }
+      }}

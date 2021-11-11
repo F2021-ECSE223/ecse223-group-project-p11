@@ -176,6 +176,7 @@ public class AssignmentFeatureStepDefinitions {
 					
 					
 					
+					
 
 				}
 			}
@@ -199,7 +200,7 @@ public class AssignmentFeatureStepDefinitions {
  * 
  * @param numOfAssignments
  * @author Maxime Drouin
- * sets number pof assignments currently in the climbsafe system
+ * checks number of assignments currently in the climbsafe system
  */
 	@Then("the number of assignments in the system shall be {string}")
 	public void the_number_of_assignments_in_the_system_shall_be(String numOfAssignments) {
@@ -219,7 +220,7 @@ public class AssignmentFeatureStepDefinitions {
  * 
  * @param dataTable
  * @author Oliver Cafferty
- * adds name,weight and price of equipment to climbsafe
+ * adds equipment with name,weight and price to climbsafe
  */
 	@Given("the following equipment exists in the system:") // copied from p2
 	public void the_following_equipment_exists_in_the_system(io.cucumber.datatable.DataTable dataTable) {
@@ -235,7 +236,7 @@ public class AssignmentFeatureStepDefinitions {
  * 
  * @param dataTable
  * @author Oliver Cafferty
- * creating new assignment, setting hotel and guide for assignment
+ * creating new assignment, setting guide for assignment
  */
 	@Given("the following assignments exist in the system:") // copied from p5
 	public void the_following_assignments_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
@@ -244,13 +245,11 @@ public class AssignmentFeatureStepDefinitions {
 		for (Map<String, String> assignmentData : cucumberData) {
 			var assignmentMember = (Member) User.getWithEmail(assignmentData.get("memberEmail"));
 			var assignmentGuide = (Guide) User.getWithEmail(assignmentData.get("guideEmail"));
-			var assignmentHotel = Hotel.getWithName(assignmentData.get("hotelName"));
 			int startWeek = Integer.valueOf(assignmentData.get("startWeek"));
 			int endWeek = Integer.valueOf(assignmentData.get("endWeek"));
 
 			Assignment newAssignment = climbSafe.addAssignment(startWeek, endWeek, assignmentMember);
 			newAssignment.setGuide(assignmentGuide);
-			newAssignment.setHotel(assignmentHotel);
 			newAssignment.assignmentCost();
 		}
 	}
