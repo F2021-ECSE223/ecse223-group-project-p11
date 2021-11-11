@@ -39,7 +39,7 @@ public class AssignmentFeatureStepDefinitions {
  * 
  * @param dataTable
  * @author Anaëlle Drai-Laguens
- * setting start date, number of weeks, price of guide per week
+ * setting start date, number of weeks, price of guide per week.
  */
 	@Given("the following ClimbSafe system exists:")
 	public void the_following_climb_safe_system_exists(io.cucumber.datatable.DataTable dataTable) {
