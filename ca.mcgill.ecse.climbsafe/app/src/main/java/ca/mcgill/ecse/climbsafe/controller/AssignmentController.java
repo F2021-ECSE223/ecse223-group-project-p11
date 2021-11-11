@@ -18,7 +18,7 @@ public class AssignmentController {
  * @throws InvalidInputException
  * @author Oliver Cafferty
  * Checks if what assignment starts during the inputed week number, attempts to start assignment or throws
- * or throws runtime exception
+ * or throws runtime exception.
  */
 	public static void startTrips(int weekNumber) throws InvalidInputException {
 
