@@ -167,15 +167,6 @@ public class AssignmentFeatureStepDefinitions {
 			int endWeek = Integer.valueOf(assignmentData.get("endWeek"));
 
 
-			
-				
-			assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
-			assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
-			assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
-			assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
-			
-			
-
 			for (Assignment assignment : climbSafe.getAssignments()) {
 				if (assignmentMember == assignment.getMember()) {
 					assertEquals(assignmentGuide, assignment.getGuide());
