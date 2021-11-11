@@ -11,9 +11,11 @@ class Assignment{
   depend ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
   lazy String authorizationCode;
   lazy Integer refundPercentage;
+  double totalCost = 0;
   public void setAssignmentState(AssignmentStatus status){
       setAssignmentStatus(status);
       }
+      
   public double assignmentCost(){
        
         ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
@@ -42,6 +44,7 @@ class Assignment{
         
         
         sum *= this.getMember().getNrWeeks();//sum is weekly sum until multiplied by number of weeks
+        this.setTotalCost(sum);
         return sum;
       }
   

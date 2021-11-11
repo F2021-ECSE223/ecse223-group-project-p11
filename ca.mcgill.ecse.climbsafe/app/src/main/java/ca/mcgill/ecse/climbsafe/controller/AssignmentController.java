@@ -140,7 +140,8 @@ public class AssignmentController {
 
 				if (!member.hasAssignment() && member.getNrWeeks() <= climbSafe.getNrWeeks()) {
 					if (!member.isGuideRequired()) {
-						climbSafe.addAssignment(1, member.getNrWeeks(), member);
+						Assignment newAssignment = climbSafe.addAssignment(1, member.getNrWeeks(), member);
+						newAssignment.assignmentCost();
 
 					} else {
 
@@ -148,6 +149,7 @@ public class AssignmentController {
 
 							Assignment newAssignment = climbSafe.addAssignment(1, member.getNrWeeks(), member);
 							newAssignment.setGuide(guide);
+							newAssignment.assignmentCost();
 							currentWeek = newAssignment.getEndWeek();
 						}
 
@@ -155,6 +157,7 @@ public class AssignmentController {
 							Assignment newAssignment = climbSafe.addAssignment(currentWeek + 1,
 									currentWeek + member.getNrWeeks(), member);
 							newAssignment.setGuide(guide);
+							newAssignment.assignmentCost();
 							currentWeek = newAssignment.getEndWeek();
 						}
 					}

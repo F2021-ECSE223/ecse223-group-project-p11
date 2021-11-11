@@ -160,6 +160,7 @@ public class AssignmentFeatureStepDefinitions {
 					
 					
 					
+					
 
 				}
 			}
@@ -208,6 +209,7 @@ public class AssignmentFeatureStepDefinitions {
 			Assignment newAssignment = climbSafe.addAssignment(startWeek, endWeek, assignmentMember);
 			newAssignment.setGuide(assignmentGuide);
 			newAssignment.setHotel(assignmentHotel);
+			newAssignment.assignmentCost();
 		}
 	}
 

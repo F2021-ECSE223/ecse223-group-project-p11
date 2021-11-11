@@ -20,6 +20,7 @@ public class Assignment implements Serializable
   //Assignment Attributes
   private String authorizationCode;
   private int refundPercentage;
+  private double totalCost;
   private int startWeek;
   private int endWeek;
 
@@ -41,6 +42,7 @@ public class Assignment implements Serializable
   {
     authorizationCode = null;
     refundPercentage = 0;
+    totalCost = 0;
     startWeek = aStartWeek;
     endWeek = aEndWeek;
     boolean didAddMember = setMember(aMember);
@@ -76,6 +78,14 @@ public class Assignment implements Serializable
     return wasSet;
   }
 
+  public boolean setTotalCost(double aTotalCost)
+  {
+    boolean wasSet = false;
+    totalCost = aTotalCost;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setStartWeek(int aStartWeek)
   {
     boolean wasSet = false;
@@ -100,6 +110,11 @@ public class Assignment implements Serializable
   public int getRefundPercentage()
   {
     return refundPercentage;
+  }
+
+  public double getTotalCost()
+  {
+    return totalCost;
   }
 
   public int getStartWeek()
@@ -600,12 +615,12 @@ public class Assignment implements Serializable
     this.refundPercentage=percentage;
   }
 
-  // line 15 "../../../../../ClimbSafeExtended.ump"
+  // line 16 "../../../../../ClimbSafeExtended.ump"
    public void setAssignmentState(AssignmentStatus status){
     setAssignmentStatus(status);
   }
 
-  // line 19 "../../../../../ClimbSafeExtended.ump"
+  // line 21 "../../../../../ClimbSafeExtended.ump"
    public double assignmentCost(){
     ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
         double sum=0;
@@ -633,6 +648,7 @@ public class Assignment implements Serializable
         
         
         sum *= this.getMember().getNrWeeks();//sum is weekly sum until multiplied by number of weeks
+        this.setTotalCost(sum);
         return sum;
   }
 
@@ -642,6 +658,7 @@ public class Assignment implements Serializable
     return super.toString() + "["+
             "authorizationCode" + ":" + getAuthorizationCode()+ "," +
             "refundPercentage" + ":" + getRefundPercentage()+ "," +
+            "totalCost" + ":" + getTotalCost()+ "," +
             "startWeek" + ":" + getStartWeek()+ "," +
             "endWeek" + ":" + getEndWeek()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "member = "+(getMember()!=null?Integer.toHexString(System.identityHashCode(getMember())):"null") + System.getProperties().getProperty("line.separator") +
