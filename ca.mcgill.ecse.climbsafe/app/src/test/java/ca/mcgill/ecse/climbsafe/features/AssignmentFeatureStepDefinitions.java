@@ -27,6 +27,7 @@ import ca.mcgill.ecse.climbsafe.model.Hotel;
 import ca.mcgill.ecse.climbsafe.model.Member;
 import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
 import ca.mcgill.ecse.climbsafe.model.User;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -35,10 +36,16 @@ public class AssignmentFeatureStepDefinitions {
 	private ClimbSafe climbSafe;
 	private String error = "";
 	private int errorcount;
+	
+	@Before
+	public static void setUp() {
+		ClimbSafeApplication.getClimbSafe().delete();
+	}
+
 /**
  * 
  * @param dataTable
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * setting start date, number of weeks, price of guide per week.
  */
 	@Given("the following ClimbSafe system exists:")
@@ -53,7 +60,7 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 /**
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * @param dataTable
  * adding equipment to instance of climbsafe
  */
@@ -67,7 +74,7 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 /**
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * @param dataTable
  * creating available bundles
  */
@@ -93,7 +100,7 @@ public class AssignmentFeatureStepDefinitions {
 /**
  * 
  * @param dataTable
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * instance of a guide and guide's data in climbsafe
  */
 	@Given("the following guides exist in the system:") // copied from p3
@@ -160,20 +167,13 @@ public class AssignmentFeatureStepDefinitions {
 			int endWeek = Integer.valueOf(assignmentData.get("endWeek"));
 
 
-			
-				
-			assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
-			assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
-			assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
-			assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
-			
-			
-
 			for (Assignment assignment : climbSafe.getAssignments()) {
 				if (assignmentMember == assignment.getMember()) {
 					assertEquals(assignmentGuide, assignment.getGuide());
 					assertEquals(startWeek, assignment.getStartWeek());
 					assertEquals(endWeek, assignment.getEndWeek());
+					
+					
 					
 					
 					
@@ -200,7 +200,7 @@ public class AssignmentFeatureStepDefinitions {
  * 
  * @param numOfAssignments
  * @author Maxime Drouin
- * sets number pof assignments currently in the climbsafe system
+ * checks number of assignments currently in the climbsafe system
  */
 	@Then("the number of assignments in the system shall be {string}")
 	public void the_number_of_assignments_in_the_system_shall_be(String numOfAssignments) {
@@ -220,7 +220,7 @@ public class AssignmentFeatureStepDefinitions {
  * 
  * @param dataTable
  * @author Oliver Cafferty
- * adds name,weight and price of equipment to climbsafe
+ * adds equipment with name,weight and price to climbsafe
  */
 	@Given("the following equipment exists in the system:") // copied from p2
 	public void the_following_equipment_exists_in_the_system(io.cucumber.datatable.DataTable dataTable) {
@@ -236,7 +236,7 @@ public class AssignmentFeatureStepDefinitions {
  * 
  * @param dataTable
  * @author Oliver Cafferty
- * creating new assignment, setting hotel and guide for assignment
+ * creating new assignment, setting guide for assignment
  */
 	@Given("the following assignments exist in the system:") // copied from p5
 	public void the_following_assignments_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
@@ -245,13 +245,12 @@ public class AssignmentFeatureStepDefinitions {
 		for (Map<String, String> assignmentData : cucumberData) {
 			var assignmentMember = (Member) User.getWithEmail(assignmentData.get("memberEmail"));
 			var assignmentGuide = (Guide) User.getWithEmail(assignmentData.get("guideEmail"));
-			var assignmentHotel = Hotel.getWithName(assignmentData.get("hotelName"));
 			int startWeek = Integer.valueOf(assignmentData.get("startWeek"));
 			int endWeek = Integer.valueOf(assignmentData.get("endWeek"));
 
 			Assignment newAssignment = climbSafe.addAssignment(startWeek, endWeek, assignmentMember);
 			newAssignment.setGuide(assignmentGuide);
-			newAssignment.setHotel(assignmentHotel);
+			newAssignment.assignmentCost();
 		}
 	}
 /**
@@ -330,9 +329,6 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has paid for their trip") 
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-
-		member.getAssignment().payAssignment("23313");
-
 		member.getAssignment().setAssignmentState(AssignmentStatus.Paid);
 
 	}
@@ -357,10 +353,6 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has started their trip") //
 	public void the_member_with_has_started_their_trip(String email) {
 		Member m = (Member) User.getWithEmail(email);
-
-		m.getAssignment().payAssignment("23234");
-		m.getAssignment().startAssignment();
-
 		m.getAssignment().setAssignmentState(AssignmentStatus.Started);
 
 	}
@@ -426,17 +418,9 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has finished their trip") // not sure
 	public void the_member_with_has_finished_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-
-		//member.getAssignment().payAssignment("jsh");
-		//member.getAssignment().startAssignment();
-		//member.getAssignment().finishAssignment();
 		Assignment a =member.getAssignment();
 		a.setAssignmentState(AssignmentStatus.Finished);
 		
-		//a.setAssignmentStatus(AssignmentStatus.Finished);
-
-		Assignment a1 = member.getAssignment();
-		a1.setAssignmentState(AssignmentStatus.Finished);
 
 
 

@@ -7,9 +7,9 @@ import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import java.io.Serializable;
 
 // line 1 "../../../../../ClimbSafeStates.ump"
-// line 9 "../../../../../ClimbSafeExtended.ump"
+// line 7 "../../../../../ClimbSafeExtended.ump"
 // line 87 "../../../../../ClimbSafe.ump"
-// line 80 "../../../../../ClimbSafePersistence.ump"
+// line 95 "../../../../../ClimbSafePersistence.ump"
 public class Assignment implements Serializable
 {
 
@@ -20,6 +20,8 @@ public class Assignment implements Serializable
   //Assignment Attributes
   private String authorizationCode;
   private int refundPercentage;
+  private int totalEquipmentCost;
+  private int totalGuideCost;
   private int startWeek;
   private int endWeek;
 
@@ -41,6 +43,8 @@ public class Assignment implements Serializable
   {
     authorizationCode = null;
     refundPercentage = 0;
+    totalEquipmentCost = 0;
+    totalGuideCost = 0;
     startWeek = aStartWeek;
     endWeek = aEndWeek;
     boolean didAddMember = setMember(aMember);
@@ -76,6 +80,22 @@ public class Assignment implements Serializable
     return wasSet;
   }
 
+  public boolean setTotalEquipmentCost(int aTotalEquipmentCost)
+  {
+    boolean wasSet = false;
+    totalEquipmentCost = aTotalEquipmentCost;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setTotalGuideCost(int aTotalGuideCost)
+  {
+    boolean wasSet = false;
+    totalGuideCost = aTotalGuideCost;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setStartWeek(int aStartWeek)
   {
     boolean wasSet = false;
@@ -100,6 +120,16 @@ public class Assignment implements Serializable
   public int getRefundPercentage()
   {
     return refundPercentage;
+  }
+
+  public int getTotalEquipmentCost()
+  {
+    return totalEquipmentCost;
+  }
+
+  public int getTotalGuideCost()
+  {
+    return totalGuideCost;
   }
 
   public int getStartWeek()
@@ -600,15 +630,26 @@ public class Assignment implements Serializable
     this.refundPercentage=percentage;
   }
 
+  // line 156 "../../../../../ClimbSafeStates.ump"
+   private void rejectStart(){
+    throw new RuntimeException("The start was unsuccesful");
+  }
+
+  // line 160 "../../../../../ClimbSafeStates.ump"
+   private void rejectCancel(){
+    throw new RuntimeException("The assignment was already cancelled");
+  }
+
   // line 15 "../../../../../ClimbSafeExtended.ump"
    public void setAssignmentState(AssignmentStatus status){
     setAssignmentStatus(status);
   }
 
   // line 19 "../../../../../ClimbSafeExtended.ump"
-   public double assignmentCost(){
+   public void assignmentEquipmentCost(){
     ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
-        double sum=0;
+        int sum=0;
+        
         for (BookedItem item : this.member.getBookedItems()) {
 				// if it is a bundle, compute bundle cost
 				if (item.getItem() instanceof EquipmentBundle) {
@@ -620,20 +661,34 @@ public class Assignment implements Serializable
 					}
 					if (this.member.getGuideRequired()) {
 						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
-						sum += cs.getPriceOfGuidePerWeek();
 					}
 					sum += bundleCost * item.getQuantity();
-
 				} else if (item.getItem() instanceof Equipment) {
 					Equipment e = (Equipment) item.getItem();
 					sum += e.getPricePerWeek() * item.getQuantity();
 				}
                  
         }
-        
-        
+
+
         sum *= this.getMember().getNrWeeks();//sum is weekly sum until multiplied by number of weeks
-        return sum;
+        this.setTotalEquipmentCost(sum);
+  }
+
+  // line 49 "../../../../../ClimbSafeExtended.ump"
+   public void assignmentGuideCost(){
+    ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
+      int sum = 0;
+      if (this.getMember().getGuideRequired()){
+          sum += cs.getPriceOfGuidePerWeek() * this.getMember().getNrWeeks();
+          this.setTotalGuideCost(sum);
+      }
+  }
+
+  // line 58 "../../../../../ClimbSafeExtended.ump"
+   public void assignmentCost(){
+    assignmentGuideCost();
+      assignmentEquipmentCost();
   }
 
 
@@ -642,6 +697,8 @@ public class Assignment implements Serializable
     return super.toString() + "["+
             "authorizationCode" + ":" + getAuthorizationCode()+ "," +
             "refundPercentage" + ":" + getRefundPercentage()+ "," +
+            "totalEquipmentCost" + ":" + getTotalEquipmentCost()+ "," +
+            "totalGuideCost" + ":" + getTotalGuideCost()+ "," +
             "startWeek" + ":" + getStartWeek()+ "," +
             "endWeek" + ":" + getEndWeek()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "member = "+(getMember()!=null?Integer.toHexString(System.identityHashCode(getMember())):"null") + System.getProperties().getProperty("line.separator") +
@@ -653,7 +710,7 @@ public class Assignment implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 83 "../../../../../ClimbSafePersistence.ump"
+  // line 98 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 8L ;
 
   
