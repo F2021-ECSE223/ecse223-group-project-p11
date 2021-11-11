@@ -152,13 +152,4 @@ class Assignment {
        this.refundPercentage=percentage;
 	 }
   	 
-  	 private void rejectStart(){
-	 	throw new RuntimeException("The start was unsuccesful");
-  	 }
-  	 
-  	 private void rejectCancel(){
-	 	throw new RuntimeException("The assignment was already cancelled");
-  	 }
-  	 
-  	 
 }
