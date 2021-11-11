@@ -6,6 +6,16 @@ import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 
 public class ClimbSafePersistence {
+  /**
+   * @author Lee Brickman 
+   * @author Sam Snodgrass
+   * @author Maxime Drouin 
+   * @author Anaëlle Drai-Laguens
+   * @author Oliver Cafferty
+   * @author Can Akin
+   * The following saves an instance of climbsafe, loads an instance or creates a new instance if there is none
+   * to load, reinitialize during load to properly construct data structures
+   */
 
   private static String filename = "data.climbsafe";
 
