@@ -38,14 +38,14 @@ public class AssignmentFeatureStepDefinitions {
 	private ClimbSafe climbSafe;
 	private String error = "";
 	private int errorcount;
-	private static String filename = "test.climbsafe";
+	//private static String filename = "test.climbsafe";
 	
 	
 	@Before
 	  public static void setUp() {
-	    ClimbSafePersistence.setFilename(filename);
+	    //ClimbSafePersistence.setFilename(filename);
 	    // remove test file
-	    new File(filename).delete();
+	    //new File(filename).delete();
 	    // clear all data
 	    ClimbSafeApplication.getClimbSafe().delete();
 	  }
