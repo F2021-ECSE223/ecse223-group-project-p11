@@ -48,7 +48,7 @@ public class AssignmentController {
  * @param email
  * @throws InvalidInputException
  * @author Maxime Drouin 
- * Check if instance of member is valid,finishes assignment and saves or throws runtime exception
+ * Check if instance of member is valid,finishes assignment and saves or throws runtime exception.
  */
 	public static void finishTrip(String email) throws InvalidInputException {
 		String error = "";
