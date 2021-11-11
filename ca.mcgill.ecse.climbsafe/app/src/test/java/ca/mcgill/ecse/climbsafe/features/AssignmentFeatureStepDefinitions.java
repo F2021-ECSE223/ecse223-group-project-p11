@@ -27,6 +27,7 @@ import ca.mcgill.ecse.climbsafe.model.Hotel;
 import ca.mcgill.ecse.climbsafe.model.Member;
 import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
 import ca.mcgill.ecse.climbsafe.model.User;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -35,10 +36,16 @@ public class AssignmentFeatureStepDefinitions {
 	private ClimbSafe climbSafe;
 	private String error = "";
 	private int errorcount;
+	
+	@Before
+	public static void setUp() {
+		ClimbSafeApplication.getClimbSafe().delete();
+	}
+
 /**
  * 
  * @param dataTable
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * setting start date, number of weeks, price of guide per week.
  */
 	@Given("the following ClimbSafe system exists:")
@@ -53,7 +60,7 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 /**
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * @param dataTable
  * adding equipment to instance of climbsafe
  */
@@ -67,7 +74,7 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 /**
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * @param dataTable
  * creating available bundles
  */
@@ -93,7 +100,7 @@ public class AssignmentFeatureStepDefinitions {
 /**
  * 
  * @param dataTable
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * instance of a guide and guide's data in climbsafe
  */
 	@Given("the following guides exist in the system:") // copied from p3
