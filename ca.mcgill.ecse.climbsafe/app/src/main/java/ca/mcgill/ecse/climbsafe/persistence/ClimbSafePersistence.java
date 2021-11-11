@@ -25,7 +25,7 @@ public class ClimbSafePersistence {
 
   public static ClimbSafe load() {
     PersistenceObjectStream.setFilename(filename);
-    ClimbSafe climbsafe = (ClimbSafe) PersistenceObjectStream.deserialize();
+    var climbsafe = (ClimbSafe) PersistenceObjectStream.deserialize();
     // model cannot be loaded - create empty ClimbSafe
     if (climbsafe == null) {
       climbsafe = new ClimbSafe(new Date(0), 0, 0); 
