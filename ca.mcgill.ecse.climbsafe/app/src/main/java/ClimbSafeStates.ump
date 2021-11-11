@@ -6,7 +6,7 @@ class Assignment {
          payAssignment(String authorizationCode) [isCorrectCode(authorizationCode) && !isBanned()] /{doPayAssignment(authorizationCode);}->Paid;
          
          cancelAssignment() [isBanned()] /{rejectCancelBanned();} -> Assigned;
-         cancelAssignment() [!isBanned()] / {refund(100);} -> Cancelled;
+         cancelAssignment() [!isBanned()] -> Cancelled;
  
          startAssignment() [isBanned()] /{rejectStartBanned();} -> Assigned;
          startAssignment() [!isBanned()] /{banMember();} -> Assigned; //if the climb starts but the member did not pay
