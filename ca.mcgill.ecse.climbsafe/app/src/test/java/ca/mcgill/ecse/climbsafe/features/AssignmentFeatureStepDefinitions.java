@@ -15,7 +15,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.function.Executable;
 
-
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.model.Assignment;
 import ca.mcgill.ecse.climbsafe.model.Assignment.AssignmentStatus;
@@ -38,18 +37,21 @@ public class AssignmentFeatureStepDefinitions {
 	private ClimbSafe climbSafe;
 	private String error = "";
 	private int errorcount;
-	//private static String filename = "test.climbsafe";
-	
-	
-	@Before
-	  public static void setUp() {
-	    //ClimbSafePersistence.setFilename(filename);
-	    // remove test file
-	    //new File(filename).delete();
-	    // clear all data
-	    ClimbSafeApplication.getClimbSafe().delete();
-	  }
+	// private static String filename = "test.climbsafe";
 
+	@Before
+	public static void setUp() {
+		// ClimbSafePersistence.setFilename(filename);
+		// remove test file
+		// new File(filename).delete();
+		// clear all data
+		ClimbSafeApplication.getClimbSafe().delete();
+	}
+
+	/**
+	 * 
+	 * @param dataTable
+	 */
 	@Given("the following ClimbSafe system exists:")
 	public void the_following_climb_safe_system_exists(io.cucumber.datatable.DataTable dataTable) {
 
@@ -62,6 +64,10 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 
+	/**
+	 * 
+	 * @param dataTable
+	 */
 	@Given("the following pieces of equipment exist in the system:") // copied from p1
 	public void the_following_pieces_of_equipment_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		var rows = dataTable.asMaps();
@@ -72,6 +78,10 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 
+	/**
+	 * 
+	 * @param dataTable
+	 */
 	@Given("the following equipment bundles exist in the system:") // copied from p2
 	public void the_following_equipment_bundles_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> rows = dataTable.asMaps();
@@ -119,7 +129,7 @@ public class AssignmentFeatureStepDefinitions {
 		}
 	}
 
-	@When("the administrator attempts to initiate the assignment process") 
+	@When("the administrator attempts to initiate the assignment process")
 	public void the_administrator_attempts_to_initiate_the_assignment_process() {
 		callController(() -> AssignmentController.initiateAssignment());
 	}
@@ -135,25 +145,21 @@ public class AssignmentFeatureStepDefinitions {
 			int startWeek = Integer.valueOf(assignmentData.get("startWeek"));
 			int endWeek = Integer.valueOf(assignmentData.get("endWeek"));
 
-			
-				
-			for(Assignment assignment : climbSafe.getAssignments()) {
-				if(assignmentMember == assignment.getMember()) {
+			for (Assignment assignment : climbSafe.getAssignments()) {
+				if (assignmentMember == assignment.getMember()) {
 					assertEquals(assignmentGuide, assignment.getGuide());
 					assertEquals(startWeek, assignment.getStartWeek());
 					assertEquals(endWeek, assignment.getEndWeek());
-					
+
 				}
 			}
-			//assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
-			//assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
-			//assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
-			//assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
-			
-			
+			// assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
+			// assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
+			// assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
+			// assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
+
 		}
 	}
-
 
 	@Then("the assignment for {string} shall be marked as {string}")
 	public void the_assignment_for_shall_be_marked_as(String email, String AssignmentStatus) {
@@ -214,7 +220,7 @@ public class AssignmentFeatureStepDefinitions {
 		assertEquals(authorizationCode, assignment.getAuthorizationCode());
 	}
 
-	@Then("the member account with the email {string} does not exist") 
+	@Then("the member account with the email {string} does not exist")
 	public void the_member_account_with_the_email_does_not_exist(String email) {
 		assertEquals(null, (Member) User.getWithEmail(email));
 	}
@@ -229,19 +235,19 @@ public class AssignmentFeatureStepDefinitions {
 		assertTrue(error.contains(errorMessage));
 	}
 
-	@When("the administrator attempts to cancel the trip for {string}") 
+	@When("the administrator attempts to cancel the trip for {string}")
 	public void the_administrator_attempts_to_cancel_the_trip_for(String email) {
 		callController(() -> AssignmentController.cancelTrip(email));
 	}
 
-	@Given("the member with {string} has paid for their trip") 
+	@Given("the member with {string} has paid for their trip")
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		//member.getAssignment().payAssignment("23313");
+		// member.getAssignment().payAssignment("23313");
 		member.getAssignment().setAssignmentState(AssignmentStatus.Paid);
 	}
 
-	@Then("the member with email address {string} shall receive a refund of {string} percent") 
+	@Then("the member with email address {string} shall receive a refund of {string} percent")
 	public void the_member_with_email_address_shall_receive_a_refund_of_percent(String email, String refundPercentage) {
 		Member member = (Member) User.getWithEmail(email);
 		assertEquals(Integer.parseInt(refundPercentage), member.getAssignment().getRefundPercentage());
@@ -250,8 +256,8 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has started their trip") //
 	public void the_member_with_has_started_their_trip(String email) {
 		Member m = (Member) User.getWithEmail(email);
-		//m.getAssignment().payAssignment("23234");
-		//m.getAssignment().startAssignment();
+		// m.getAssignment().payAssignment("23234");
+		// m.getAssignment().startAssignment();
 		m.getAssignment().setAssignmentState(AssignmentStatus.Started);
 	}
 
@@ -260,7 +266,7 @@ public class AssignmentFeatureStepDefinitions {
 		callController(() -> AssignmentController.finishTrip(email));
 	}
 
-	@Given("the member with {string} is banned") 
+	@Given("the member with {string} is banned")
 	public void the_member_with_is_banned(String email) {
 		Member member = (Member) User.getWithEmail(email);
 		member.setBanStatus(BanStatus.Banned);
@@ -286,13 +292,13 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has finished their trip") // not sure
 	public void the_member_with_has_finished_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		//member.getAssignment().payAssignment("jsh");
-		//member.getAssignment().startAssignment();
-		//member.getAssignment().finishAssignment();
-		Assignment a =member.getAssignment();
+		// member.getAssignment().payAssignment("jsh");
+		// member.getAssignment().startAssignment();
+		// member.getAssignment().finishAssignment();
+		Assignment a = member.getAssignment();
 		a.setAssignmentState(AssignmentStatus.Finished);
-		
-		//a.setAssignmentStatus(AssignmentStatus.Finished);
+
+		// a.setAssignmentStatus(AssignmentStatus.Finished);
 	}
 
 	@Then("the member with email {string} shall be banned")

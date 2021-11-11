@@ -13,8 +13,5 @@ class Assignment{
   public void setAssignmentState(AssignmentStatus status){
       setAssignmentStatus(status);
       }
-      
-  
-  
  }
   

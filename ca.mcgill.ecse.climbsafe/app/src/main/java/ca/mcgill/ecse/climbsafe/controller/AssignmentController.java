@@ -13,6 +13,11 @@ import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 
 public class AssignmentController {
 
+	/**
+	 * @author Can Akin
+	 * @param weekNumber
+	 * @throws InvalidInputException
+	 */
 	public static void startTrips(int weekNumber) throws InvalidInputException {
 
 		String error = "";
@@ -37,6 +42,11 @@ public class AssignmentController {
 		ClimbSafePersistence.save(climbSafe);
 	}
 
+	/**
+	 * @author Lee Brickman
+	 * @param email
+	 * @throws InvalidInputException
+	 */
 	public static void finishTrip(String email) throws InvalidInputException {
 		String error = "";
 		if (!(User.getWithEmail(email) instanceof Member)) {
@@ -59,6 +69,11 @@ public class AssignmentController {
 		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
+	/**
+	 * @author Anaëlle Drai Laguéns
+	 * @param email
+	 * @throws InvalidInputException
+	 */
 	public static void cancelTrip(String email) throws InvalidInputException {
 		String error = "";
 		if (!(User.getWithEmail(email) instanceof Member)) {
@@ -82,6 +97,12 @@ public class AssignmentController {
 		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
+	/**
+	 * @author Oliver Cafferty
+	 * @param email
+	 * @param authorizationCode
+	 * @throws InvalidInputException
+	 */
 	public static void payTrip(String email, String authorizationCode) throws InvalidInputException {
 		String error = "";
 		if (!(User.getWithEmail(email) instanceof Member)) {
@@ -105,6 +126,10 @@ public class AssignmentController {
 		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 
+	/**
+	 * @author Samuel Snodgrass
+	 * @throws InvalidInputException
+	 */
 	public static void initiateAssignment() throws InvalidInputException {
 
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
@@ -137,7 +162,7 @@ public class AssignmentController {
 			}
 		}
 		if (climbSafe.getAssignments().size() < climbSafe.getMembers().size()) {
-			 throw new InvalidInputException("Assignments could not be completed for all members");
+			throw new InvalidInputException("Assignments could not be completed for all members");
 		}
 		ClimbSafePersistence.save(climbSafe);
 	}
