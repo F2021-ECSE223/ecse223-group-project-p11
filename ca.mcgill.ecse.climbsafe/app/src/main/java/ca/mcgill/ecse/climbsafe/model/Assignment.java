@@ -3,12 +3,13 @@
 
 package ca.mcgill.ecse.climbsafe.model;
 import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
+import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import java.io.Serializable;
 
 // line 1 "../../../../../ClimbSafeStates.ump"
 // line 9 "../../../../../ClimbSafeExtended.ump"
 // line 87 "../../../../../ClimbSafe.ump"
-// line 95 "../../../../../ClimbSafePersistence.ump"
+// line 80 "../../../../../ClimbSafePersistence.ump"
 public class Assignment implements Serializable
 {
 
@@ -599,19 +600,40 @@ public class Assignment implements Serializable
     this.refundPercentage=percentage;
   }
 
-  // line 156 "../../../../../ClimbSafeStates.ump"
-   private void rejectStart(){
-    throw new RuntimeException("The start was unsuccesful");
-  }
-
-  // line 160 "../../../../../ClimbSafeStates.ump"
-   private void rejectCancel(){
-    throw new RuntimeException("The assignment was already cancelled");
-  }
-
-  // line 14 "../../../../../ClimbSafeExtended.ump"
+  // line 15 "../../../../../ClimbSafeExtended.ump"
    public void setAssignmentState(AssignmentStatus status){
     setAssignmentStatus(status);
+  }
+
+  // line 19 "../../../../../ClimbSafeExtended.ump"
+   public double assignmentCost(){
+    ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
+        double sum=0;
+        for (BookedItem item : this.member.getBookedItems()) {
+				// if it is a bundle, compute bundle cost
+				if (item.getItem() instanceof EquipmentBundle) {
+					double bundleCost = 0;
+					EquipmentBundle equipmentBundle = (EquipmentBundle) item.getItem();
+					for (BundleItem bI : equipmentBundle.getBundleItems()) {
+						Equipment e = bI.getEquipment();
+						bundleCost += e.getPricePerWeek() * bI.getQuantity();
+					}
+					if (this.member.getGuideRequired()) {
+						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
+						sum += cs.getPriceOfGuidePerWeek();
+					}
+					sum += bundleCost * item.getQuantity();
+
+				} else if (item.getItem() instanceof Equipment) {
+					Equipment e = (Equipment) item.getItem();
+					sum += e.getPricePerWeek() * item.getQuantity();
+				}
+                 
+        }
+        
+        
+        sum *= this.getMember().getNrWeeks();//sum is weekly sum until multiplied by number of weeks
+        return sum;
   }
 
 
@@ -631,7 +653,7 @@ public class Assignment implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 98 "../../../../../ClimbSafePersistence.ump"
+  // line 83 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 8L ;
 
   

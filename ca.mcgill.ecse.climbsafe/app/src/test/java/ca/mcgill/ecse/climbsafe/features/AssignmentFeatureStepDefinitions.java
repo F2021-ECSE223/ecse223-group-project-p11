@@ -17,6 +17,7 @@ import org.junit.jupiter.api.function.Executable;
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.model.Assignment;
+import ca.mcgill.ecse.climbsafe.model.BookableItem;
 import ca.mcgill.ecse.climbsafe.model.Assignment.AssignmentStatus;
 import ca.mcgill.ecse.climbsafe.model.BundleItem;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
@@ -121,11 +122,17 @@ public class AssignmentFeatureStepDefinitions {
 	public void the_following_members_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
 		List<Map<String, String>> memberList = dataTable.asMaps();
 		for (int i = 0; i < memberList.size(); i++) {
-			climbSafe.addMember(memberList.get(i).get("email"), memberList.get(i).get("password"),
+			Member m = climbSafe.addMember(memberList.get(i).get("email"), memberList.get(i).get("password"),
 					memberList.get(i).get("name"), memberList.get(i).get("emergencyContact"),
 					Integer.parseInt(memberList.get(i).get("nrWeeks")),
 					Boolean.parseBoolean(memberList.get(i).get("guideRequired")),
 					Boolean.parseBoolean(memberList.get(i).get("hotelRequired")));
+			List<String> bookedItems = Arrays.asList(memberList.get(i).get("bookedItems").split(","));
+		    List<String> requestedQuantities = Arrays.asList(memberList.get(i).get("bookedItemQuantities").split(","));
+		    for (int j = 0; j < bookedItems.size(); j++) {
+		        BookableItem bookableItem = BookableItem.getWithName(bookedItems.get(j));
+		        m.addBookedItem(Integer.parseInt(requestedQuantities.get(j)), this.climbSafe, bookableItem);
+		      }
 		}
 	}
 
@@ -150,14 +157,12 @@ public class AssignmentFeatureStepDefinitions {
 					assertEquals(assignmentGuide, assignment.getGuide());
 					assertEquals(startWeek, assignment.getStartWeek());
 					assertEquals(endWeek, assignment.getEndWeek());
+					
+					
+					
 
 				}
 			}
-			// assertEquals(assignmentMember, assignmentMember.getAssignment().getMember());
-			// assertEquals(assignmentGuide, assignmentMember.getAssignment().getGuide());
-			// assertEquals(startWeek, assignmentMember.getAssignment().getStartWeek());
-			// assertEquals(endWeek, assignmentMember.getAssignment().getEndWeek());
-
 		}
 	}
 
@@ -243,7 +248,6 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has paid for their trip")
 	public void the_member_with_has_paid_for_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		// member.getAssignment().payAssignment("23313");
 		member.getAssignment().setAssignmentState(AssignmentStatus.Paid);
 	}
 
@@ -256,8 +260,6 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has started their trip") //
 	public void the_member_with_has_started_their_trip(String email) {
 		Member m = (Member) User.getWithEmail(email);
-		// m.getAssignment().payAssignment("23234");
-		// m.getAssignment().startAssignment();
 		m.getAssignment().setAssignmentState(AssignmentStatus.Started);
 	}
 
@@ -292,19 +294,17 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has finished their trip") // not sure
 	public void the_member_with_has_finished_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		// member.getAssignment().payAssignment("jsh");
-		// member.getAssignment().startAssignment();
-		// member.getAssignment().finishAssignment();
 		Assignment a = member.getAssignment();
 		a.setAssignmentState(AssignmentStatus.Finished);
 
-		// a.setAssignmentStatus(AssignmentStatus.Finished);
+
 	}
 
 	@Then("the member with email {string} shall be banned")
 	public void the_member_with_email_shall_be_banned(String email) {
 		Member member = (Member) User.getWithEmail(email);
 		assertEquals(member.getBanStatus(), BanStatus.Banned);
+		
 	}
 
 	private void callController(Executable executable) { // from the btms step definitions in tutorial
