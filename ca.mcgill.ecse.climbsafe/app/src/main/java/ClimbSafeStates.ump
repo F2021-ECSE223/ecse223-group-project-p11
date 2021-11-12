@@ -30,8 +30,7 @@ class Assignment {
          finishAssignment() -> Finished;
          
          payAssignment(String authorizationCode) /{alreadyPaid();} -> Started;
-        
-         
+                 
          cancelAssignment() /{refund(10);} -> Cancelled;
        }
        Cancelled {
@@ -113,7 +112,6 @@ class Assignment {
     private boolean isBanned() {
 	 	return(this.member.getBanStatus() == BanStatus.Banned);
 	 }
-    
      
 	 private void refund(int percentage) {
        this.refundPercentage=percentage;
