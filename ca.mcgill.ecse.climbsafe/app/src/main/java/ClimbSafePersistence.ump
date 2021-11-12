@@ -7,19 +7,9 @@ class ClimbSafe {
 
 
     public void reinitialize() {
-        //User.reinitializeUserName(this.getUsers());
-        
         
         Member.reinitializeMemberEmail(this.getMembers());
         Guide.reinitializeGuideEmail(this.getGuides());
-        //Administrator.reinitializeAdminEmail(this.getAdministrator());
-        
-        
-        //BookableItem.reinitializeBookableItem(this.getBookableItems());
-        
-        //Equipment.reinitializeEquipment(this.getEquipment());
-        
-        //EquipmentBundle.reinitializeBundle(this.getBundles());
         BookableItem.reinitializeUniqueBookableEquipment(this.getBundles(),this.getEquipment() );
         Hotel.reinitializeHotel(this.getHotels());
     }
@@ -29,23 +19,13 @@ class User {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = 2L;
-    /*public static void reinitializeUsername(List<User> users){
-      usersByUsername = new HashMap<String, User>();
-      for(User user : users){
-        usersByUsername.put(user.getUsername(), user);
-      }
-    }*/
 }
 
 class Administrator {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = 3L;
-  /*public static void reinitializeAdminEmail(Administrator admin){
-      Map<String, Administrator> adminByEmail = new HashMap<String, Administrator>();
-      adminByEmail.put(admin.getEmail(), admin);
-      } */
-      
+
     }
   
 
@@ -66,12 +46,7 @@ class BookableItem {
    }
 
 }
-  /*public static void reinitializeBookableItem(List<BookableItem> bookableItems){
-      bookableItemsByName = new HashMap<String, BookableItem>();
-      for(BookableItem bi : bookableItems){
-        bookableItemsByName.put(bi.getName(), bi);
-      }
-    }*/
+  
 }
 
 class BookedItem {

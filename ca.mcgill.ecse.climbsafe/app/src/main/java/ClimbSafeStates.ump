@@ -31,7 +31,6 @@ class Assignment {
          
          payAssignment(String authorizationCode) /{alreadyPaid();} -> Started;
         
-         //finishAssignment()->/{rejectEnd();} Started;
          
          cancelAssignment() /{refund(10);} -> Cancelled;
        }
@@ -45,7 +44,6 @@ class Assignment {
         payAssignment(String authorizationCode) /{rejectPayFinished();} -> Finished;
         startAssignment()/{rejectStartFinished();} -> Finished;
         cancelAssignment() /{rejectCancelFinished(); refund(0);} -> Finished;
-         //end -> Final
        }
        	    
 	 }
@@ -116,37 +114,6 @@ class Assignment {
 	 	return(this.member.getBanStatus() == BanStatus.Banned);
 	 }
     
-    /*
-    private int totalCost(){
-        ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
-        int sum=0;
-        for (BookedItem item : this.member.getBookedItems()) {
-				// if it is a bundle, compute bundle cost
-				if (item.getItem() instanceof EquipmentBundle) {
-					double bundleCost = 0;
-					EquipmentBundle equipmentBundle = (EquipmentBundle) item.getItem();
-					for (BundleItem bI : equipmentBundle.getBundleItems()) {
-						Equipment e = bI.getEquipment();
-						bundleCost += e.getPricePerWeek() * bI.getQuantity();
-					}
-					if (this.member.getGuideRequired()) {
-						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
-					}
-					sum += bundleCost * item.getQuantity();
-
-				} else if (item.getItem() instanceof Equipment) {
-					Equipment e = (Equipment) item.getItem();
-					sum += e.getPricePerWeek() * item.getQuantity();
-				}
-                 
-        }
-        if (this.member.getGuideRequired()){
-          sum+=cs.getPriceOfGuidePerWeek();
-        }
-        
-        sum*=this.endWeek-this.startWeek;//sum is weekly sum until multiplied by number of weeks
-        return sum;
-     } */
      
 	 private void refund(int percentage) {
        this.refundPercentage=percentage;

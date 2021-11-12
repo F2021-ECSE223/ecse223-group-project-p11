@@ -1014,21 +1014,10 @@ public class ClimbSafe implements Serializable
     
   }
 
-  // line 10 "../../../../../ClimbSafePersistence.ump"
+  // line 11 "../../../../../ClimbSafePersistence.ump"
    public void reinitialize(){
-    //User.reinitializeUserName(this.getUsers());
-        
-        
-        Member.reinitializeMemberEmail(this.getMembers());
+    Member.reinitializeMemberEmail(this.getMembers());
         Guide.reinitializeGuideEmail(this.getGuides());
-        //Administrator.reinitializeAdminEmail(this.getAdministrator());
-        
-        
-        //BookableItem.reinitializeBookableItem(this.getBookableItems());
-        
-        //Equipment.reinitializeEquipment(this.getEquipment());
-        
-        //EquipmentBundle.reinitializeBundle(this.getBundles());
         BookableItem.reinitializeUniqueBookableEquipment(this.getBundles(),this.getEquipment() );
         Hotel.reinitializeHotel(this.getHotels());
   }

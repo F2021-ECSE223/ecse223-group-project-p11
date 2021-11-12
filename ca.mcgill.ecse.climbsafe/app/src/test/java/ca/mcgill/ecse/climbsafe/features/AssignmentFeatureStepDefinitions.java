@@ -162,7 +162,6 @@ public class AssignmentFeatureStepDefinitions {
 		for (Map<String, String> assignmentData : cucumberData) {
 			var assignmentMember = (Member) User.getWithEmail(assignmentData.get("memberEmail"));
 			var assignmentGuide = (Guide) User.getWithEmail(assignmentData.get("guideEmail"));
-			var assignmentHotel = Hotel.getWithName(assignmentData.get("hotelName"));
 			int startWeek = Integer.valueOf(assignmentData.get("startWeek"));
 			int endWeek = Integer.valueOf(assignmentData.get("endWeek"));
 
