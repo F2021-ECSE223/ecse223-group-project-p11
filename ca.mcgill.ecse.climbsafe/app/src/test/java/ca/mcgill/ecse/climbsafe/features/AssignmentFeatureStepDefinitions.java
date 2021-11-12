@@ -406,7 +406,8 @@ public class AssignmentFeatureStepDefinitions {
 	@Given("the member with {string} has cancelled their trip") // todo
 	public void the_member_with_has_cancelled_their_trip(String email) {
 		Member member = (Member) User.getWithEmail(email);
-		member.getAssignment().cancelAssignment();
+		Assignment a = member.getAssignment();
+		a.setAssignmentState(AssignmentStatus.Cancelled);
 	}
 /**
  * 
