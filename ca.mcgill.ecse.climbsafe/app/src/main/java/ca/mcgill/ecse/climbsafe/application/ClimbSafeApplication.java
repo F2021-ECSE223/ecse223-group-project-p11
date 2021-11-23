@@ -7,9 +7,11 @@ import java.sql.Date;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
+import java.awt.EventQueue;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
+import ca.mcgill.ecse.climbsafe.view.ClimbSafePage;
+import ca.mcgill.ecse.climbsafe.view.EquipmentFrame;
 
 public class ClimbSafeApplication {
   private static ClimbSafe climbSafe;
@@ -26,7 +28,6 @@ public class ClimbSafeApplication {
 	      e.printStackTrace();
 	    }
 	    EventQueue.invokeLater(EquipmentFrame::new);
-	  }
   }
 
   public static ClimbSafe getClimbSafe() {

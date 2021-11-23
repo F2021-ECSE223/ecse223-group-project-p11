@@ -14,3 +14,12 @@ class TOAssignment {
   authorizationCode;
   Integer refundedPercentageAmount;
 }
+
+class TOGuide {
+  name;
+  emergencyContact;
+  email;
+  password;
+}
+
+
