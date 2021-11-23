@@ -13,6 +13,7 @@ import ca.mcgill.ecse.climbsafe.model.BookedItem;
 import ca.mcgill.ecse.climbsafe.model.BundleItem;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 
+
 import java.util.ArrayList;
 import java.util.List;
 

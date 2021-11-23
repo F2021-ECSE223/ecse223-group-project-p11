@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
 
-// line 9 "../../../../../ClimbSafe.ump"
 // line 3 "../../../../../ClimbSafePersistence.ump"
+// line 9 "../../../../../ClimbSafe.ump"
 public class ClimbSafe implements Serializable
 {
 
@@ -1014,12 +1014,11 @@ public class ClimbSafe implements Serializable
     
   }
 
-  // line 11 "../../../../../ClimbSafePersistence.ump"
+  // line 9 "../../../../../ClimbSafePersistence.ump"
    public void reinitialize(){
-    Member.reinitializeMemberEmail(this.getMembers());
-        Guide.reinitializeGuideEmail(this.getGuides());
-        BookableItem.reinitializeUniqueBookableEquipment(this.getBundles(),this.getEquipment() );
-        Hotel.reinitializeHotel(this.getHotels());
+    User.reinitializeUniqueEmail(this.getAdministrator(), this.getGuides(), this.getMembers());
+    BookableItem.reinitializeUniqueName(this.getEquipment(), this.getBundles());
+    Hotel.reinitializeUniqueName(this.getHotels());
   }
 
 
@@ -1036,7 +1035,7 @@ public class ClimbSafe implements Serializable
   //------------------------
   
   // line 6 "../../../../../ClimbSafePersistence.ump"
-  private static final long serialVersionUID = 2045406856025012133L ;
+  private static final long serialVersionUID = 1L ;
 
   
 }

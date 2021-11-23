@@ -3,6 +3,8 @@ namespace ca.mcgill.ecse.climbsafe.model;
 external interface Serializable {}
 
 use ClimbSafePersistence.ump;
+use ClimbSafeExtended.ump;
+use ClimbSafeStates.ump;
 
 class ClimbSafe {
   Date startDate;

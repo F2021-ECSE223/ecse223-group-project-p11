@@ -4,6 +4,10 @@
 package ca.mcgill.ecse.climbsafe.application;
 
 import java.sql.Date;
+
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 
@@ -15,7 +19,14 @@ public class ClimbSafeApplication {
   }
 
   public static void main(String[] args) {
-    System.out.println(new ClimbSafeApplication().getGreeting());
+	  try {
+	      UIManager.setLookAndFeel(UIManager.getLookAndFeel());
+	    } catch (UnsupportedLookAndFeelException e) {
+	      // Use regular Swing theme if FlatLaf is unavailable
+	      e.printStackTrace();
+	    }
+	    EventQueue.invokeLater(EquipmentFrame::new);
+	  }
   }
 
   public static ClimbSafe getClimbSafe() {

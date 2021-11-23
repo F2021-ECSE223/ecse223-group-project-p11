@@ -5,8 +5,12 @@ package ca.mcgill.ecse.climbsafe.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 80 "../../../../../ClimbSafe.ump"
-// line 94 "../../../../../ClimbSafePersistence.ump"
+/**
+ * persistence for BundleItem needs to be specified in ClimbSafe.ump
+ * due to a bug in Umple (association classes cannot be defined in two files)
+ */
+// line 93 "../../../../../ClimbSafePersistence.ump"
+// line 88 "../../../../../ClimbSafe.ump"
 public class Hotel implements Serializable
 {
 
@@ -260,11 +264,11 @@ public class Hotel implements Serializable
   }
 
   // line 99 "../../../../../ClimbSafePersistence.ump"
-   public static  void reinitializeHotel(List<Hotel> hotels){
-    Map<String, Hotel> hotelsByName = new HashMap<String, Hotel>();
-     	 for(Hotel h : hotels){
-         	hotelsByName.put(h.getName(), h);
-      }
+   public static  void reinitializeUniqueName(List<Hotel> hotels){
+    hotelsByName = new HashMap<String, Hotel>();
+    for (Hotel hotel : hotels) {
+      hotelsByName.put(hotel.getName(), hotel);
+    }
   }
 
 
@@ -280,8 +284,8 @@ public class Hotel implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 97 "../../../../../ClimbSafePersistence.ump"
-  private static final long serialVersionUID = 11L ;
+  // line 96 "../../../../../ClimbSafePersistence.ump"
+  private static final long serialVersionUID = 10L ;
 
   
 }

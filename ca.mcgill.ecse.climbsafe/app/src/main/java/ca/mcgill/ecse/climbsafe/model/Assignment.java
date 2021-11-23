@@ -2,14 +2,14 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse.climbsafe.model;
+import java.io.Serializable;
 import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
-import java.io.Serializable;
 
-// line 1 "../../../../../ClimbSafeStates.ump"
+// line 107 "../../../../../ClimbSafePersistence.ump"
 // line 7 "../../../../../ClimbSafeExtended.ump"
-// line 87 "../../../../../ClimbSafe.ump"
-// line 70 "../../../../../ClimbSafePersistence.ump"
+// line 1 "../../../../../ClimbSafeStates.ump"
+// line 95 "../../../../../ClimbSafe.ump"
 public class Assignment implements Serializable
 {
 
@@ -169,7 +169,7 @@ public class Assignment implements Serializable
           wasEventProcessed = true;
           break;
         }
-        if (!(isCorrectCode(authorizationCode))&&!(isBanned()))
+        if (!(isCorrectCode(getAuthorizationCode()))&&!(isBanned()))
         {
         // line 5 "../../../../../ClimbSafeStates.ump"
           rejectPayAssignment();
@@ -177,7 +177,7 @@ public class Assignment implements Serializable
           wasEventProcessed = true;
           break;
         }
-        if (isCorrectCode(authorizationCode)&&!(isBanned()))
+        if (isCorrectCode(getAuthorizationCode())&&!(isBanned()))
         {
         // line 6 "../../../../../ClimbSafeStates.ump"
           doPayAssignment(authorizationCode);
@@ -507,6 +507,57 @@ public class Assignment implements Serializable
     }
   }
 
+  // line 15 "../../../../../ClimbSafeExtended.ump"
+   public void setAssignmentState(AssignmentStatus status){
+    setAssignmentStatus(status);
+  }
+
+  // line 19 "../../../../../ClimbSafeExtended.ump"
+   public void assignmentEquipmentCost(){
+    ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
+        int sum=0;
+        
+        for (BookedItem item : this.member.getBookedItems()) {
+				// if it is a bundle, compute bundle cost
+				if (item.getItem() instanceof EquipmentBundle) {
+					double bundleCost = 0;
+					EquipmentBundle equipmentBundle = (EquipmentBundle) item.getItem();
+					for (BundleItem bI : equipmentBundle.getBundleItems()) {
+						Equipment e = bI.getEquipment();
+						bundleCost += e.getPricePerWeek() * bI.getQuantity();
+					}
+					if (this.member.getGuideRequired()) {
+						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
+					}
+					sum += bundleCost * item.getQuantity();
+				} else if (item.getItem() instanceof Equipment) {
+					Equipment e = (Equipment) item.getItem();
+					sum += e.getPricePerWeek() * item.getQuantity();
+				}
+                 
+        }
+
+
+        sum *= this.getMember().getNrWeeks();//sum is weekly sum until multiplied by number of weeks
+        this.setTotalEquipmentCost(sum);
+  }
+
+  // line 49 "../../../../../ClimbSafeExtended.ump"
+   public void assignmentGuideCost(){
+    ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
+      int sum = 0;
+      if (this.getMember().getGuideRequired()){
+          sum += cs.getPriceOfGuidePerWeek() * this.getMember().getNrWeeks();
+          this.setTotalGuideCost(sum);
+      }
+  }
+
+  // line 58 "../../../../../ClimbSafeExtended.ump"
+   public void assignmentCost(){
+    assignmentGuideCost();
+      assignmentEquipmentCost();
+  }
+
   // line 51 "../../../../../ClimbSafeStates.ump"
    private Boolean isCorrectCode(String authorizationCode){
     return !authorizationCode.equals("");
@@ -607,57 +658,6 @@ public class Assignment implements Serializable
     throw new RuntimeException("The assignment was already cancelled");
   }
 
-  // line 15 "../../../../../ClimbSafeExtended.ump"
-   public void setAssignmentState(AssignmentStatus status){
-    setAssignmentStatus(status);
-  }
-
-  // line 19 "../../../../../ClimbSafeExtended.ump"
-   public void assignmentEquipmentCost(){
-    ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
-        int sum=0;
-        
-        for (BookedItem item : this.member.getBookedItems()) {
-				// if it is a bundle, compute bundle cost
-				if (item.getItem() instanceof EquipmentBundle) {
-					double bundleCost = 0;
-					EquipmentBundle equipmentBundle = (EquipmentBundle) item.getItem();
-					for (BundleItem bI : equipmentBundle.getBundleItems()) {
-						Equipment e = bI.getEquipment();
-						bundleCost += e.getPricePerWeek() * bI.getQuantity();
-					}
-					if (this.member.getGuideRequired()) {
-						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
-					}
-					sum += bundleCost * item.getQuantity();
-				} else if (item.getItem() instanceof Equipment) {
-					Equipment e = (Equipment) item.getItem();
-					sum += e.getPricePerWeek() * item.getQuantity();
-				}
-                 
-        }
-
-
-        sum *= this.getMember().getNrWeeks();//sum is weekly sum until multiplied by number of weeks
-        this.setTotalEquipmentCost(sum);
-  }
-
-  // line 49 "../../../../../ClimbSafeExtended.ump"
-   public void assignmentGuideCost(){
-    ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
-      int sum = 0;
-      if (this.getMember().getGuideRequired()){
-          sum += cs.getPriceOfGuidePerWeek() * this.getMember().getNrWeeks();
-          this.setTotalGuideCost(sum);
-      }
-  }
-
-  // line 58 "../../../../../ClimbSafeExtended.ump"
-   public void assignmentCost(){
-    assignmentGuideCost();
-      assignmentEquipmentCost();
-  }
-
 
   public String toString()
   {
@@ -677,8 +677,8 @@ public class Assignment implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 73 "../../../../../ClimbSafePersistence.ump"
-  private static final long serialVersionUID = 8L ;
+  // line 110 "../../../../../ClimbSafePersistence.ump"
+  private static final long serialVersionUID = 11L ;
 
   
 }
