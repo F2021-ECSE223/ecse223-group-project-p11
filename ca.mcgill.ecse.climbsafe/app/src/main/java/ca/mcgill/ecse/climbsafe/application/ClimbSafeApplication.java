@@ -12,6 +12,7 @@ import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 import ca.mcgill.ecse.climbsafe.view.ClimbSafePage;
 import ca.mcgill.ecse.climbsafe.view.EquipmentFrame;
+import ca.mcgill.ecse.climbsafe.view.GuideFrame;
 
 public class ClimbSafeApplication {
   private static ClimbSafe climbSafe;
@@ -27,7 +28,7 @@ public class ClimbSafeApplication {
 	      // Use regular Swing theme if FlatLaf is unavailable
 	      e.printStackTrace();
 	    }
-	    EventQueue.invokeLater(EquipmentFrame::new);
+	    EventQueue.invokeLater(GuideFrame::new);
   }
 
   public static ClimbSafe getClimbSafe() {
