@@ -22,4 +22,12 @@ class TOGuide {
   password;
 }
 
-
+class TOMember {
+	name;
+	emergencyContact;
+	email;
+	password;
+	Integer nrWeeks;
+    Boolean guideRequired;
+    Boolean hotelRequired;
+}

@@ -14,17 +14,17 @@ import java.util.Properties;
 import javax.swing.*;
 
 
-import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
-import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet2Controller;
-import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
-import ca.mcgill.ecse.climbsafe.view.ClimbSafePage.Executable;
-import ca.mcgill.ecse.climbsafe.controller.TOAssignment;
+import ca.mcgill.ecse.climbsafe.application.*;
+import ca.mcgill.ecse.climbsafe.view.*;
+import ca.mcgill.ecse.climbsafe.controller.*;
 
 
-public class ClimbSafePage extends JFrame{
+public class MemberFrame extends JFrame{
 	private String error;
 	private int weekCounter;
+	private int maxNumOfWeeks = ClimbSafeApplication.getClimbSafe().getNrWeeks();
 	
+	private static final long serialVersionUID = -4426369335015542L;
 	
 	// UI elements
 	  // element for error message
@@ -33,61 +33,47 @@ public class ClimbSafePage extends JFrame{
 	  // member
 	  private JTextField memberNameTextField = new JTextField();
 	  private JLabel memberNameLabel = new JLabel("Name:");
+	  
 	  private JTextField memberEmailTextField = new JTextField();
 	  private JLabel memberEmailLabel = new JLabel("Email:");
+	  
 	  private JTextField memberPasswordTextField = new JTextField();
 	  private JLabel memberPasswordLabel = new JLabel("Password:");
+	  
 	  private JTextField memberEmergencyContactTextField = new JTextField();
 	  private JLabel memberEmergencyContactLabel = new JLabel("Emergency Contact Number:");
+	  
 	  private JCheckBox memberGuideCheckBox = new JCheckBox("Guide", false);
 	  private JCheckBox memberHotelCheckBox = new JCheckBox("Hotel", false);
 	 
 	  //increments week numbers by one, replace the 50 with whatever the max num of weeks is when NMC is setup
-	  SpinnerModel model = new SpinnerNumberModel(1, 1, 50, 1); 
+	  SpinnerModel model = new SpinnerNumberModel(1, 1, maxNumOfWeeks, 1); 
 	  private JSpinner memberWeekNumberSpinner = new JSpinner(model);
 	  private JLabel memberWeekNumberLabel = new JLabel("Number of weeks");
 	  
 	  private JButton addMemberButton = new JButton("Add Member");
 	  
-	  // idk about TOMember TA said we only needed TOAssignment
-	  private JComboBox<TOAssignment> memberToggleList = new JComboBox<>();
+	 
+	  private JComboBox<TOMember> memberToggleList = new JComboBox<>();
 	  private JLabel memberToggleLabel = new JLabel("Select Member:");
+	  
 	  private JButton banButton = new JButton("Toggle Banned");
 	  private JButton deleteMemberButton = new JButton("Delete");
 	  
-	  
-	  //guide
-	  private JTextField guideNameTextField = new JTextField();
-	  private JLabel guideNameLabel = new JLabel("Name:");
+	  private JTextField newMemberNameTextField = new JTextField();
+	  private JLabel newMemberNameLabel = new JLabel("New Name:");
+
+	  private JTextField newMemberPasswordTextField = new JTextField();
+	  private JLabel newMemberPasswordLabel = new JLabel("New Password:");
+
+	  private JTextField newMemberEmergencyContactTextField = new JTextField();
+	  private JLabel newMemberEmergencyContactLabel = new JLabel("New Emergency Contact:");
 	 
-	  private JTextField guideEmailTextField = new JTextField();
-	  private JLabel guideEmailLabel = new JLabel("Email:");
-	  private JTextField guidePasswordTextField = new JTextField();
-	  private JLabel guidePasswordLabel = new JLabel("Password:");
-	  private JTextField guideEmergencyContactTextField = new JTextField();
-	  private JLabel guideEmergencyContactLabel = new JLabel("Emergency Contact Number:");
-	  private JButton addGuideButton = new JButton("Add Guide");
-	 // private JComboBox<TOAssignment> memberToggleList = new JComboBox<>();
-	  private JLabel guideToggleLabel = new JLabel("Select Guide:");
-	  private JButton deleteGuideButton = new JButton("Delete");
 	  
-	  
-	  
-	  //equipment
-	  
-	  private JTextField equipmentNameTextField = new JTextField();
-	  private JLabel equipmentNameLabel = new JLabel("Equipment Name:");
-	  //equipment weekly cost
-	  
-	  
-	  //equipment Bundle
-	  
-	  private JTextField equipmentBundleTextField = new JTextField();
-	  private JLabel equipmentBundleLabel = new JLabel("Equipment Bundle Name:");
-	  //bundle discount
-	  
-	  
-	  
+	  public MemberFrame() {
+		  refreshData();
+		  initComponents();
+	  }
 	  
 	  
 	  private void initComponents() {
@@ -99,10 +85,8 @@ public class ClimbSafePage extends JFrame{
 		  
 		  //listeners for member
 		  addMemberButton.addActionListener(this::addMemberButtonActionPerformed); // Respond to Enter/Return key
-		  //memberEmailTextField.addActionListener(this::addDriverButtonActionPerformed);
-		 // addDriverButton.addActionListener(this::addDriverButtonActionPerformed);
-		  //sickButton.addActionListener(this::sickButtonActionPerformed);
-		  //deleteDriverButton.addActionListener(this::deleteDriverButtonActionPerformed);
+		  setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		  setTitle("ClimbSafe Application System");
 	  }
 	  
 	  private void refreshData() {
@@ -115,6 +99,14 @@ public class ClimbSafePage extends JFrame{
 		      memberPasswordTextField.setText("");
 		      memberEmailTextField.setText("");
 		      memberEmergencyContactTextField.setText("");
+		      //reset week counter to 1
+		      //reset guide and hotel to false
+		      //reset all selected equipment
+		      
+		      newMemberNameTextField.setText("");
+		      newMemberPasswordTextField.setText("");
+		      newMemberEmergencyContactTextField.setText("");
+		      
 		      
 
 		   
@@ -133,7 +125,10 @@ public class ClimbSafePage extends JFrame{
 		  }
 	  
 	  
-	  private void addGuideActionPerformed(ActionEvent evt) {
+	  private void deleteMemberButtonActionPerformed(ActionEvent evt) {
+		  
+		  error = "";
+		  
 		  
 		  
 		  

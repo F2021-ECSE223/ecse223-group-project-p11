@@ -10,9 +10,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.EventQueue;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
-import ca.mcgill.ecse.climbsafe.view.ClimbSafePage;
-import ca.mcgill.ecse.climbsafe.view.EquipmentFrame;
-import ca.mcgill.ecse.climbsafe.view.GuideFrame;
+import ca.mcgill.ecse.climbsafe.view.*;
+
 
 public class ClimbSafeApplication {
   private static ClimbSafe climbSafe;
