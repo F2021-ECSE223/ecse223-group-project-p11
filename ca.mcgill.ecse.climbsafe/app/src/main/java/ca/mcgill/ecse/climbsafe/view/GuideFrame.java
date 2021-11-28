@@ -82,6 +82,7 @@ public class GuideFrame extends JFrame {
 		// global settings
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Climb Safe Application System");
+		setSize(500, 500);
 
 		// listeners for adding guides
 		guideNameTextField.addActionListener(this::addGuideButtonActionPerformed);
@@ -108,33 +109,35 @@ public class GuideFrame extends JFrame {
 		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
 				.addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel)
+						.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel, 200, 200, 400)
 								.addComponent(guideNameLabel).addComponent(guideEmergencyContactLabel)
 								.addComponent(guidePasswordLabel).addComponent(guideLabel)
 								.addComponent(newGuideNameLabel).addComponent(newGuidePasswordLabel)
-								.addComponent(newGuideEmergencyContactLabel)
-								.addGroup(layout.createParallelGroup().addComponent(guideEmailTextField, 200, 200, 400)
-										.addComponent(guideNameTextField, 200, 200, 400)
-										.addComponent(guideEmergencyContactTextField).addComponent(guidePasswordTextField, 200, 200, 400)
-										.addComponent(addGuideButton)
-										.addComponent(newGuideNameTextField, 200, 200, 400)
-										.addComponent(newGuidePasswordTextField, 200, 200, 400)
-										.addComponent(newGuideEmergencyContactTextField, 200, 200, 400)
-										.addComponent(updateGuideButton).addComponent(deleteGuideButton)))));
+								.addComponent(newGuideEmergencyContactLabel))
+						.addGroup(layout.createParallelGroup().addComponent(guideEmailTextField, 500, 500, 1000)
+								.addComponent(guideNameTextField, 500, 500, 1000)
+								.addComponent(guideEmergencyContactTextField)
+								.addComponent(guidePasswordTextField, 500, 500, 1000).addComponent(addGuideButton).addComponent(guideList)
+								.addComponent(newGuideNameTextField, 500, 500, 1000)
+								.addComponent(newGuidePasswordTextField, 500, 500, 1000)
+								.addComponent(newGuideEmergencyContactTextField, 500, 500, 1000)
+								.addComponent(updateGuideButton).addComponent(deleteGuideButton))));
 
-		layout.linkSize(SwingConstants.HORIZONTAL, addGuideButton, guideNameTextField, guidePasswordTextField,
+		layout.linkSize(SwingConstants.HORIZONTAL, guideNameTextField, guidePasswordTextField,
 				guideEmergencyContactTextField);
-		layout.linkSize(SwingConstants.HORIZONTAL, updateGuideButton, newGuideNameTextField, newGuidePasswordTextField,
+		layout.linkSize(SwingConstants.HORIZONTAL, newGuideNameTextField, newGuidePasswordTextField,
 				newGuideEmergencyContactTextField);
-		layout.linkSize(SwingConstants.HORIZONTAL, deleteGuideButton);
-		//.addComponent(errorMessage)
+		layout.linkSize(SwingConstants.HORIZONTAL, deleteGuideButton, addGuideButton, updateGuideButton);
+		// .addComponent(errorMessage)
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel).addComponent(guideEmailTextField))
 				.addGroup(layout.createParallelGroup().addComponent(guideNameLabel).addComponent(guideNameTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guideEmergencyContactLabel).addComponent(guideEmergencyContactTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guidePasswordLabel).addComponent(guidePasswordTextField))
-				.addGroup(layout.createParallelGroup().addComponent(addGuideButton))
-				.addGroup(layout.createParallelGroup().addComponent(guideLabel))
+				.addGroup(layout.createParallelGroup().addComponent(guideEmergencyContactLabel)
+						.addComponent(guideEmergencyContactTextField))
+				.addGroup(layout.createParallelGroup().addComponent(guidePasswordLabel)
+						.addComponent(guidePasswordTextField))
+				.addComponent(addGuideButton)
+				.addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(guideList))
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup().addComponent(newGuideNameLabel)
 						.addComponent(newGuideNameTextField))
@@ -144,15 +147,13 @@ public class GuideFrame extends JFrame {
 						.addComponent(newGuideEmergencyContactTextField))
 				.addGroup(layout.createParallelGroup().addComponent(updateGuideButton))
 				.addGroup(layout.createParallelGroup().addComponent(deleteGuideButton))
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
-				);
+				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
 
 		pack();
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 	}
-
 
 	private void refreshData() {
 		errorMessage.setText(error);
@@ -184,7 +185,7 @@ public class GuideFrame extends JFrame {
 
 			String eq = climbSafeApp.getEquipment().toString();
 
-		    AddtitionalController.getGuides().forEach(guideList::addItem);
+			AddtitionalController.getGuides().forEach(guideList::addItem);
 
 			lists.forEach(list -> list.setSelectedIndex(-1));
 
@@ -193,10 +194,9 @@ public class GuideFrame extends JFrame {
 		}
 
 	}
-	
-	
+
 	private void addGuideButtonActionPerformed(ActionEvent evt) {
-	    
+
 //	    // clear error message
 //	    error = "";
 //	    
@@ -205,34 +205,35 @@ public class GuideFrame extends JFrame {
 //	    
 //	    // update visuals 
 //	    refreshData();
-	    
-	  }
-	  
-	  private void updateGuuideButtonActionPerformed(ActionEvent evt) {
-	    
-	    error = "";
-	    
-	    var selectedGuide = (TOGuide) guideList.getSelectedItem();
-	    if(selectedGuide == null) {
-	      error = "Guide needs to be selected to update it!";
-	    } else if (error.isEmpty()) {
-	      callController(() -> ClimbSafeFeatureSet3Controller.updateGuide(selectedGuide.getEmail(), 
-	          newGuidePasswordTextField.getText(), newGuideNameTextField.getText(), newGuideEmergencyContactTextField.getText()));
-	    }
-	    refreshData();
-	  }
-	  
-	  private void deleteGuideButtonActionPerformed(ActionEvent evt) {
-	    
-	    error = ""; 
-	    
-	    var selectedGuide = (TOGuide) guideList.getSelectedItem();
-	    if(selectedGuide == null) {
-	      error = "Guide has to be selected for deletion!";
-	    } else if (error.isEmpty()){
-	      callController(() -> ClimbSafeFeatureSet1Controller.deleteGuide(selectedGuide.getEmail()));
-	    }
-	  }
+
+	}
+
+	private void updateGuuideButtonActionPerformed(ActionEvent evt) {
+
+		error = "";
+
+		var selectedGuide = (TOGuide) guideList.getSelectedItem();
+		if (selectedGuide == null) {
+			error = "Guide needs to be selected to update it!";
+		} else if (error.isEmpty()) {
+			callController(() -> ClimbSafeFeatureSet3Controller.updateGuide(selectedGuide.getEmail(),
+					newGuidePasswordTextField.getText(), newGuideNameTextField.getText(),
+					newGuideEmergencyContactTextField.getText()));
+		}
+		refreshData();
+	}
+
+	private void deleteGuideButtonActionPerformed(ActionEvent evt) {
+
+		error = "";
+
+		var selectedGuide = (TOGuide) guideList.getSelectedItem();
+		if (selectedGuide == null) {
+			error = "Guide has to be selected for deletion!";
+		} else if (error.isEmpty()) {
+			callController(() -> ClimbSafeFeatureSet1Controller.deleteGuide(selectedGuide.getEmail()));
+		}
+	}
 
 	/**
 	 * Calls the controller and sets the error message.
