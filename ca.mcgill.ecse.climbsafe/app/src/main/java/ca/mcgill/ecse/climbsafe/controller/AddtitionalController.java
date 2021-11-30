@@ -15,6 +15,7 @@ import ca.mcgill.ecse.climbsafe.model.EquipmentBundle;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Hotel;
 import ca.mcgill.ecse.climbsafe.model.Member;
+import ca.mcgill.ecse.climbsafe.model.User;
 
 public class AddtitionalController {
 	
@@ -86,11 +87,20 @@ public class AddtitionalController {
 			if(name.equals(test.get(i).getName())) {
 				return test.get(i).getPricePerWeek();
 			}
+		}	
+		return null;
+	}
+	
+	public static String login(String email, String password) throws InvalidInputException {
+		if (!User.hasWithEmail(email)) {
+			throw new InvalidInputException("This email does not correspond to any system member");
+		} else if (User.getWithEmail(email) instanceof Guide) {
+			return "Guide";
+		} else if (User.getWithEmail(email) instanceof Member) {
+			return "Member";
+		} else if (User.getWithEmail(email) instanceof Administrator) {
+			return "Admin";
 		}
-		
-		
-		
-		
 		return null;
 	}
 
