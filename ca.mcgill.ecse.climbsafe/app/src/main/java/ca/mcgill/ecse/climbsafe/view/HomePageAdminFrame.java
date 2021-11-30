@@ -79,7 +79,9 @@ public class HomePageAdminFrame extends JFrame {
 	}
 	
 	private void startCancelFinishTripsActionPerformed(ActionEvent evt) {
-
+        ManageTripsFrame manageTripsFrame = new ManageTripsFrame();
+        manageTripsFrame.setVisible(true);
+        dispose();
 	}
 	
 	private void addUpdateEquipmentActionPerformed(ActionEvent evt) {

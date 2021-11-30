@@ -32,7 +32,7 @@ public class LoginFrame extends JFrame {
 	private JTextField passwordTextField = new JTextField();
 	private JLabel passwordLabel = new JLabel("Password:");
 
-	private JButton loginButton = new JButton("Add Guide");
+	private JButton loginButton = new JButton("Login");
 	private JButton registerGuideButton = new JButton("Register as Guide");
 	private JButton registerMemberButton = new JButton("Register as Member");
 
@@ -118,6 +118,8 @@ public class LoginFrame extends JFrame {
 	}
 
 	private void registerMemberActionPerformed(ActionEvent evt) {
-
+		MemberFrame registerMemberFrame = new MemberFrame();
+        registerMemberFrame.setVisible(true);
+        dispose();
 	}
 }

@@ -27,6 +27,14 @@ public class AddtitionalController {
 		return list;
 	}
 	
+	public static List<String> getMemberEmails() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list = new ArrayList<String>();
+		for (Member member : cS.getMembers()) {
+			list.add(member.getEmail());
+		}
+		return list;
+	}
 	
 	public static void createAdmin() {
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
