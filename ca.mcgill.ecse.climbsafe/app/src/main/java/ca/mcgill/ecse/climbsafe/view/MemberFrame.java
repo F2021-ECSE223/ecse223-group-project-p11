@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -26,6 +27,11 @@ import ca.mcgill.ecse.climbsafe.controller.*;
 public class MemberFrame extends JFrame{
 	private String error;
 	private String currentAccountEmail = "";
+	List<String> selectedItemNames = new ArrayList<String>();
+	List<Integer> selectedItemQuantities = new ArrayList<Integer>();
+	List<Integer> selectedItemCost = new ArrayList<Integer>();
+	  
+	  
 
 	//private int maxNumOfWeeks = ClimbSafeApplication.getClimbSafe().getNrWeeks();
 	
@@ -63,17 +69,21 @@ public class MemberFrame extends JFrame{
 	  private JButton deleteMemberButton = new JButton("Delete Account");
 	  
 	  private JComboBox<String> equipmentAvailableList = new JComboBox<>();
-	  private JButton addEquipmentButton = new JButton("Add Equipment");
+	  private JButton addEquipmentButton = new JButton("Add Selected Equipment");
 	  private JLabel equipmentLabel = new JLabel("Select Equipment");
 	  private JTextField equipmentNumberTextField = new JTextField();
 	  private JLabel equipmentNumberLabel = new JLabel("Number of Selected Equipment");
 	  
 	  //viewing the selected equipment in table for registering member
 	  
+	  private JButton deleteItemButton = new JButton("Remove Selected Equipment");
+	  //private JComboBox<String> selectedItemsList = new JComboBox<>();
+	 
 	  
 	  
-	  
-	  private JTable equipmentOverview = new JTable(new DefaultTableModel()); /*{
+	  private JTable equipmentOverview = new JTable(new DefaultTableModel()) {
+		  private static final long serialVersionUID = 99L;
+	  }; /*{
 	  
 		    private static final long serialVersionUID = 99L;
 
@@ -90,7 +100,7 @@ public class MemberFrame extends JFrame{
 	  
 	  private JScrollPane overviewScrollPane = new JScrollPane(equipmentOverview);
 	  
-	  private static final String[] OVERVIEW_COLUMN_NAMES = {"Booked Item", "Booked Item Type", "Number Selected"};
+	  private static final String[] OVERVIEW_COLUMN_NAMES = {"Booked Item", "Number Selected", "Individual Item Cost"};
 	  private static final int HEIGHT_OVERVIEW_TABLE = 200;
 	  
 	  /*
@@ -128,6 +138,8 @@ public class MemberFrame extends JFrame{
 		  List<String>systemEquipment = AddtitionalController.getEquipmentStrings();
 		  List<String>systemBundles = AddtitionalController.getBundleStrings();
 		  
+		  equipmentAvailableList.addItem("---------");
+		  
 		  for(String i : systemEquipment) {
 		  equipmentAvailableList.addItem(i);}
 		  
@@ -142,6 +154,12 @@ public class MemberFrame extends JFrame{
 		  updateMemberButton.addActionListener(this::updateMemberButtonActionPerformed);
 		  
 		  addEquipmentButton.addActionListener(this::addEquipmentButtonActionPerformed);
+		  
+		  deleteItemButton.addActionListener(this::deleteItemButtonActionPerformed);
+		  
+		  
+		  
+		  
 		  
 		  
 		  
@@ -166,7 +184,7 @@ public class MemberFrame extends JFrame{
 		                		 .addComponent(memberNameLabel).addComponent(memberEmailLabel).addComponent(memberPasswordLabel)
 		                		 .addComponent(memberEmergencyContactLabel).addComponent(memberWeekNumberLabel).addComponent(memberGuideCheckBox)
 		                		 .addComponent(memberHotelCheckBox).addComponent(equipmentLabel).addComponent(equipmentNumberLabel).addComponent(addMemberButton)
-		                		 
+		                		 .addComponent(deleteItemButton)
 		                		 .addComponent(deleteMemberButton)
 		                		 .addComponent(updateMemberButton))
 		                 
@@ -182,7 +200,7 @@ public class MemberFrame extends JFrame{
 		                		 
 		                		 )));
 		    
-		    layout.linkSize(SwingConstants.HORIZONTAL,addEquipmentButton, memberNameTextField, memberEmailTextField, memberPasswordTextField, memberEmergencyContactTextField, memberWeekNumberTextField, memberGuideCheckBox, memberHotelCheckBox, equipmentAvailableList);
+		    layout.linkSize(SwingConstants.HORIZONTAL,addEquipmentButton, deleteItemButton, memberNameTextField, memberEmailTextField, memberPasswordTextField, memberEmergencyContactTextField, memberWeekNumberTextField, memberGuideCheckBox, memberHotelCheckBox, equipmentAvailableList);
 		    
 		    layout.setVerticalGroup(
 		    		layout.createSequentialGroup()
@@ -215,7 +233,7 @@ public class MemberFrame extends JFrame{
 		            		.addComponent(equipmentNumberLabel).addComponent(equipmentNumberTextField)
 		            		)
 		            .addGroup(layout.createParallelGroup()
-		            		.addComponent(addEquipmentButton)
+		            		.addComponent(addEquipmentButton).addComponent(deleteItemButton)
 		            		)
 		            .addGroup(layout.createParallelGroup()
 		            		.addComponent(horizontalLine1)
@@ -270,18 +288,6 @@ public class MemberFrame extends JFrame{
 		      memberGuideCheckBox.setSelected(false);
 		      
 		      
-		      var lists = List.of(equipmentAvailableList);
-
-		      //lists.forEach();
-		      
-		      //reset all selected equipment
-		      /*
-		      newMemberNameTextField.setText("");
-		      newMemberPasswordTextField.setText("");
-		      newMemberEmergencyContactTextField.setText("");
-		      
-		      */
-
 		   
 		  }
 	  }
@@ -293,13 +299,18 @@ public class MemberFrame extends JFrame{
 	  
 	  
 	  private void refreshOverview() {
+		  errorMessage.setText(error);
+		    if (error == null || error.isEmpty()) {
 		  var overviewDtm = new DefaultTableModel(0, 0);
 		    overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
 		    equipmentOverview.setModel(overviewDtm);
 		    if(equipmentAvailableList.getSelectedItem()!=null) {
 		    String equipmentNameText = equipmentAvailableList.getSelectedItem().toString();
 		    DefaultTableModel model = (DefaultTableModel) equipmentOverview.getModel();
-		    model.addRow(new Object[] {equipmentNameText, "test", "test"});
+		    for(int i = 0 ; i < selectedItemNames.size(); i++) {
+		    model.addRow(new Object[] {selectedItemNames.get(i),selectedItemQuantities.get(i) , selectedItemCost.get(i)});
+		    }}
+		  equipmentAvailableList.setSelectedIndex(0);
 		    }
 		  
 	  }
@@ -308,7 +319,7 @@ public class MemberFrame extends JFrame{
 		    error = "";
 		    
 		    
-		    if(memberEmailTextField.getText().equals("") ||  memberPasswordTextField.getText().equals("") || memberNameTextField.getText().equals("") || memberEmergencyContactTextField.getText().equals("") || memberWeekNumberTextField.getText().equals("")) {
+		    if(memberEmailTextField.getText().equals("") ||memberPasswordTextField.getText().equals("") || memberNameTextField.getText().equals("") || memberEmergencyContactTextField.getText().equals("") || memberWeekNumberTextField.getText().equals("")) {
 		    	error = "Please fill all Fields! ";}
 		    
 		    
@@ -323,13 +334,19 @@ public class MemberFrame extends JFrame{
 		    callController(() -> ClimbSafeFeatureSet1Controller.setup(Date.valueOf("2022-01-01"), 25, 200));
 		    	
 
-		    callController(() -> ClimbSafeFeatureSet2Controller.registerMember(memberEmailTextField.getText(), memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), null, null));     
+		    callController(() -> ClimbSafeFeatureSet2Controller.registerMember(memberEmailTextField.getText(), memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));     
 
 		    currentAccountEmail = memberEmailTextField.getText();
+		    
+		    selectedItemNames.clear();
+			selectedItemQuantities.clear();
+			selectedItemCost.clear();
+			refreshOverview();
 		    
 		    }
 		    // update visuals
 		    refreshData();
+		    refreshEquipment();
 		  }
 	  
 	  
@@ -346,7 +363,7 @@ public class MemberFrame extends JFrame{
 		  }
 		  
 		  
-		  
+		  refreshData();
 		  
 	  }
 	  
@@ -354,12 +371,61 @@ public class MemberFrame extends JFrame{
 		  error = "";
 	  }
 	  
-	  private void addEquipmentButtonActionPerformed(ActionEvent evt) {
+	  private void deleteItemButtonActionPerformed(ActionEvent evt) {
 		  error = "";
+		  String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
+		  if(equipmentNameText2.equals("-----")) {
+			  error = "Select an Item to remove it";
+		  }
 		  
-		  refreshOverview();
-		  refreshEquipment();
+		  if(error.isEmpty()) {
+			  for(int j = 0; j < selectedItemNames.size(); j++) {
+				  if(selectedItemNames.get(j).equals(equipmentNameText2)) {
+					  selectedItemNames.remove(j);
+					  selectedItemQuantities.remove(j);
+					  selectedItemCost.remove(j);
+				  }
+				  
+			  }
+			  
+			  refreshOverview();
+			  refreshData();
+			  refreshEquipment();
+		  }
+		  
+		  
 	  }
+	  
+	  private void addEquipmentButtonActionPerformed(ActionEvent evt) {
+		  
+		 
+		  error = "";
+		  String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
+		  
+		  int equipmentNumber = getNumberFromField(equipmentNumberTextField, "Must be a number!");
+		    error.trim();
+		  
+		  if(equipmentNameText2.equals("-----")) {
+			  error = "Select an Item in order to add it to your booking";
+		  }
+		  
+		  if(equipmentNumberTextField.getText().equals("")) {
+			  error = "Fill Number Field before adding";
+		  }
+		  
+		  if(error.isEmpty()) {
+			  
+			  if(!selectedItemNames.contains(equipmentNameText2)) {
+			  selectedItemNames.add(equipmentNameText2);
+			  selectedItemQuantities.add(equipmentNumber);
+			  selectedItemCost.add(AddtitionalController.getItemCost(equipmentNameText2));
+			  refreshOverview();
+			  refreshEquipment();
+	  }
+			  else{
+				  error = "Item already selected";
+				  refreshData();}}
+			  }
 	  
 	  private int getNumberFromField(JTextField field, String errorMessage) {
 		    try {

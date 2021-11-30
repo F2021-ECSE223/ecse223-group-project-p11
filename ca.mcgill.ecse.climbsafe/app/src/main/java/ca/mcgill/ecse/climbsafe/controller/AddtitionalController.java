@@ -6,6 +6,7 @@ import java.util.List;
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.model.Administrator;
 import ca.mcgill.ecse.climbsafe.model.Assignment;
+import ca.mcgill.ecse.climbsafe.model.BookableItem;
 import ca.mcgill.ecse.climbsafe.model.BookedItem;
 import ca.mcgill.ecse.climbsafe.model.BundleItem;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
@@ -77,6 +78,20 @@ public class AddtitionalController {
 			
 		}
 		return bundleStr;
+	}
+	
+	public static Integer getItemCost(String name) {
+		List<TOEquipment> test= getEquipment();
+		for(int i = 0; i < test.size(); i++) {
+			if(name.equals(test.get(i).getName())) {
+				return test.get(i).getPricePerWeek();
+			}
+		}
+		
+		
+		
+		
+		return null;
 	}
 
 }
