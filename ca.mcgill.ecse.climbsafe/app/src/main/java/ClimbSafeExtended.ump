@@ -1,4 +1,4 @@
-namespace ca.mcgill.ecse.climbsafe.model;
+
 class Member{
   enum BanStatus {Banned, NotBanned}
   BanStatus banStatus = BanStatus.NotBanned; 
