@@ -29,25 +29,10 @@ import ca.mcgill.ecse.climbsafe.view.EquipmentFrame.Executable;
 
 public class GuideFrame extends JFrame {
 
-	private static final long serialVersionUID = 1;
+	private static final long serialVersionUID = 5L;
 
 	private JLabel errorMessage = new JLabel(); // element for error message
 
-	// Guide Addition labels
-
-	private JTextField guideEmailTextField = new JTextField();
-	private JLabel guideEmailLabel = new JLabel("Email:");
-
-	private JTextField guideNameTextField = new JTextField();
-	private JLabel guideNameLabel = new JLabel("Name:");
-
-	private JTextField guidePasswordTextField = new JTextField();
-	private JLabel guidePasswordLabel = new JLabel("Password:");
-
-	private JTextField guideEmergencyContactTextField = new JTextField();
-	private JLabel guideEmergencyContactLabel = new JLabel("Emergency Contact:");
-
-	private JButton addGuideButton = new JButton("Add Guide");
 
 	// Select Guide for update
 	private JComboBox<TOGuide> guideList = new JComboBox<>();
@@ -84,18 +69,12 @@ public class GuideFrame extends JFrame {
 		setTitle("Climb Safe Application System");
 		setSize(500, 500);
 
-		// listeners for adding guides
-		guideNameTextField.addActionListener(this::addGuideButtonActionPerformed);
-		guideEmailTextField.addActionListener(this::addGuideButtonActionPerformed);
-		guidePasswordTextField.addActionListener(this::addGuideButtonActionPerformed);
-		guideEmergencyContactTextField.addActionListener(this::addGuideButtonActionPerformed);
-		addGuideButton.addActionListener(this::addGuideButtonActionPerformed);
 
 		// listeners for updating guides
-		newGuideNameTextField.addActionListener(this::addGuideButtonActionPerformed);
-		newGuidePasswordTextField.addActionListener(this::addGuideButtonActionPerformed);
-		newGuideEmergencyContactTextField.addActionListener(this::addGuideButtonActionPerformed);
-		updateGuideButton.addActionListener(this::addGuideButtonActionPerformed);
+		newGuideNameTextField.addActionListener(this::updateGuideButtonActionPerformed);
+		newGuidePasswordTextField.addActionListener(this::updateGuideButtonActionPerformed);
+		newGuideEmergencyContactTextField.addActionListener(this::updateGuideButtonActionPerformed);
+		updateGuideButton.addActionListener(this::updateGuideButtonActionPerformed);
 
 		deleteGuideButton.addActionListener(this::deleteGuideButtonActionPerformed);
 
@@ -109,34 +88,21 @@ public class GuideFrame extends JFrame {
 		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
 				.addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel, 200, 200, 400)
-								.addComponent(guideNameLabel).addComponent(guideEmergencyContactLabel)
-								.addComponent(guidePasswordLabel).addComponent(guideLabel)
+						.addGroup(layout.createParallelGroup().addComponent(guideLabel)
 								.addComponent(newGuideNameLabel).addComponent(newGuidePasswordLabel)
 								.addComponent(newGuideEmergencyContactLabel))
-						.addGroup(layout.createParallelGroup().addComponent(guideEmailTextField, 500, 500, 1000)
-								.addComponent(guideNameTextField, 500, 500, 1000)
-								.addComponent(guideEmergencyContactTextField)
-								.addComponent(guidePasswordTextField, 500, 500, 1000).addComponent(addGuideButton).addComponent(guideList)
+						.addGroup(layout.createParallelGroup().addComponent(guideList, 500, 500, 1000)
 								.addComponent(newGuideNameTextField, 500, 500, 1000)
 								.addComponent(newGuidePasswordTextField, 500, 500, 1000)
 								.addComponent(newGuideEmergencyContactTextField, 500, 500, 1000)
 								.addComponent(updateGuideButton).addComponent(deleteGuideButton))));
 
-		layout.linkSize(SwingConstants.HORIZONTAL, guideNameTextField, guidePasswordTextField,
-				guideEmergencyContactTextField);
+
 		layout.linkSize(SwingConstants.HORIZONTAL, newGuideNameTextField, newGuidePasswordTextField,
 				newGuideEmergencyContactTextField);
-		layout.linkSize(SwingConstants.HORIZONTAL, deleteGuideButton, addGuideButton, updateGuideButton);
+		layout.linkSize(SwingConstants.HORIZONTAL, deleteGuideButton, updateGuideButton);
 		// .addComponent(errorMessage)
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
-				.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel).addComponent(guideEmailTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guideNameLabel).addComponent(guideNameTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guideEmergencyContactLabel)
-						.addComponent(guideEmergencyContactTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guidePasswordLabel)
-						.addComponent(guidePasswordTextField))
-				.addComponent(addGuideButton)
 				.addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(guideList))
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup().addComponent(newGuideNameLabel)
@@ -160,11 +126,6 @@ public class GuideFrame extends JFrame {
 		if (error == null || error.isEmpty()) {
 			// populate page with data
 
-			// add equipment
-			guideEmailTextField.setText("");
-			guideNameTextField.setText("");
-			guidePasswordTextField.setText("");
-			guideEmergencyContactTextField.setText("");
 
 			// update equipment
 			newGuideNameTextField.setText("");
@@ -195,20 +156,7 @@ public class GuideFrame extends JFrame {
 
 	}
 
-	private void addGuideButtonActionPerformed(ActionEvent evt) {
-
-//	    // clear error message
-//	    error = "";
-//	    
-//	    callController(() -> ClimbSafeFeatureSet4Controller.addEquipment(equipmentNameTextField.getText(),
-//	       getNumberFromField(equipmentWeightTextField, error) ,  getNumberFromField(equipmentPricePerWeekTextField,error)));
-//	    
-//	    // update visuals 
-//	    refreshData();
-
-	}
-
-	private void updateGuuideButtonActionPerformed(ActionEvent evt) {
+	private void updateGuideButtonActionPerformed(ActionEvent evt) {
 
 		error = "";
 
