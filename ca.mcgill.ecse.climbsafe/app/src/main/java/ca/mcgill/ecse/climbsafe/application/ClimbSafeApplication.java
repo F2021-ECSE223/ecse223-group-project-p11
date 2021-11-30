@@ -8,6 +8,8 @@ import java.sql.Date;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.EventQueue;
+
+import ca.mcgill.ecse.climbsafe.model.Administrator;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 import ca.mcgill.ecse.climbsafe.view.*;
@@ -27,13 +29,18 @@ public class ClimbSafeApplication {
 	      // Use regular Swing theme if FlatLaf is unavailable
 	      e.printStackTrace();
 	    }
-	    EventQueue.invokeLater(EquipmentFrame::new);
+	    EventQueue.invokeLater(MemberFrame::new);
   }
 
   public static ClimbSafe getClimbSafe() {
     if (climbSafe == null) {
       // these attributes are default, you should set them later with the setters
+    
+    	
+    	//just doing this to get rid of null pointer exception
+		
       climbSafe = ClimbSafePersistence.load();
+      
     }
     
     return climbSafe;

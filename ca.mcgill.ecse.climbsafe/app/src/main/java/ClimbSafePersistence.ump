@@ -6,7 +6,11 @@ class ClimbSafe {
   private static final long serialVersionUID = 1L;
   
   public void reinitialize() {
-    User.reinitializeUniqueEmail(this.getAdministrator(), this.getGuides(), this.getMembers());
+  //this.getAdministrator() removed from reinitialize because it was causing a null Pointer exception
+  
+  
+  
+    User.reinitializeUniqueEmail(this.getGuides(), this.getMembers());
     BookableItem.reinitializeUniqueName(this.getEquipment(), this.getBundles());
     Hotel.reinitializeUniqueName(this.getHotels());
   }
@@ -18,9 +22,10 @@ class User {
   isA Serializable;
   private static final long serialVersionUID = 2L;
   
-  public static void reinitializeUniqueEmail(Administrator admin, List<Guide> guides, List<Member> members) {
+  public static void reinitializeUniqueEmail(List<Guide> guides, List<Member> members) {
     usersByEmail = new HashMap<String, User>();
-    usersByEmail.put(admin.getEmail(), admin);
+    //usersByEmail.put(admin.getEmail(), admin);
+    
     for (Guide guide : guides) {
       usersByEmail.put(guide.getEmail(), guide);
     }

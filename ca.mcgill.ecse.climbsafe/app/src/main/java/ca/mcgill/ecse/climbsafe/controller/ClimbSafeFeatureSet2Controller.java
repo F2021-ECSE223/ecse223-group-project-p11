@@ -90,6 +90,10 @@ public class ClimbSafeFeatureSet2Controller {
         if (nrWeeks > cs.getNrWeeks()) {
             e = "The number of weeks must be greater than zero and less than or equal to the number of climbing weeks in the climbing season";
         }
+        
+        if(itemQuantities != null && itemNames != null) {
+        	
+        
 
         for (Integer i : itemQuantities) {
             if (i < 1) {
@@ -101,18 +105,19 @@ public class ClimbSafeFeatureSet2Controller {
                 e = "Requested item not found";
             }
 
-        }
+        }}
         if (!e.equals(""))
             throw new InvalidInputException(e);
         try {
             Member member = cs.addMember(email, password, name, emergencyContact, nrWeeks, guideRequired,
                     hotelRequired);
+            if(itemQuantities != null && itemNames != null) {
             for (int i = 0; i < itemQuantities.size(); i++) {
                 BookableItem item = BookableItem.getWithName(itemNames.get(i));
                 member.addBookedItem(itemQuantities.get(i), cs, item);
-            }
+            }}
             ClimbSafePersistence.save(cs);
-
+            
         } catch (RuntimeException e1) {
             throw new InvalidInputException(e1.getMessage());
         }

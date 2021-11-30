@@ -1016,7 +1016,11 @@ public class ClimbSafe implements Serializable
 
   // line 9 "../../../../../ClimbSafePersistence.ump"
    public void reinitialize(){
-    User.reinitializeUniqueEmail(this.getAdministrator(), this.getGuides(), this.getMembers());
+    //this.getAdministrator() removed from reinitialize because it was causing a null Pointer exception
+  
+  
+  
+    User.reinitializeUniqueEmail(this.getGuides(), this.getMembers());
     BookableItem.reinitializeUniqueName(this.getEquipment(), this.getBundles());
     Hotel.reinitializeUniqueName(this.getHotels());
   }

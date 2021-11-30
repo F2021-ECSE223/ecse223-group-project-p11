@@ -31,3 +31,11 @@ class TOMember {
     Boolean guideRequired;
     Boolean hotelRequired;
 }
+
+class TOEquipment {
+   name;
+   Integer weight;
+   Integer pricePerWeek;
+  
+   
+}
