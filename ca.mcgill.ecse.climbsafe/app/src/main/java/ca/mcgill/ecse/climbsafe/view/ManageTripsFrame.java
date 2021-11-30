@@ -83,14 +83,17 @@ public class ManageTripsFrame extends JFrame {
 		// .addComponent(errorMessage)
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup().addComponent(weekNumber).addComponent(weekNumberLabel))
+				.addComponent(startTripsButton)
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup().addComponent(memberLabel)
 						.addComponent(memberList))
+				.addComponent(finishTripButton)
+				.addComponent(cancelTripButton)
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
 
 		pack();
 		setLocationRelativeTo(null);
-		setResizable(false);
+		setResizable(true);
 		setVisible(true);
 	}
 
