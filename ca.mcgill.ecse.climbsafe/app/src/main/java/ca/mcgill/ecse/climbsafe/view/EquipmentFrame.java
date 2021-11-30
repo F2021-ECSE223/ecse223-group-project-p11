@@ -1,16 +1,22 @@
 package ca.mcgill.ecse.climbsafe.view;
 
-import java.awt.*;
-import java.util.*;
 import java.util.List;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
 
+import javax.swing.*;
+import javax.swing.text.AttributeSet.ColorAttribute;
 import ca.mcgill.ecse.climbsafe.application.*;
+
 import ca.mcgill.ecse.climbsafe.controller.*;
-import ca.mcgill.ecse.climbsafe.model.BookedItem;
-import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
-import ca.mcgill.ecse.climbsafe.model.Equipment;
+import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet4Controller;
+import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet6Controller;
+import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
+import ca.mcgill.ecse.climbsafe.controller.TOEquipment;
+
+
+
 import java.sql.*;
 import java.time.*;
 
@@ -40,7 +46,7 @@ public class EquipmentFrame extends JFrame {
   
   // to update equipment
   //private JTextField equipmentOldNameTextField = new JTextField();
-  private JComboBox<Equipment> oldNameList = new JComboBox<>();
+  private JComboBox<String> oldNameList = new JComboBox<>();
   private JLabel equipmentOldNameLabel = new JLabel("Old Name:");
   
   private JTextField equipmentNewNameTextField = new JTextField();
@@ -60,7 +66,7 @@ public class EquipmentFrame extends JFrame {
   
   // to delete equipment
   //private JTextField equipmentNameToDeleteTextField = new JTextField();
-  private JComboBox<Equipment> nameToDeleteList = new JComboBox<>();
+  private JComboBox<String> nameToDeleteList = new JComboBox<>();
   private JLabel equipmentNameToDeleteLabel = new JLabel("Name:");
   
   private JButton deleteEquipmentButton = new JButton("Delete Equipment");
@@ -79,12 +85,28 @@ public class EquipmentFrame extends JFrame {
   
   /** This method is called from within the constructor to initialize the form. */
   private void initComponents() {
+    
+    
     errorMessage.setForeground(Color.RED);
     errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
+    
+    
     
     //global settings
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setTitle("Climb Safe Application System");
+    
+    /*
+    List<String> oldEquipment = AdditionalController.getEquipmentStrings();
+    List<String> toDeleteEquipment = AdditionalController.getEquipmentStrings();
+    
+    for(String i : oldEquipment) {
+      oldNameList.addItem(i);
+    }
+    
+    for(String j : toDeleteEquipment) {
+      nameToDeleteList.addItem(j);
+    }*/
     
     //listeners for adding equipment
     equipmentNameTextField.addActionListener(this::addEquipmentButtonActionPerformed);
@@ -96,6 +118,7 @@ public class EquipmentFrame extends JFrame {
     
     // listeners for updating equipment
     //equipmentOldNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
+   // oldNameList.addActionListener(this::updateEquipmentButtonActionPerformed);  // not sure to do this
     equipmentNewNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
     equipmentNewWeightTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
     equipmentNewPricePerWeekTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
@@ -105,6 +128,7 @@ public class EquipmentFrame extends JFrame {
     
     // listeners for deleting equipment
     //equipmentNameToDeleteTextField.addActionListener(this:: deleteEquipmentButtonActionPerformed);
+    //nameToDeleteList.addActionListener(this::deleteEquipmentButtonActionPerformed);   //not sure to do this
     deleteEquipmentButton.addActionListener(this:: deleteEquipmentButtonActionPerformed);
     //////////////////////////////////////
     
@@ -236,67 +260,56 @@ public class EquipmentFrame extends JFrame {
       equipmentNewWeightTextField.setText("");
       equipmentNewPricePerWeekTextField.setText("");
       
-      // delete equipment
-      //equipmentNameToDeleteTextField.setText("");
-      
-      //var lists = List.of(equipmentToAddList, equipmentToUpdateList, equipmentToDeleteList);
-      
-     // lists.forEach(JComboBox:: removeAllItems);    
       
       var lists = List.of(oldNameList,nameToDeleteList);
       lists.forEach(JComboBox::removeAllItems);
       
-      ClimbSafe climbSafeApp = ClimbSafeApplication.getClimbSafe();
-      
-      String eq = climbSafeApp.getEquipment().toString();
-      
-      climbSafeApp.getEquipment().forEach(oldNameList::addItem);
-      
-      climbSafeApp.getEquipment().forEach(nameToDeleteList::addItem);
+      AddtitionalController.getEquipmentStrings().forEach(oldNameList::addItem);
+      AddtitionalController.getEquipmentStrings().forEach(nameToDeleteList::addItem);
       
       lists.forEach(list -> list.setSelectedIndex(-1));
-      
-     
-     pack(); 
-      
+ 
     }
+    pack(); 
   }
+  
+ 
   
   private void addEquipmentButtonActionPerformed(ActionEvent evt) {
     
     // clear error message
     error = "";
     
-    callController(() -> ClimbSafeFeatureSet4Controller.addEquipment(equipmentNameTextField.getText(),
-       getNumberFromField(equipmentWeightTextField, error) ,  getNumberFromField(equipmentPricePerWeekTextField,error)));
+    if(equipmentNameTextField.getText().equals("") || equipmentWeightTextField.getText().equals("")
+    || equipmentPricePerWeekTextField.getText().equals("")) {
+      error = "Please fill all fields!";
+    }
     
-    // update visuals 
+    callController(() -> ClimbSafeFeatureSet4Controller.addEquipment(
+        equipmentNameTextField.getText(), getNumberFromField(equipmentWeightTextField,error), 
+        getNumberFromField(equipmentPricePerWeekTextField,error)));
+    
     refreshData();
+
     
   }
   
   private void updateEquipmentButtonActionPerformed(ActionEvent evt) {
     
     error = "";
-    
-    var selectedEquipment = (Equipment) oldNameList.getSelectedItem();
+    var selectedEquipment = (String) oldNameList.getSelectedItem();
     if(selectedEquipment == null) {
       error = "Equipment needs to be selected to update it!";
-    }else {
-      callController(() -> ClimbSafeFeatureSet4Controller.updateEquipment(selectedEquipment.getName(), 
-          equipmentNewNameTextField.getText(), getNumberFromField(equipmentNewWeightTextField,error), 
+    }
+    error = error.trim();
+    
+    if(error.isEmpty()) {
+      var updatedEquipment = selectedEquipment;
+      callController(() -> ClimbSafeFeatureSet4Controller.updateEquipment(selectedEquipment
+          ,equipmentNewNameTextField.getText(), getNumberFromField(equipmentNewWeightTextField,error),
           getNumberFromField(equipmentNewPricePerWeekTextField,error)));
     }
     refreshData();
-   /* 
-    var equipmentToBeUpdate = (Equipment) equipmentToUpdateList.getSelectedItem();
-    
-    if(equipmentToBeUpdate == null) {
-      error = "An equipment has to be selected to update it!";
-    }*/
-   /* callController(()  -> ClimbSafeFeatureSet4Controller
-        .updateEquipment(equipmentOldNameTextField.getText(), equipmentNewNameTextField.getText(),
-            getNumberFromField(equipmentNewWeightTextField,error), getNumberFromField(equipmentNewPricePerWeekTextField,error)));*/
   }
   
   private void deleteEquipmentButtonActionPerformed(ActionEvent evt) {
@@ -304,22 +317,15 @@ public class EquipmentFrame extends JFrame {
     error = "";
     
     
-    var selectedEquipment = (Equipment) nameToDeleteList.getSelectedItem();
+    var selectedEquipment = (String) nameToDeleteList.getSelectedItem();
     if(selectedEquipment == null) {
       error = "Equipment has to be selected for deletion!";
     } else {
-      callController(() -> ClimbSafeFeatureSet6Controller.deleteEquipment(selectedEquipment.getName()));
+      callController(() -> ClimbSafeFeatureSet6Controller.deleteEquipment(selectedEquipment));
     }
-    /*
-    callController(() -> ClimbSafeFeatureSet6Controller.deleteEquipment(equipmentNameToDeleteTextField.getText()));
-    */
-    //refreshData();
-    /*var deletedEquipment = (Equipment) equipmentToDeleteList.getSelectedItem();
-    if (deletedEquipment == null) {
-      error = "An equipment has to be selected for deletion!";
-    }else {
-      callController(()  -> ClimbSafeFeatureSet6Controller.deleteEquipment(equipmentNameToDeleteTextField.getText()));
-    }*/
+    
+    refreshData();
+    
   }
   
   /** Returns the number from the given text field if present, otherwise appends error string to the given message. */
@@ -342,7 +348,7 @@ public class EquipmentFrame extends JFrame {
     try {
       executable.execute();
     } catch (InvalidInputException e) {
-      error = e .getMessage();
+      error = e.getMessage();
       return error;
     } catch (Throwable t) {
       t.printStackTrace();
