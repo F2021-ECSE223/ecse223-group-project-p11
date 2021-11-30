@@ -54,8 +54,11 @@ public class GuideFrame extends JFrame {
 	private JButton deleteGuideButton = new JButton("Delete Guide");
 
 	private String error = "";
+	
+	private String email;
 
-	public GuideFrame() {
+	public GuideFrame(String email) {
+		this.email = email;
 		initComponents();
 		refreshData();
 	}
