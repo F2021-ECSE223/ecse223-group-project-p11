@@ -52,6 +52,7 @@ public class HomePageAdminFrame extends JFrame {
 		setUpNMCInfo.addActionListener(this::setUpNMCInfoActionPerformed);
 		initiateAssignments.addActionListener(this::initiateAssignmentsActionPerformed);
 		previousPage.addActionListener(this::backToPreviousPage);
+		viewAssignments.addActionListener(this::ViewAssignmentActionPerformed);
 
 		
 		JSeparator horizontalLineTop = new JSeparator();
@@ -103,6 +104,11 @@ public class HomePageAdminFrame extends JFrame {
 	private void addUpdateEquipmentActionPerformed(ActionEvent evt) {
         EquipmentFrame updateEquipmentFrame = new EquipmentFrame();
         updateEquipmentFrame.setVisible(true);
+        dispose();
+	}
+	private void ViewAssignmentActionPerformed(ActionEvent evt) {
+        ViewAssignmentFrame viewAssignmentFrame = new ViewAssignmentFrame();
+        viewAssignmentFrame.setVisible(true);
         dispose();
 	}
 	
