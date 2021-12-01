@@ -31,6 +31,8 @@ public class HomePageAdminFrame extends JFrame {
 	
 	private JButton initiateAssignments = new JButton("Initiate Assignments");
 	private JButton viewAssignments = new JButton("View Assignments");
+	private JButton previousPage = new JButton("Return to previous page");
+
 	private String error = "";
 
 	public HomePageAdminFrame() {
@@ -49,6 +51,7 @@ public class HomePageAdminFrame extends JFrame {
 		addUpdateEquipmentBundle.addActionListener(this::addUpdateEquipmentBundleActionPerformed);
 		setUpNMCInfo.addActionListener(this::setUpNMCInfoActionPerformed);
 		initiateAssignments.addActionListener(this::initiateAssignmentsActionPerformed);
+		previousPage.addActionListener(this::backToPreviousPage);
 
 		
 		JSeparator horizontalLineTop = new JSeparator();
@@ -67,6 +70,7 @@ public class HomePageAdminFrame extends JFrame {
 				.addComponent(setUpNMCInfo)
 				.addComponent(initiateAssignments)
 				.addComponent(viewAssignments)
+				.addComponent(previousPage)
 				.addComponent(horizontalLineBottom));
 		
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage).addComponent(horizontalLineTop)
@@ -77,6 +81,7 @@ public class HomePageAdminFrame extends JFrame {
 				.addComponent(setUpNMCInfo)
 				.addComponent(initiateAssignments)
 				.addComponent(viewAssignments)
+				.addComponent(previousPage)
 				.addComponent(horizontalLineBottom));
 		
 		pack();
@@ -102,11 +107,15 @@ public class HomePageAdminFrame extends JFrame {
 	}
 	
 	private void addUpdateEquipmentBundleActionPerformed(ActionEvent evt) {
-
+        BundleFrame bundleFrame = new BundleFrame();
+        bundleFrame.setVisible(true);
+        dispose();
 	}
 	
 	private void setUpNMCInfoActionPerformed(ActionEvent evt) {
-
+        NMCSetUpInfoFrame nmcInfoFrame = new NMCSetUpInfoFrame();
+        nmcInfoFrame.setVisible(true);
+        dispose();
 	}
 	
 	private void initiateAssignmentsActionPerformed(ActionEvent evt) {
@@ -114,6 +123,11 @@ public class HomePageAdminFrame extends JFrame {
 	}
 	
 	
+	private void backToPreviousPage(ActionEvent evt) {
+        LoginFrame login = new LoginFrame();
+        login.setVisible(true);
+        dispose();
+	}
 	
 	/**
 	 * Calls the controller and sets the error message.

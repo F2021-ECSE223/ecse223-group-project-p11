@@ -44,6 +44,8 @@ public class RegisterGuideFrame extends JFrame {
 	
 	private JButton addGuideButton = new JButton("Add Guide");
 	
+	private JButton previousPage = new JButton("Return to previous page");
+
 	private String error = "";	
 
 	public RegisterGuideFrame() {
@@ -65,6 +67,7 @@ public class RegisterGuideFrame extends JFrame {
 		guidePasswordTextField.addActionListener(this::addGuideButtonActionPerformed);
 		guideEmergencyContactTextField.addActionListener(this::addGuideButtonActionPerformed);
 		addGuideButton.addActionListener(this::addGuideButtonActionPerformed);
+		previousPage.addActionListener(this::backToPreviousPage);
 
 		// listeners for updating guides
 
@@ -84,7 +87,7 @@ public class RegisterGuideFrame extends JFrame {
 						.addGroup(layout.createParallelGroup().addComponent(guideEmailTextField, 500, 500, 1000)
 								.addComponent(guideNameTextField, 500, 500, 1000)
 								.addComponent(guideEmergencyContactTextField)
-								.addComponent(guidePasswordTextField, 500, 500, 1000).addComponent(addGuideButton))));
+								.addComponent(guidePasswordTextField, 500, 500, 1000).addComponent(addGuideButton).addComponent(previousPage))));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, guideNameTextField, guidePasswordTextField,
 				guideEmergencyContactTextField);
@@ -98,7 +101,7 @@ public class RegisterGuideFrame extends JFrame {
 						.addComponent(guideEmergencyContactTextField))
 				.addGroup(layout.createParallelGroup().addComponent(guidePasswordLabel)
 						.addComponent(guidePasswordTextField))
-				.addComponent(addGuideButton)
+				.addComponent(addGuideButton).addComponent(previousPage)
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
 
 		pack();
@@ -141,6 +144,13 @@ public class RegisterGuideFrame extends JFrame {
 	    // update visuals 
 	    refreshData();
 
+	}
+	
+
+	private void backToPreviousPage(ActionEvent evt) {
+        LoginFrame loginFrame = new LoginFrame();
+        loginFrame.setVisible(true);
+        dispose();
 	}
 
 	private String callController(Executable executable) {

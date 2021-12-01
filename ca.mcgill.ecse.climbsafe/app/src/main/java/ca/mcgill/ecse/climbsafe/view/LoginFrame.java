@@ -118,7 +118,7 @@ public class LoginFrame extends JFrame {
 		        guideHomePage.setVisible(true);
 		        dispose();
 			} else if (memberType.equals("Member")) {
-		        HomePageMemberFrame memberHomePage = new HomePageMemberFrame();
+		        HomePageMemberFrame memberHomePage = new HomePageMemberFrame(emailTextField.getText());
 		        memberHomePage.setVisible(true);
 		        dispose();
 			} else if (memberType.equals("Admin")) {
@@ -129,6 +129,8 @@ public class LoginFrame extends JFrame {
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
+		
+		refreshData();
 	}
 
 	private void registerGuideActionPerformed(ActionEvent evt) {

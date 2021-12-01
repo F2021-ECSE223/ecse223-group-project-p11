@@ -33,6 +33,10 @@ public class ViewAssignmentFrame extends JFrame {
 		private static final long serialVersionUID = 99L;
 	};
 	private JScrollPane overviewScrollPane = new JScrollPane(assignmentOverview);
+	
+	private JButton previousPage = new JButton("Return to previous page");
+
+	
 	// maybe remove status below
 	private static final String[] ASSIGNMENT_COLUMN_NAMES = { "memberEmail", "memberName", "guideEmail", "guideName",
 			"hotelName", "startWeek", "endWeek", "totalCostForGuide", "totalCostForEquipment", "Status" };
@@ -69,5 +73,11 @@ public class ViewAssignmentFrame extends JFrame {
 		setTitle("ClimbSafe Application System");
 		// set up comboboxes
 
+	}
+
+	private void backToPreviousPage(ActionEvent evt) {
+		HomePageAdminFrame homepage = new HomePageAdminFrame();
+		homepage.setVisible(true);
+		dispose();
 	}
 }

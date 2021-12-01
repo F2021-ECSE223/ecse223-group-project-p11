@@ -1,5 +1,7 @@
 package ca.mcgill.ecse.climbsafe.view;
 
-public class NMCSetUpInfoFrame {
+import javax.swing.JFrame;
+
+public class NMCSetUpInfoFrame extends JFrame {
 
 }

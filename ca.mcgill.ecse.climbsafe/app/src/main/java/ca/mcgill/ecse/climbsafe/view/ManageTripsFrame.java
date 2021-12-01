@@ -39,6 +39,7 @@ public class ManageTripsFrame extends JFrame {
 	private JButton startTripsButton = new JButton("Start Trips");
 	private JButton finishTripButton = new JButton("Finish Trips");
 	private JButton cancelTripButton = new JButton("Cancel Trip");
+	private JButton previousPage = new JButton("Return to previous page");
 
 	private String error = "";
 
@@ -60,6 +61,7 @@ public class ManageTripsFrame extends JFrame {
 		startTripsButton.addActionListener(this::startTripsActionPerformed);
 		finishTripButton.addActionListener(this::finishTripsActionPerformed);
 		cancelTripButton.addActionListener(this::cancelTripActionPerformed);
+		previousPage.addActionListener(this::backToPreviousPage);
 
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineBottom = new JSeparator();
@@ -76,7 +78,7 @@ public class ManageTripsFrame extends JFrame {
 								.addComponent(startTripsButton, 500, 500, 1000)
 								.addComponent(memberList, 500, 500, 1000)
 								.addComponent(finishTripButton, 500, 500, 1000)
-								.addComponent(cancelTripButton, 500, 500, 1000))));
+								.addComponent(cancelTripButton, 500, 500, 1000).addComponent(previousPage, 500, 500, 1000))));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, weekNumber, memberList);
 		layout.linkSize(SwingConstants.HORIZONTAL, startTripsButton, finishTripButton, cancelTripButton);
@@ -88,7 +90,7 @@ public class ManageTripsFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(memberLabel)
 						.addComponent(memberList))
 				.addComponent(finishTripButton)
-				.addComponent(cancelTripButton)
+				.addComponent(cancelTripButton).addComponent(previousPage)
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
 
 		pack();
@@ -169,6 +171,12 @@ public class ManageTripsFrame extends JFrame {
 		refreshData();
 	}
 
+	private void backToPreviousPage(ActionEvent evt) {
+        HomePageAdminFrame homepage = new HomePageAdminFrame();
+        homepage.setVisible(true);
+        dispose();
+	}
+	
 	/**
 	 * Calls the controller and sets the error message.
 	 * 

@@ -15,8 +15,13 @@ public class HomePageMemberFrame extends JFrame {
 	private JButton payTrip = new JButton("Pay trip");
 	
 	private JLabel information = new JLabel("information");
+	
+	private JButton previousPage = new JButton("Return to previous page");
 
-	public HomePageMemberFrame() {
+	private String email;
+
+	public HomePageMemberFrame(String email) {
+		this.email = email;
 		initComponents();
 	}
 
@@ -28,8 +33,9 @@ public class HomePageMemberFrame extends JFrame {
 		setSize(500, 500);
 
 		updateOrModifyAccount.addActionListener(this::updateOrModifyAccountActionPerformed);
-		updateOrModifyAccount.addActionListener(this::payTripActionPerformed);
-		
+		payTrip.addActionListener(this::payTripActionPerformed);
+		previousPage.addActionListener(this::backToPreviousPage);
+
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineBottom = new JSeparator();
 
@@ -38,9 +44,9 @@ public class HomePageMemberFrame extends JFrame {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(payTrip).addComponent(horizontalLineBottom));
+				.addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(payTrip).addComponent(previousPage).addComponent(horizontalLineBottom));
 		
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(payTrip).addComponent(horizontalLineBottom));
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(payTrip).addComponent(previousPage).addComponent(horizontalLineBottom));
 		
 		pack();
 		setLocationRelativeTo(null);
@@ -49,14 +55,20 @@ public class HomePageMemberFrame extends JFrame {
 	}
 	
 	private void updateOrModifyAccountActionPerformed(ActionEvent evt) {
-        MemberFrame2 updateMemberFrame = new MemberFrame2();
+        MemberFrame2 updateMemberFrame = new MemberFrame2(this.email);
         updateMemberFrame.setVisible(true);
         dispose();
 	}
 	
 	private void payTripActionPerformed(ActionEvent evt) {
-        //PayTripFrame payTripFrame = new PayTrip();
-        //payTripFrame.setVisible(true);
+        PayTripFrame payTripFrame = new PayTripFrame(email);
+        payTripFrame.setVisible(true);
+        dispose();
+	}
+	
+	private void backToPreviousPage(ActionEvent evt) {
+        LoginFrame login = new LoginFrame();
+        login.setVisible(true);
         dispose();
 	}
 }
