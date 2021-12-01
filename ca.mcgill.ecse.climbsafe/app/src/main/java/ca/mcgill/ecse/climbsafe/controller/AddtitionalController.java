@@ -287,7 +287,9 @@ public class AddtitionalController {
 	
 	public static String login(String email, String password) throws InvalidInputException {
 		if (!User.hasWithEmail(email)) {
-			throw new InvalidInputException("This email does not correspond to any system member");
+			throw new InvalidInputException("This email does not correspond to any system member");	
+		} else if (User.getWithEmail(email).getPassword().equals(password)){
+			throw new InvalidInputException("The password is incorrect");	
 		} else if (User.getWithEmail(email) instanceof Guide) {
 			return "Guide";
 		} else if (User.getWithEmail(email) instanceof Member) {

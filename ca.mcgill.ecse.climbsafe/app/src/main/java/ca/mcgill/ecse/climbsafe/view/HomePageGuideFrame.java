@@ -17,8 +17,11 @@ public class HomePageGuideFrame extends JFrame {
 	private JButton updateOrModifyAccount = new JButton("Update Information or Delete Account");
 
 	private JLabel information = new JLabel("information");
+	
+	private String email;
 
-	public HomePageGuideFrame() {
+	public HomePageGuideFrame(String email) {
+		this.email = email;
 		initComponents();
 	}
 
