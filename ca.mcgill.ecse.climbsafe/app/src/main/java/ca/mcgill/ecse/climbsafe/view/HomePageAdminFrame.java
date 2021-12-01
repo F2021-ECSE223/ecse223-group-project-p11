@@ -30,7 +30,7 @@ public class HomePageAdminFrame extends JFrame {
 	private JButton setUpNMCInfo = new JButton("Set up NMC information");
 	
 	private JButton initiateAssignments = new JButton("Initiate Assignments");
-
+	private JButton viewAssignments = new JButton("View Assignments");
 	private String error = "";
 
 	public HomePageAdminFrame() {
@@ -66,6 +66,7 @@ public class HomePageAdminFrame extends JFrame {
 				.addComponent(addUpdateEquipmentBundle)
 				.addComponent(setUpNMCInfo)
 				.addComponent(initiateAssignments)
+				.addComponent(viewAssignments)
 				.addComponent(horizontalLineBottom));
 		
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage).addComponent(horizontalLineTop)
@@ -75,6 +76,7 @@ public class HomePageAdminFrame extends JFrame {
 				.addComponent(addUpdateEquipmentBundle)
 				.addComponent(setUpNMCInfo)
 				.addComponent(initiateAssignments)
+				.addComponent(viewAssignments)
 				.addComponent(horizontalLineBottom));
 		
 		pack();
@@ -110,6 +112,8 @@ public class HomePageAdminFrame extends JFrame {
 	private void initiateAssignmentsActionPerformed(ActionEvent evt) {
 		callController(() -> AssignmentController.initiateAssignment());
 	}
+	
+	
 	
 	/**
 	 * Calls the controller and sets the error message.
