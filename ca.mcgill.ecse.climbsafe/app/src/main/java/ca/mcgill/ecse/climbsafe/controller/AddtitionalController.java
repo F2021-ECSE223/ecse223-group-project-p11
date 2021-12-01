@@ -46,7 +46,7 @@ public class AddtitionalController {
 			List<Integer> quantity=new ArrayList<>();
 			for(BookedItem i:bI.getBookedItems()) {
 				quantity.add(i.getQuantity());
-			}
+			} 
 			quantities.add(quantity);
 		}
 		return quantities;
@@ -153,7 +153,10 @@ public class AddtitionalController {
 	
 	
 	//oliver done
-	
+	public static List<Assignment> getAllAssignments(){
+		ClimbSafe cS= ClimbSafeApplication.getClimbSafe();
+		return cS.getAssignments();
+	}
 	
 	public static List<TOAssignment> getAssignments() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
