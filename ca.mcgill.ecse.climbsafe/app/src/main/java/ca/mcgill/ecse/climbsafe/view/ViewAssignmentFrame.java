@@ -39,6 +39,7 @@ public class ViewAssignmentFrame extends JFrame {
 	private static final int HEIGHT_OVERVIEW_TABLE = 200;
 
 	public ViewAssignmentFrame() {// maybe
+		setTable();
 		initComponents();
 	}
 
@@ -46,6 +47,7 @@ public class ViewAssignmentFrame extends JFrame {
 		var overviewDtm = new DefaultTableModel(0, 0);
 		overviewDtm.setColumnIdentifiers(ASSIGNMENT_COLUMN_NAMES);
 		assignmentOverview.setModel(overviewDtm);
+		
 		for (Assignment a : AddtitionalController.getAllAssignments()) {
 			// { "memberEmail", "memberName", "guideEmail", "guideName" "hotelName",
 			// "startWeek", "endWeek", "totalCostForGuide", "totalCostForEquipment",
@@ -68,6 +70,10 @@ public class ViewAssignmentFrame extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("ClimbSafe Application System");
 		// set up comboboxes
+		pack();
+	    setLocationRelativeTo(null); // set window location to be in the center of the screen
+	    setResizable(true);
+		setVisible(true);
 
 	}
 }
