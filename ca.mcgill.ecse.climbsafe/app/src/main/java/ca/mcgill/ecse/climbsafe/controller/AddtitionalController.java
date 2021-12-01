@@ -38,6 +38,8 @@ public class AddtitionalController {
 		return list;
 	}
 	
+	
+	
 	public static void createAdmin() {
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
 		if(!climbSafe.hasAdministrator()) {

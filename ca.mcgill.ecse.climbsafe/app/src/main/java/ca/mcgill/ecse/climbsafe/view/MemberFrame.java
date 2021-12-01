@@ -185,8 +185,6 @@ public class MemberFrame extends JFrame{
 		                		 .addComponent(memberEmergencyContactLabel).addComponent(memberWeekNumberLabel).addComponent(memberGuideCheckBox)
 		                		 .addComponent(memberHotelCheckBox).addComponent(equipmentLabel).addComponent(equipmentNumberLabel).addComponent(addMemberButton)
 		                		 .addComponent(deleteItemButton)
-		                		// .addComponent(deleteMemberButton)
-		                		// .addComponent(updateMemberButton)
 		                		 )
 		                 
 		                 .addGroup(layout.createParallelGroup()
@@ -339,15 +337,17 @@ public class MemberFrame extends JFrame{
 
 		    callController(() -> ClimbSafeFeatureSet2Controller.registerMember(memberEmailTextField.getText(), memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));     
 
-		    currentAccountEmail = memberEmailTextField.getText();
+		    String temp = memberEmailTextField.getText();
 		    
+		    
+		    MemberFrame2 updateMemberFrame = new MemberFrame2(temp);
+	        updateMemberFrame.setVisible(true);
+	        dispose();
 		    selectedItemNames.clear();
 			selectedItemQuantities.clear();
 			selectedItemCost.clear();
 			refreshOverview();
-			MemberFrame2 updateMemberFrame = new MemberFrame2();
-	        updateMemberFrame.setVisible(true);
-	        dispose();
+			
 		    
 		    }
 		    // update visuals
