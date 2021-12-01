@@ -148,8 +148,8 @@ public class RegisterGuideFrame extends JFrame {
 	
 
 	private void backToPreviousPage(ActionEvent evt) {
-        LoginFrame loginFrame = new LoginFrame();
-        loginFrame.setVisible(true);
+        InitialHomePage initialPage = new InitialHomePage();
+        initialPage.setVisible(true);
         dispose();
 	}
 

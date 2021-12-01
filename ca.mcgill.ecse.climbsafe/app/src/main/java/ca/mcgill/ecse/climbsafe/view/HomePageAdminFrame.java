@@ -130,8 +130,8 @@ public class HomePageAdminFrame extends JFrame {
 	
 	
 	private void backToPreviousPage(ActionEvent evt) {
-        LoginFrame login = new LoginFrame();
-        login.setVisible(true);
+        InitialHomePage initialPage = new InitialHomePage();
+        initialPage.setVisible(true);
         dispose();
 	}
 	

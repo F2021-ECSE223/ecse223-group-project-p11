@@ -20,8 +20,8 @@ public class HomePageMemberFrame extends JFrame {
 
 	private String email;
 
-	public HomePageMemberFrame(String email) {
-		this.email = email;
+	public HomePageMemberFrame() {
+		this.email = "test";
 		initComponents();
 	}
 
@@ -67,8 +67,8 @@ public class HomePageMemberFrame extends JFrame {
 	}
 	
 	private void backToPreviousPage(ActionEvent evt) {
-        LoginFrame login = new LoginFrame();
-        login.setVisible(true);
+        InitialHomePage initialPage = new InitialHomePage();
+        initialPage.setVisible(true);
         dispose();
 	}
 }

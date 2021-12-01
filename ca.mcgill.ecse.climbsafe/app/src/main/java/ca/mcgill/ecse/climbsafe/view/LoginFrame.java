@@ -114,11 +114,11 @@ public class LoginFrame extends JFrame {
 		try {
 			String memberType = AddtitionalController.login(emailTextField.getText(), passwordTextField.getText());
 			if (memberType.equals("Guide")) {
-		        HomePageGuideFrame guideHomePage = new HomePageGuideFrame(emailTextField.getText());
+		        HomePageGuideFrame guideHomePage = new HomePageGuideFrame();
 		        guideHomePage.setVisible(true);
 		        dispose();
 			} else if (memberType.equals("Member")) {
-		        HomePageMemberFrame memberHomePage = new HomePageMemberFrame(emailTextField.getText());
+		        HomePageMemberFrame memberHomePage = new HomePageMemberFrame();
 		        memberHomePage.setVisible(true);
 		        dispose();
 			} else if (memberType.equals("Admin")) {

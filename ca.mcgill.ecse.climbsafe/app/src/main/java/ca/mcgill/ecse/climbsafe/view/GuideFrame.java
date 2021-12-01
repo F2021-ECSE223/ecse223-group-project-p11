@@ -57,8 +57,7 @@ public class GuideFrame extends JFrame {
 
 	private String email;
 
-	public GuideFrame(String email) {
-		this.email = email;
+	public GuideFrame() {
 		initComponents();
 		refreshData();
 	}
@@ -184,7 +183,7 @@ public class GuideFrame extends JFrame {
 	}
 
 	private void backToPreviousPage(ActionEvent evt) {
-		HomePageGuideFrame homepage = new HomePageGuideFrame(email);
+		HomePageGuideFrame homepage = new HomePageGuideFrame();
 		homepage.setVisible(true);
 		dispose();
 	}

@@ -97,7 +97,7 @@ public class PayTripFrame extends JFrame {
 	}
 
 	private void backToPreviousPage(ActionEvent evt) {
-		HomePageMemberFrame homepage = new HomePageMemberFrame(email);
+		HomePageMemberFrame homepage = new HomePageMemberFrame();
 		homepage.setVisible(true);
 		dispose();
 	}
