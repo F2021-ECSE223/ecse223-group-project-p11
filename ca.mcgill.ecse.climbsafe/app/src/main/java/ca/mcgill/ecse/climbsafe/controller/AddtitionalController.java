@@ -39,6 +39,19 @@ public class AddtitionalController {
 	}
 	
 	
+	//for testing
+	public static String getMemberInfo(String email){
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list = new ArrayList<String>();
+		for (Member member : cS.getMembers()) {
+			if(member.getEmail().equals(email)) {
+				return (String) (member.getName() + member.getPassword() + member.getEmergencyContact() + member.getBookedItem(0).toString());
+			}
+		}
+		return "here";
+	}
+		
+	
 	
 	public static void createAdmin() {
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();

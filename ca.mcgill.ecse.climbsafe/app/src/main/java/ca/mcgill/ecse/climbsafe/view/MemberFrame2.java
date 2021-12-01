@@ -280,8 +280,8 @@ public class MemberFrame2 extends JFrame{
 		    
 		    if(error.isEmpty()) {
 		    	callController(() -> ClimbSafeFeatureSet2Controller.updateMember(currentUser, memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));
-		    	//String temp = AddtitionalController.getMemberInfo(currentUser);
-		    //.out.println(temp);
+		    //	String temp = AddtitionalController.getMemberInfo(currentUser);
+		      //  System.out.println(temp);
 		    	selectedItemNames.clear();
 				selectedItemQuantities.clear();
 				selectedItemCost.clear();
@@ -351,6 +351,8 @@ public class MemberFrame2 extends JFrame{
 			  selectedItemCost.add(AddtitionalController.getItemCost(equipmentNameText2));
 			  refreshOverview();
 			  refreshEquipment();
+			  
+			  
 	  }
 			  else{
 				  error = "Item already selected";
