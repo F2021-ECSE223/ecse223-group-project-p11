@@ -280,8 +280,7 @@ public class MemberFrame2 extends JFrame{
 		    
 		    if(error.isEmpty()) {
 		    	callController(() -> ClimbSafeFeatureSet2Controller.updateMember(currentUser, memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));
-		    //	String temp = AddtitionalController.getMemberInfo(currentUser);
-		      //  System.out.println(temp);
+		    	
 		    	selectedItemNames.clear();
 				selectedItemQuantities.clear();
 				selectedItemCost.clear();
@@ -373,7 +372,12 @@ public class MemberFrame2 extends JFrame{
 		  error = "";
 		  
 		  callController(() -> ClimbSafeFeatureSet1Controller.deleteMember(currentUser));
-		  System.out.println("Deleted");
+		  
+		  
+		  
+		  LoginFrame loginFrame = new LoginFrame();
+	      loginFrame.setVisible(true);
+	      dispose();
 	  }
 	  
 	  

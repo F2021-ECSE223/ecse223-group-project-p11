@@ -337,10 +337,8 @@ public class MemberFrame extends JFrame{
 
 		    callController(() -> ClimbSafeFeatureSet2Controller.registerMember(memberEmailTextField.getText(), memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));     
 
-		    String temp = memberEmailTextField.getText();
-		    
-		    
-		    MemberFrame2 updateMemberFrame = new MemberFrame2(temp);
+		    String email = memberEmailTextField.getText();
+		    MemberFrame2 updateMemberFrame = new MemberFrame2(email);
 	        updateMemberFrame.setVisible(true);
 	        dispose();
 		    selectedItemNames.clear();
