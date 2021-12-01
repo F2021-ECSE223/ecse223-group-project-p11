@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.climbsafe.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
@@ -15,6 +16,7 @@ import ca.mcgill.ecse.climbsafe.model.EquipmentBundle;
 import ca.mcgill.ecse.climbsafe.model.Guide;
 import ca.mcgill.ecse.climbsafe.model.Hotel;
 import ca.mcgill.ecse.climbsafe.model.Member;
+import ca.mcgill.ecse.climbsafe.model.User;
 
 public class AddtitionalController {
 	
@@ -36,14 +38,67 @@ public class AddtitionalController {
 		}
 		return list;
 	}
+	//maxime
+	public static List<List<Integer>>EquipmentBundleItemsQuantity() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<List<Integer>> quantities= new ArrayList<>();
+		for(EquipmentBundle bI: cS.getBundles()) {
+			List<Integer> quantity=new ArrayList<>();
+			for(BookedItem i:bI.getBookedItems()) {
+				quantity.add(i.getQuantity());
+			} 
+			quantities.add(quantity);
+		}
+		return quantities;
+	}
+	public static List<List<String>>EquipmentBundleItemsNames() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<List<String>> names= new ArrayList<>();
+		for(EquipmentBundle bI: cS.getBundles()) {
+			List<String> name=new ArrayList<>();
+			for(BundleItem i:bI.getBundleItems()) {
+				String x = i.getEquipment().getName();
+				name.add(x);
+			}
+			names.add(name);
+		}
+		return names;
+	}
+	
+	//done
+	
+	
+	//oliver
+	
+	public static List<Assignment> getAllAssignments(){
+		ClimbSafe cS= ClimbSafeApplication.getClimbSafe();
+		return cS.getAssignments();
+	}
+	
+
+	
+	
+	
+	
+	//for testing
+	public static String getMemberInfo(String email){
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list = new ArrayList<String>();
+		for (Member member : cS.getMembers()) {
+			if(member.getEmail().equals(email)) {
+				return (String) (member.getName() + member.getPassword() + member.getEmergencyContact() + member.getBookedItem(0).toString());
+			}
+		}
+		return "here";
+	}
+		
+	
 	
 	public static void createAdmin() {
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
 		if(!climbSafe.hasAdministrator()) {
 			Administrator admin = new Administrator("admin@nmc.nt", "admin", climbSafe);
 			climbSafe.setAdministrator(admin);
-			
-		
 		}
 	}
 	
@@ -86,12 +141,25 @@ public class AddtitionalController {
 			if(name.equals(test.get(i).getName())) {
 				return test.get(i).getPricePerWeek();
 			}
-		}
-		
-		
-		
-		
+		}	
 		return null;
 	}
+	
+	public static String login(String email, String password) throws InvalidInputException {
+		if (!User.hasWithEmail(email)) {
+			throw new InvalidInputException("This email does not correspond to any system member");	
+		} else if (User.getWithEmail(email).getPassword().equals(password)){
+			throw new InvalidInputException("The password is incorrect");	
+		} else if (User.getWithEmail(email) instanceof Guide) {
+			return "Guide";
+		} else if (User.getWithEmail(email) instanceof Member) {
+			return "Member";
+		} else if (User.getWithEmail(email) instanceof Administrator) {
+			return "Admin";
+		}
+		return null;
+	}
+
+	
 
 }

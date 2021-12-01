@@ -23,20 +23,17 @@ import ca.mcgill.ecse.climbsafe.application.*;
 import ca.mcgill.ecse.climbsafe.view.*;
 import ca.mcgill.ecse.climbsafe.controller.*;
 
-
-public class MemberFrame extends JFrame{
+public class MemberFrame extends JFrame {
 	private String error;
 	private String currentAccountEmail = "";
 	List<String> selectedItemNames = new ArrayList<String>();
 	List<Integer> selectedItemQuantities = new ArrayList<Integer>();
 	List<Integer> selectedItemCost = new ArrayList<Integer>();
-	  
-	  
 
-	//private int maxNumOfWeeks = ClimbSafeApplication.getClimbSafe().getNrWeeks();
-	
+	// private int maxNumOfWeeks = ClimbSafeApplication.getClimbSafe().getNrWeeks();
+
 	private static final long serialVersionUID = -4426369335015542L;
-	
+
 	// UI elements
 	  // element for error message
 	  private JLabel errorMessage = new JLabel();
@@ -66,17 +63,17 @@ public class MemberFrame extends JFrame{
 	  
 	  private JButton addMemberButton = new JButton("Create Account and Book Trip");
 	  
-	  private JButton deleteMemberButton = new JButton("Delete Account");
+	  //private JButton deleteMemberButton = new JButton("Delete Account");
 	  
 	  private JComboBox<String> equipmentAvailableList = new JComboBox<>();
-	  private JButton addEquipmentButton = new JButton("Add Selected Equipment");
-	  private JLabel equipmentLabel = new JLabel("Select Equipment");
+	  private JButton addEquipmentButton = new JButton("Add Selected Item");
+	  private JLabel equipmentLabel = new JLabel("Select Item");
 	  private JTextField equipmentNumberTextField = new JTextField();
-	  private JLabel equipmentNumberLabel = new JLabel("Number of Selected Equipment");
+	  private JLabel equipmentNumberLabel = new JLabel("Number of Selected Item");
 	  
 	  //viewing the selected equipment in table for registering member
 	  
-	  private JButton deleteItemButton = new JButton("Remove Selected Equipment");
+	  private JButton deleteItemButton = new JButton("Remove Selected Item");
 	  //private JComboBox<String> selectedItemsList = new JComboBox<>();
 	 
 	  
@@ -112,7 +109,7 @@ public class MemberFrame extends JFrame{
 	  
 	  
 	  */
-	  private JButton updateMemberButton = new JButton("Update Account");
+	  //private JButton updateMemberButton = new JButton("Update Account");
 	 
 	  
 	  public MemberFrame() {
@@ -149,9 +146,9 @@ public class MemberFrame extends JFrame{
 		  //listeners for member
 		  addMemberButton.addActionListener(this::addMemberButtonActionPerformed); // Respond to Enter/Return key
 		  
-		  deleteMemberButton.addActionListener(this::deleteMemberButtonActionPerformed);
+		 // deleteMemberButton.addActionListener(this::deleteMemberButtonActionPerformed);
 		  
-		  updateMemberButton.addActionListener(this::updateMemberButtonActionPerformed);
+		 // updateMemberButton.addActionListener(this::updateMemberButtonActionPerformed);
 		  
 		  addEquipmentButton.addActionListener(this::addEquipmentButtonActionPerformed);
 		  
@@ -167,7 +164,7 @@ public class MemberFrame extends JFrame{
 		  
 		  JSeparator horizontalLine1= new JSeparator();
 		  JSeparator horizontalLine2= new JSeparator();
-		  JSeparator horizontalLineBottom = new JSeparator();
+		  
 		  
 		  GroupLayout layout = new GroupLayout(getContentPane());
 		  getContentPane().setLayout(layout);
@@ -176,7 +173,7 @@ public class MemberFrame extends JFrame{
 		  layout.setHorizontalGroup(
 		        layout.createParallelGroup()
 		             .addComponent(errorMessage).addComponent(horizontalLine1)
-		             .addComponent(horizontalLine2).addComponent(horizontalLineBottom)
+		             .addComponent(horizontalLine2)
 		             .addComponent(overviewScrollPane)
 		             .addGroup(layout.createSequentialGroup()
 		                 
@@ -185,8 +182,7 @@ public class MemberFrame extends JFrame{
 		                		 .addComponent(memberEmergencyContactLabel).addComponent(memberWeekNumberLabel).addComponent(memberGuideCheckBox)
 		                		 .addComponent(memberHotelCheckBox).addComponent(equipmentLabel).addComponent(equipmentNumberLabel).addComponent(addMemberButton)
 		                		 .addComponent(deleteItemButton)
-		                		 .addComponent(deleteMemberButton)
-		                		 .addComponent(updateMemberButton))
+		                		 )
 		                 
 		                 .addGroup(layout.createParallelGroup()
 		                		 .addComponent(memberNameTextField, 200, 200, 400)
@@ -245,17 +241,18 @@ public class MemberFrame extends JFrame{
 		            .addGroup(layout.createParallelGroup()
 		            		.addComponent(horizontalLine2)
 		            		)
-		            
+		            /*
 		            .addGroup(layout.createParallelGroup()
 		            		.addComponent(updateMemberButton)
-		            		)
+		            		)*/
+		            /*
 		            .addGroup(layout.createParallelGroup()
 		            		.addComponent(horizontalLineBottom)
 		            		)
 		            
-		            .addGroup(layout.createParallelGroup()
+		            /*.addGroup(layout.createParallelGroup()
 		            		.addComponent(deleteMemberButton)
-		            		)
+		            		)*/
 		            .addComponent(overviewScrollPane)
 		           
 		            );
@@ -305,7 +302,7 @@ public class MemberFrame extends JFrame{
 		    overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
 		    equipmentOverview.setModel(overviewDtm);
 		    if(equipmentAvailableList.getSelectedItem()!=null) {
-		    String equipmentNameText = equipmentAvailableList.getSelectedItem().toString();
+		    //String equipmentNameText = equipmentAvailableList.getSelectedItem().toString();
 		    DefaultTableModel model = (DefaultTableModel) equipmentOverview.getModel();
 		    for(int i = 0 ; i < selectedItemNames.size(); i++) {
 		    model.addRow(new Object[] {selectedItemNames.get(i),selectedItemQuantities.get(i) , selectedItemCost.get(i)});
@@ -332,127 +329,119 @@ public class MemberFrame extends JFrame{
 		    //temporary until other frames finished
 		    callController(() -> AddtitionalController.createAdmin());
 		    callController(() -> ClimbSafeFeatureSet1Controller.setup(Date.valueOf("2022-01-01"), 25, 200));
+		    
 		    	
 
 		    callController(() -> ClimbSafeFeatureSet2Controller.registerMember(memberEmailTextField.getText(), memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));     
 
-		    currentAccountEmail = memberEmailTextField.getText();
-		    
+		    String email = memberEmailTextField.getText();
+		    MemberFrame2 updateMemberFrame = new MemberFrame2(email);
+	        updateMemberFrame.setVisible(true);
+	        dispose();
 		    selectedItemNames.clear();
 			selectedItemQuantities.clear();
 			selectedItemCost.clear();
 			refreshOverview();
-		    
-		    }
-		    // update visuals
-		    refreshData();
-		    refreshEquipment();
-		  }
-	  
-	  
-	  private void deleteMemberButtonActionPerformed(ActionEvent evt) {
-		  
-		  error = "";
-		  if(!currentAccountEmail.equals("")) {
-		  callController(() -> ClimbSafeFeatureSet1Controller.deleteMember(currentAccountEmail));
-		  currentAccountEmail = "";
-		  }
-		  
-		  else {
-			  error = "No account to delete";
-		  }
-		  
-		  
-		  refreshData();
-		  
-	  }
-	  
-	  private void updateMemberButtonActionPerformed(ActionEvent evt) {
-		  error = "";
-	  }
-	  
-	  private void deleteItemButtonActionPerformed(ActionEvent evt) {
-		  error = "";
-		  String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
-		  if(equipmentNameText2.equals("-----")) {
-			  error = "Select an Item to remove it";
-		  }
-		  
-		  if(error.isEmpty()) {
-			  for(int j = 0; j < selectedItemNames.size(); j++) {
-				  if(selectedItemNames.get(j).equals(equipmentNameText2)) {
-					  selectedItemNames.remove(j);
-					  selectedItemQuantities.remove(j);
-					  selectedItemCost.remove(j);
-				  }
-				  
-			  }
-			  
-			  refreshOverview();
-			  refreshData();
-			  refreshEquipment();
-		  }
-		  
-		  
-	  }
-	  
-	  private void addEquipmentButtonActionPerformed(ActionEvent evt) {
-		  
-		 
-		  error = "";
-		  String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
-		  
-		  int equipmentNumber = getNumberFromField(equipmentNumberTextField, "Must be a number!");
-		    error.trim();
-		  
-		  if(equipmentNameText2.equals("-----")) {
-			  error = "Select an Item in order to add it to your booking";
-		  }
-		  
-		  if(equipmentNumberTextField.getText().equals("")) {
-			  error = "Fill Number Field before adding";
-		  }
-		  
-		  if(error.isEmpty()) {
-			  
-			  if(!selectedItemNames.contains(equipmentNameText2)) {
-			  selectedItemNames.add(equipmentNameText2);
-			  selectedItemQuantities.add(equipmentNumber);
-			  selectedItemCost.add(AddtitionalController.getItemCost(equipmentNameText2));
-			  refreshOverview();
-			  refreshEquipment();
-	  }
-			  else{
-				  error = "Item already selected";
-				  refreshData();}}
-			  }
-	  
-	  private int getNumberFromField(JTextField field, String errorMessage) {
-		    try {
-		      return Integer.parseInt(field.getText());
-		    } catch (NumberFormatException e) {
-		    	if(error.equals("")) {
-		      error += errorMessage;}
-		    }
-		    return 0;
-		  }
-	  
-	  
-	  private String callController(Executable executable) {
-		    try {
-		      executable.execute();
-		    } catch (InvalidInputException e) {
-		      error = e.getMessage();
-		      return error;
-		    } catch (Throwable t) {
-		      t.printStackTrace();
-		    }
-		    return "";
-		  }
 
-		  @FunctionalInterface
-		  interface Executable {
-		    public void execute() throws Throwable;
-		  }
+		}
+		// update visuals
+		refreshData();
+		refreshEquipment();
+	}
+
+	private void deleteItemButtonActionPerformed(ActionEvent evt) {
+		error = "";
+		String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
+		if (equipmentNameText2.equals("---------")) {
+			error = "Select an Item to remove it";
+		}
+
+		if (!selectedItemNames.contains(equipmentNameText2)) {
+			error = "Add an Item before Removing";
+		}
+
+		errorMessage.setText(error);
+		if (error.isEmpty()) {
+			for (int j = 0; j < selectedItemNames.size(); j++) {
+				if (selectedItemNames.get(j).equals(equipmentNameText2)) {
+					selectedItemNames.remove(j);
+					selectedItemQuantities.remove(j);
+					selectedItemCost.remove(j);
+				}
+
+			}
+
+			refreshOverview();
+			refreshEquipment();
+		}
+
+	}
+
+	private void addEquipmentButtonActionPerformed(ActionEvent evt) {
+
+		error = "";
+		String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
+
+		int equipmentNumber = getNumberFromField(equipmentNumberTextField, "Must be a number!");
+		error.trim();
+
+		if (equipmentNumberTextField.getText().equals("")) {
+			error = "Fill Number Field before adding";
+		}
+
+		if (equipmentNameText2.equals("---------")) {
+			error = "Select an Item in order to add it to your booking";
+		}
+
+		errorMessage.setText(error);
+
+		if (error.isEmpty()) {
+
+			if (!selectedItemNames.contains(equipmentNameText2)) {
+				selectedItemNames.add(equipmentNameText2);
+				selectedItemQuantities.add(equipmentNumber);
+				selectedItemCost.add(AddtitionalController.getItemCost(equipmentNameText2));
+				refreshOverview();
+				refreshEquipment();
+			} else {
+				error = "Item already selected";
+				refreshData();
+			}
+		}
+	}
+
+	private int getNumberFromField(JTextField field, String errorMessage) {
+		try {
+			return Integer.parseInt(field.getText());
+		} catch (NumberFormatException e) {
+			if (error.equals("")) {
+				error += errorMessage;
+			}
+		}
+		return 0;
+	}
+
+	private String callController(Executable executable) {
+		try {
+			executable.execute();
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+			return error;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return "";
+	}
+
+	private void backToPreviousPage(ActionEvent evt) {
+		LoginFrame login = new LoginFrame();
+		login.setVisible(true);
+		dispose();
+	}
+
+	@FunctionalInterface
+	interface Executable {
+		public void execute() throws Throwable;
+	}
 
 }

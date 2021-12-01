@@ -17,8 +17,11 @@ import javax.swing.WindowConstants;
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.controller.AddtitionalController;
+import ca.mcgill.ecse.climbsafe.controller.AssignmentController;
+import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
+import ca.mcgill.ecse.climbsafe.view.HomePageAdminFrame.Executable;
 
 public class LoginFrame extends JFrame {
 
@@ -108,7 +111,26 @@ public class LoginFrame extends JFrame {
 	}
 
 	private void LoginActionPerformed(ActionEvent evt) {
-
+		try {
+			String memberType = AddtitionalController.login(emailTextField.getText(), passwordTextField.getText());
+			if (memberType.equals("Guide")) {
+		        HomePageGuideFrame guideHomePage = new HomePageGuideFrame(emailTextField.getText());
+		        guideHomePage.setVisible(true);
+		        dispose();
+			} else if (memberType.equals("Member")) {
+		        HomePageMemberFrame memberHomePage = new HomePageMemberFrame(emailTextField.getText());
+		        memberHomePage.setVisible(true);
+		        dispose();
+			} else if (memberType.equals("Admin")) {
+		        HomePageAdminFrame adminHomePage = new HomePageAdminFrame();
+		        adminHomePage.setVisible(true);
+		        dispose();
+			}
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		
+		refreshData();
 	}
 
 	private void registerGuideActionPerformed(ActionEvent evt) {
@@ -121,5 +143,28 @@ public class LoginFrame extends JFrame {
 		MemberFrame registerMemberFrame = new MemberFrame();
         registerMemberFrame.setVisible(true);
         dispose();
+	}
+	
+	/**
+	 * Calls the controller and sets the error message.
+	 * 
+	 * @param executable a controller call preceded by "() -> ", eg,<br>
+	 * @return
+	 */
+	private String callController(Executable executable) {
+		try {
+			executable.execute();
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+			return error;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return "";
+	}
+
+	@FunctionalInterface
+	interface Executable {
+		public void execute() throws Throwable;
 	}
 }

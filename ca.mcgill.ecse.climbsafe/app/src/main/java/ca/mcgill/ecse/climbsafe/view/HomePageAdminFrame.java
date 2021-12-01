@@ -9,9 +9,16 @@ import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.WindowConstants;
 
+import ca.mcgill.ecse.climbsafe.controller.AssignmentController;
+import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet1Controller;
+import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
+import ca.mcgill.ecse.climbsafe.controller.TOGuide;
+import ca.mcgill.ecse.climbsafe.view.GuideFrame.Executable;
+
 public class HomePageAdminFrame extends JFrame {
 
-	
+	private JLabel errorMessage = new JLabel(); // element for error message
+
 	private JButton banMember = new JButton("Ban Member");
 
 	private JButton startCancelFinishTrips = new JButton("Start, Finish or Cancel Trips");
@@ -23,6 +30,10 @@ public class HomePageAdminFrame extends JFrame {
 	private JButton setUpNMCInfo = new JButton("Set up NMC information");
 	
 	private JButton initiateAssignments = new JButton("Initiate Assignments");
+	private JButton viewAssignments = new JButton("View Assignments");
+	private JButton previousPage = new JButton("Return to previous page");
+
+	private String error = "";
 
 	public HomePageAdminFrame() {
 		initComponents();
@@ -40,6 +51,8 @@ public class HomePageAdminFrame extends JFrame {
 		addUpdateEquipmentBundle.addActionListener(this::addUpdateEquipmentBundleActionPerformed);
 		setUpNMCInfo.addActionListener(this::setUpNMCInfoActionPerformed);
 		initiateAssignments.addActionListener(this::initiateAssignmentsActionPerformed);
+		previousPage.addActionListener(this::backToPreviousPage);
+		viewAssignments.addActionListener(this::ViewAssignmentActionPerformed);
 
 		
 		JSeparator horizontalLineTop = new JSeparator();
@@ -49,7 +62,7 @@ public class HomePageAdminFrame extends JFrame {
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup()
+		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
 				.addComponent(banMember)
 				.addComponent(startCancelFinishTrips)
@@ -57,15 +70,19 @@ public class HomePageAdminFrame extends JFrame {
 				.addComponent(addUpdateEquipmentBundle)
 				.addComponent(setUpNMCInfo)
 				.addComponent(initiateAssignments)
+				.addComponent(viewAssignments)
+				.addComponent(previousPage)
 				.addComponent(horizontalLineBottom));
 		
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(horizontalLineTop)
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage).addComponent(horizontalLineTop)
 				.addComponent(banMember)
 				.addComponent(startCancelFinishTrips)
 				.addComponent(addUpdateEquipment)
 				.addComponent(addUpdateEquipmentBundle)
 				.addComponent(setUpNMCInfo)
 				.addComponent(initiateAssignments)
+				.addComponent(viewAssignments)
+				.addComponent(previousPage)
 				.addComponent(horizontalLineBottom));
 		
 		pack();
@@ -89,17 +106,55 @@ public class HomePageAdminFrame extends JFrame {
         updateEquipmentFrame.setVisible(true);
         dispose();
 	}
+	private void ViewAssignmentActionPerformed(ActionEvent evt) {
+        ViewAssignmentFrame viewAssignmentFrame = new ViewAssignmentFrame();
+        viewAssignmentFrame.setVisible(true);
+        dispose();
+	}
 	
 	private void addUpdateEquipmentBundleActionPerformed(ActionEvent evt) {
-
+        BundleFrame bundleFrame = new BundleFrame();
+        bundleFrame.setVisible(true);
+        dispose();
 	}
 	
 	private void setUpNMCInfoActionPerformed(ActionEvent evt) {
-
+        NMCSetUpInfoFrame nmcInfoFrame = new NMCSetUpInfoFrame();
+        nmcInfoFrame.setVisible(true);
+        dispose();
 	}
 	
 	private void initiateAssignmentsActionPerformed(ActionEvent evt) {
-
+		callController(() -> AssignmentController.initiateAssignment());
 	}
 	
+	
+	private void backToPreviousPage(ActionEvent evt) {
+        LoginFrame login = new LoginFrame();
+        login.setVisible(true);
+        dispose();
+	}
+	
+	/**
+	 * Calls the controller and sets the error message.
+	 * 
+	 * @param executable a controller call preceded by "() -> ", eg,<br>
+	 * @return
+	 */
+	private String callController(Executable executable) {
+		try {
+			executable.execute();
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+			return error;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return "";
+	}
+
+	@FunctionalInterface
+	interface Executable {
+		public void execute() throws Throwable;
+	}
 }

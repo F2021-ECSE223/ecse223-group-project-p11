@@ -17,8 +17,14 @@ public class HomePageGuideFrame extends JFrame {
 	private JButton updateOrModifyAccount = new JButton("Update Information or Delete Account");
 
 	private JLabel information = new JLabel("information");
+	
+	private String email;
+	
+	private JButton previousPage = new JButton("Return to previous page");
 
-	public HomePageGuideFrame() {
+
+	public HomePageGuideFrame(String email) {
+		this.email = email;
 		initComponents();
 	}
 
@@ -30,7 +36,8 @@ public class HomePageGuideFrame extends JFrame {
 		setSize(500, 500);
 
 		updateOrModifyAccount.addActionListener(this::updateOrModifyAccountActionPerformed);
-		
+		previousPage.addActionListener(this::backToPreviousPage);
+
 		
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineBottom = new JSeparator();
@@ -40,9 +47,9 @@ public class HomePageGuideFrame extends JFrame {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(horizontalLineBottom));
+				.addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(previousPage).addComponent(horizontalLineBottom));
 		
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(horizontalLineBottom));
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(previousPage).addComponent(horizontalLineBottom));
 		
 		pack();
 		setLocationRelativeTo(null);
@@ -51,8 +58,14 @@ public class HomePageGuideFrame extends JFrame {
 	}
 	
 	private void updateOrModifyAccountActionPerformed(ActionEvent evt) {
-        GuideFrame updateGuideFrame = new GuideFrame();
+        GuideFrame updateGuideFrame = new GuideFrame(this.email);
         updateGuideFrame.setVisible(true);
+        dispose();
+	}
+	
+	private void backToPreviousPage(ActionEvent evt) {
+        LoginFrame login = new LoginFrame();
+        login.setVisible(true);
         dispose();
 	}
 }
