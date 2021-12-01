@@ -17,6 +17,7 @@ import ca.mcgill.ecse.climbsafe.controller.*;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet6Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOEquipment;
+import ca.mcgill.ecse.climbsafe.controller.AddtitionalController;
 
 
 
@@ -59,11 +60,20 @@ public class ViewAssignmentFrame extends JFrame {
 		    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			setTitle("ClimbSafe Application System");
 			//fix
-			List<String> memberEmail = AddtitionalController.getMemberEmails();
-			List<String> memberNames= new ArrayList<String>();
+			List<String> memberEmails = AddtitionalController.getAssignmentMemberEmails();
+			List<String> memberNames= AddtitionalController.getAssignmentMemberNames();
+			List<String> guideEmails = AddtitionalController.getAssignmentGuideEmails();
+			List<String> gudieNames= AddtitionalController.getAssignmentGuideNames();
+			List<String> guideNames= AddtitionalController.getAssignmentGuideNames();
+			List<String> hotelNames= AddtitionalController.getAssignmentHotelNames();
+			List<Integer> startWeeks=AddtitionalController.getAssignmentStartWeeks();
+			List<Integer> endWeeks=AddtitionalController.getAssignmentEndWeeks();
+			List<Integer> totalGuideCosts=AddtitionalController.getAssignmentTotalGuideCosts();
+			List<Integer> totalEquipmentCosts=AddtitionalController.getAssignmentTotalEquipmentCosts();
+			List<String> statuses= AddtitionalController.getAssignmentStatuses();	
+			
 			
 					
-			List<String> memberEquipmentNumber=AddtitionalController.getEquipmentStrings();
-			List<String> memberBundles = AddtitionalController.getBundleStrings();
+			
 	  }
 }

@@ -38,7 +38,7 @@ public class AddtitionalController {
 		return list;
 	}
 	//oliver
-	public static List<String> AssignmentMemberEmail() {
+	public static List<String> getAssignmentMemberEmails() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<String> list =new ArrayList<String>();
 		for (Assignment a : cS.getAssignments()) {
@@ -46,7 +46,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<String> AssignmentMemberName() {
+	public static List<String> getAssignmentMemberNames() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<String> list =new ArrayList<String>();
 		for (Assignment a : cS.getAssignments()) {
@@ -54,7 +54,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<String> AssignmentGuideEmail() {
+	public static List<String> getAssignmentGuideEmails() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<String> list =new ArrayList<String>();
 		for (Assignment a : cS.getAssignments()) {
@@ -62,7 +62,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<String> AssignmentGuideName() {
+	public static List<String> getAssignmentGuideNames() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<String> list =new ArrayList<String>();
 		for (Assignment a : cS.getAssignments()) {
@@ -70,7 +70,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<String> AssignmentHotelName() {
+	public static List<String> getAssignmentHotelNames() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<String> list =new ArrayList<String>();
 		for (Assignment a : cS.getAssignments()) {
@@ -78,7 +78,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<Integer> AssignmentStartWeek() {
+	public static List<Integer> getAssignmentStartWeeks() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<Integer> list =new ArrayList<Integer>();
 		for (Assignment a : cS.getAssignments()) {
@@ -86,7 +86,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<Integer> AssignmentEndWeek() {
+	public static List<Integer> getAssignmentEndWeeks() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<Integer> list =new ArrayList<Integer>();
 		for (Assignment a : cS.getAssignments()) {
@@ -94,7 +94,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<Integer> AssignmentGuideCost() {
+	public static List<Integer> getAssignmentTotalGuideCosts() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<Integer> list =new ArrayList<Integer>();
 		for (Assignment a : cS.getAssignments()) {
@@ -102,7 +102,7 @@ public class AddtitionalController {
 		}
 		return list;
 	}
-	public static List<Integer> AssignmentEquipmentCost() {
+	public static List<Integer> getAssignmentTotalEquipmentCosts() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<Integer> list =new ArrayList<Integer>();
 		for (Assignment a : cS.getAssignments()) {
@@ -111,7 +111,7 @@ public class AddtitionalController {
 		return list;
 	}
 	
-	public static List<String> AssignmentStatus() {
+	public static List<String> getAssignmentStatuses() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<String> list =new ArrayList<String>();
 		for (Assignment a : cS.getAssignments()) {
@@ -250,5 +250,7 @@ public class AddtitionalController {
 		}
 		return null;
 	}
+
+	
 
 }
