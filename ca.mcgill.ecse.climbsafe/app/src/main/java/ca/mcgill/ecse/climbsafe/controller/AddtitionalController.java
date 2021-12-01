@@ -37,6 +37,153 @@ public class AddtitionalController {
 		}
 		return list;
 	}
+	//oliver
+	public static List<String> getAssignmentMemberEmails() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list =new ArrayList<String>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getMember().getEmail());
+		}
+		return list;
+	}
+	public static List<String> getAssignmentMemberNames() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list =new ArrayList<String>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getMember().getName());
+		}
+		return list;
+	}
+	public static List<String> getAssignmentGuideEmails() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list =new ArrayList<String>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getGuide().getEmail());
+		}
+		return list;
+	}
+	public static List<String> getAssignmentGuideNames() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list =new ArrayList<String>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getGuide().getName());
+		}
+		return list;
+	}
+	public static List<String> getAssignmentHotelNames() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list =new ArrayList<String>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getHotel().getName());
+		}
+		return list;
+	}
+	public static List<Integer> getAssignmentStartWeeks() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<Integer> list =new ArrayList<Integer>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getStartWeek());
+		}
+		return list;
+	}
+	public static List<Integer> getAssignmentEndWeeks() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<Integer> list =new ArrayList<Integer>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getEndWeek());
+		}
+		return list;
+	}
+	public static List<Integer> getAssignmentTotalGuideCosts() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<Integer> list =new ArrayList<Integer>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getTotalGuideCost());
+		}
+		return list;
+	}
+	public static List<Integer> getAssignmentTotalEquipmentCosts() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<Integer> list =new ArrayList<Integer>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getTotalEquipmentCost());
+		}
+		return list;
+	}
+	
+	public static List<String> getAssignmentStatuses() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list =new ArrayList<String>();
+		for (Assignment a : cS.getAssignments()) {
+			list.add(a.getAssignmentStatusFullName());
+		}
+		return list;
+	}
+	
+	
+	//oliver done
+	
+	
+	public static List<TOAssignment> getAssignments() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<TOAssignment> list = new ArrayList<TOAssignment>();
+		for (Assignment a : cS.getAssignments()) {
+			Member member = a.getMember();
+			int totalCostEquipment = 0;
+			// for each booked item 
+			for (BookedItem item : member.getBookedItems()) {
+				// if it is a bundle, compute bundle cost
+				if (item.getItem() instanceof EquipmentBundle) {
+					double bundleCost = 0;
+					EquipmentBundle equipmentBundle = (EquipmentBundle) item.getItem();
+					for (BundleItem bI : equipmentBundle.getBundleItems()) {
+						Equipment e = bI.getEquipment();
+						bundleCost += e.getPricePerWeek() * bI.getQuantity();
+					}
+					if (member.getGuideRequired()) {
+						bundleCost = bundleCost * (100.0 - equipmentBundle.getDiscount()) /100.0;
+					}
+					totalCostEquipment += bundleCost * item.getQuantity();
+
+				} else if (item.getItem() instanceof Equipment) {
+					Equipment e = (Equipment) item.getItem();
+					totalCostEquipment += e.getPricePerWeek() * item.getQuantity();
+				}
+			}
+			totalCostEquipment *= member.getNrWeeks();
+			Guide guide = a.getGuide();
+			Hotel hotel = a.getHotel();
+			String hotelName;
+			String guideName;
+			String guideEmail;
+			int guidePrice;
+			if (hotel == null) {
+				hotelName = null;
+			} else {
+				hotelName = hotel.getName();
+			}
+			if (guide == null) {
+				guideName = null;
+				guidePrice = 0;
+			} else {
+				guideName = guide.getName();
+				guidePrice = cS.getPriceOfGuidePerWeek() * member.getNrWeeks();
+			}
+			if (guide == null) {
+				guideEmail = null;
+			} else {
+				guideEmail = guide.getEmail();
+			}
+			TOAssignment t = new TOAssignment(member.getEmail(), member.getName(), guideEmail, guideName, hotelName,
+					a.getStartWeek(), a.getEndWeek(), guidePrice,
+					totalCostEquipment, a.getAssignmentStatusFullName(), a.getAuthorizationCode(), a.getRefundPercentage());
+			list.add(t);
+		}
+		return list;
+	}
+
+	
+	
 	
 	
 	//for testing
@@ -58,8 +205,6 @@ public class AddtitionalController {
 		if(!climbSafe.hasAdministrator()) {
 			Administrator admin = new Administrator("admin@nmc.nt", "admin", climbSafe);
 			climbSafe.setAdministrator(admin);
-			
-		
 		}
 	}
 	
@@ -118,5 +263,7 @@ public class AddtitionalController {
 		}
 		return null;
 	}
+
+	
 
 }
