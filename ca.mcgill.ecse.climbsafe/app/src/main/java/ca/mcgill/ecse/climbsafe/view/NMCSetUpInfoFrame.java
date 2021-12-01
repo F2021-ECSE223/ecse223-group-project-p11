@@ -125,6 +125,12 @@ public class NMCSetUpInfoFrame extends JFrame {
       
 
   }
+  /**
+   * @author Lee Brickman
+   * @param date
+   * return true if date is valid (february 30th would return false)
+   * @return
+   */
 
   public boolean isRealDate(String date) {
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
