@@ -27,10 +27,12 @@ public class MemberFrame2 extends JFrame{
 	
 	private String error;
 	
-	private String currentUser;
+	public String currentUser = "placeholder";
 	
 	List<String> selectedItemNames = new ArrayList<String>();
+	
 	List<Integer> selectedItemQuantities = new ArrayList<Integer>();
+	
 	List<Integer> selectedItemCost = new ArrayList<Integer>();
 	
 	private static final long serialVersionUID = -44263693998015542L;
@@ -81,10 +83,11 @@ public class MemberFrame2 extends JFrame{
 	  private static final String[] OVERVIEW_COLUMN_NAMES = {"Booked Item", "Number Selected", "Individual Item Cost"};
 	  private static final int HEIGHT_OVERVIEW_TABLE = 200;
 	  
-	  public MemberFrame2() {
+	  public MemberFrame2(String email) {
+		  this.currentUser = email;
 		  refreshData();
 		  initComponents();
-
+		  
 	  }
 	  
 	  
@@ -276,10 +279,18 @@ public class MemberFrame2 extends JFrame{
 		    error.trim();
 		    
 		    if(error.isEmpty()) {
-		    	callController(() -> ClimbSafeFeatureSet2Controller.updateMember(currentUser, memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), null, null));
+		    	callController(() -> ClimbSafeFeatureSet2Controller.updateMember(currentUser, memberPasswordTextField.getText(), memberNameTextField.getText(), memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(), memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));
+		    	//String temp = AddtitionalController.getMemberInfo(currentUser);
+		    //.out.println(temp);
+		    	selectedItemNames.clear();
+				selectedItemQuantities.clear();
+				selectedItemCost.clear();
+				refreshOverview();
 		  
 		  
 	  }
+		    refreshData();
+		    refreshEquipment();
 	  }
 	  
 	  private void deleteItemButtonActionPerformed(ActionEvent evt) {
@@ -358,6 +369,9 @@ public class MemberFrame2 extends JFrame{
 	  
 	  private void deleteMemberButtonActionPerformed(ActionEvent evt) {
 		  error = "";
+		  
+		  callController(() -> ClimbSafeFeatureSet1Controller.deleteMember(currentUser));
+		  System.out.println("Deleted");
 	  }
 	  
 	  
