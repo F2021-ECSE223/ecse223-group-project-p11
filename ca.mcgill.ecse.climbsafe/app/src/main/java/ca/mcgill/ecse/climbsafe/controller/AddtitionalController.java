@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.climbsafe.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
@@ -37,6 +38,36 @@ public class AddtitionalController {
 		}
 		return list;
 	}
+	//maxime
+	public static List<List<Integer>>EquipmentBundleItemsQuantity() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<List<Integer>> quantities= new ArrayList<>();
+		for(EquipmentBundle bI: cS.getBundles()) {
+			List<Integer> quantity=new ArrayList<>();
+			for(BookedItem i:bI.getBookedItems()) {
+				quantity.add(i.getQuantity());
+			}
+			quantities.add(quantity);
+		}
+		return quantities;
+	}
+	public static List<List<String>>EquipmentBundleItemsNames() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<List<String>> names= new ArrayList<>();
+		for(EquipmentBundle bI: cS.getBundles()) {
+			List<String> name=new ArrayList<>();
+			for(BundleItem i:bI.getBundleItems()) {
+				String x = i.getEquipment().getName();
+				name.add(x);
+			}
+			names.add(name);
+		}
+		return names;
+	}
+	
+	//done
+	
+	
 	//oliver
 	public static List<String> getAssignmentMemberEmails() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
