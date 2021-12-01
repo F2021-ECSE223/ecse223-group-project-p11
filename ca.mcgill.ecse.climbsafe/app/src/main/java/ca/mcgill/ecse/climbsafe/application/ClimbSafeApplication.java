@@ -29,7 +29,7 @@ public class ClimbSafeApplication {
 	      // Use regular Swing theme if FlatLaf is unavailable
 	      e.printStackTrace();
 	    }
-	    EventQueue.invokeLater(MemberFrame::new);
+	    EventQueue.invokeLater(HomePageAdminFrame::new);
   }
 
   public static ClimbSafe getClimbSafe() {
