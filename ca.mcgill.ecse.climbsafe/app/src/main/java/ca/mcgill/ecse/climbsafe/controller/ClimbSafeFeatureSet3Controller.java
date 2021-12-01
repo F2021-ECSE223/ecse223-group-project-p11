@@ -79,7 +79,7 @@ public class ClimbSafeFeatureSet3Controller {
 		// Add a guide to the climbsafe system and catch any potential error
 		try {
 			climbSafe.addGuide(email, password, name, emergencyContact);
-			ClimbSafePersistence.save(climbSafe);
+			ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 		} catch (RuntimeException e) {
 			error = e.getMessage();
 			throw new InvalidInputException(error);

@@ -40,7 +40,7 @@ public class ClimbSafeFeatureSet1Controller {
 			climbSafe.setStartDate(startDate);
 			climbSafe.setPriceOfGuidePerWeek(priceOfGuidePerWeek);
 			climbSafe.setNrWeeks(nrWeeks);
-			ClimbSafePersistence.save(climbSafe);
+			ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 
 		} catch (RuntimeException e) {
 			error = e.getMessage();

@@ -88,7 +88,7 @@ public class ClimbSafeFeatureSet5Controller {
 				newBundle.addBundleItem(equipmentQuantities.get(i).intValue(), climbSafe,
 						(Equipment) BookableItem.getWithName(equipmentNames.get(j)));
 			}
-			ClimbSafePersistence.save(climbSafe);
+			ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 
 		} catch (RuntimeException e) {
 			throw new InvalidInputException(e.getMessage());
@@ -214,7 +214,7 @@ public class ClimbSafeFeatureSet5Controller {
 
 				}
 			}
-			ClimbSafePersistence.save(climbSafe);
+			ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 		} catch (RuntimeException e) {
 			throw new InvalidInputException(e.getMessage());
 		}

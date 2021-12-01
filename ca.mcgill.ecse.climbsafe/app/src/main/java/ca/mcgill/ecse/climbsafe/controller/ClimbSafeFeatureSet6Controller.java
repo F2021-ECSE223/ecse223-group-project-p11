@@ -123,7 +123,7 @@ public class ClimbSafeFeatureSet6Controller {
 			}
 			TOAssignment t = new TOAssignment(member.getEmail(), member.getName(), guideEmail, guideName, hotelName,
 					a.getStartWeek(), a.getEndWeek(), guidePrice,
-					totalCostEquipment, a.getAssignmentStatusFullName(), a.getAuthorizationCode(), a.getRefundPercentage());
+					totalCostEquipment, a.getAssignmentStatusFullName(), a.getGivenAuthorizationCode(), a.getRefundPercentage());
 			list.add(t);
 		}
 		return list;

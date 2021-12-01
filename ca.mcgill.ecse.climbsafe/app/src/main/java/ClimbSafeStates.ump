@@ -102,7 +102,7 @@ class Assignment {
   	 }
   	 
 	 private void doPayAssignment(String authorizationCode) {
-	 	this.authorizationCode = authorizationCode;
+	 	this.givenAuthorizationCode = authorizationCode;
 	 }
 	 
 	 

@@ -57,7 +57,7 @@ public class ClimbSafeFeatureSet4Controller {
     }
     try {
       climbSafeApp.addEquipment(name, weight, pricePerWeek); // add an equipment
-      ClimbSafePersistence.save(climbSafeApp);
+      ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
     } catch (RuntimeException c) { // catch possible errors
       error = c.getMessage();
       throw new InvalidInputException(error);

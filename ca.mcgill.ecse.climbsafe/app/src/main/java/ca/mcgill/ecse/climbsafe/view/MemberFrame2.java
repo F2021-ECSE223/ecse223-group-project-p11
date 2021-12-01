@@ -27,8 +27,6 @@ public class MemberFrame2 extends JFrame {
 
 	private String error;
 
-	public String currentUser = "placeholder";
-
 	List<String> selectedItemNames = new ArrayList<String>();
 
 	List<Integer> selectedItemQuantities = new ArrayList<Integer>();
@@ -38,6 +36,9 @@ public class MemberFrame2 extends JFrame {
 	private static final long serialVersionUID = -44263693998015542L;
 
 	private JLabel errorMessage = new JLabel();
+
+	private JComboBox<String> memberList = new JComboBox<>();
+	private JLabel memberLabel = new JLabel("Select Member:");
 
 	// member
 	private JTextField memberNameTextField = new JTextField();
@@ -81,8 +82,7 @@ public class MemberFrame2 extends JFrame {
 	private static final String[] OVERVIEW_COLUMN_NAMES = { "Booked Item", "Number Selected", "Individual Item Cost" };
 	private static final int HEIGHT_OVERVIEW_TABLE = 200;
 
-	public MemberFrame2(String email) {
-		this.currentUser = email;
+	public MemberFrame2() {
 		refreshData();
 		initComponents();
 
@@ -134,14 +134,15 @@ public class MemberFrame2 extends JFrame {
 				.addComponent(horizontalLineTop).addComponent(midLine).addComponent(horizontalLineBottom)
 				.addComponent(overviewScrollPane).addGroup(layout.createSequentialGroup()
 
-						.addGroup(layout.createParallelGroup().addComponent(memberNameLabel)
+						.addGroup(layout.createParallelGroup().addComponent(memberLabel).addComponent(memberNameLabel)
 								.addComponent(memberPasswordLabel).addComponent(memberEmergencyContactLabel)
 								.addComponent(memberWeekNumberLabel).addComponent(memberGuideCheckBox)
 								.addComponent(memberHotelCheckBox).addComponent(equipmentLabel)
 								.addComponent(equipmentNumberLabel).addComponent(updateMemberButton)
 								.addComponent(deleteMemberButton).addComponent(deleteItemButton))
 
-						.addGroup(layout.createParallelGroup().addComponent(memberNameTextField, 200, 200, 400)
+						.addGroup(layout.createParallelGroup().addComponent(memberList)
+								.addComponent(memberNameTextField, 200, 200, 400)
 								.addComponent(memberPasswordTextField, 200, 200, 400)
 								.addComponent(memberEmergencyContactTextField, 200, 200, 400)
 								.addComponent(memberWeekNumberTextField, 200, 200, 400)
@@ -156,6 +157,7 @@ public class MemberFrame2 extends JFrame {
 				memberGuideCheckBox, memberHotelCheckBox, equipmentAvailableList);
 
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
+				.addGroup(layout.createParallelGroup().addComponent(memberLabel).addComponent(memberList))
 				.addGroup(layout.createParallelGroup().addComponent(memberNameLabel).addComponent(memberNameTextField))
 				.addGroup(layout.createParallelGroup().addComponent(memberPasswordLabel)
 						.addComponent(memberPasswordTextField))
@@ -174,8 +176,7 @@ public class MemberFrame2 extends JFrame {
 				).addComponent(midLine).addGroup(layout.createParallelGroup().addComponent(updateMemberButton))
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 
-				.addGroup(layout.createParallelGroup().addComponent(deleteMemberButton))
-				.addComponent(previousPage)
+				.addGroup(layout.createParallelGroup().addComponent(deleteMemberButton)).addComponent(previousPage)
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
 				.addComponent(overviewScrollPane)
 
@@ -197,6 +198,15 @@ public class MemberFrame2 extends JFrame {
 			memberWeekNumberTextField.setText("");
 			memberHotelCheckBox.setSelected(false);
 			memberGuideCheckBox.setSelected(false);
+
+			var lists = List.of(memberList);
+			lists.forEach(JComboBox::removeAllItems);
+
+			AddtitionalController.getMemberEmails().forEach(memberList::addItem);
+
+			lists.forEach(list -> list.setSelectedIndex(-1));
+
+			pack();
 
 		}
 	}
@@ -237,9 +247,11 @@ public class MemberFrame2 extends JFrame {
 
 		int weekNumber = getNumberFromField(memberWeekNumberTextField, "Must be a number!");
 		error.trim();
-
-		if (error.isEmpty()) {
-			callController(() -> ClimbSafeFeatureSet2Controller.updateMember(currentUser,
+		var selectedMember = (String) memberList.getSelectedItem();
+		if (selectedMember == null) {
+			error = "Member needs to be selected to update it!";
+		} else if (error.isEmpty()) {
+			callController(() -> ClimbSafeFeatureSet2Controller.updateMember(selectedMember,
 					memberPasswordTextField.getText(), memberNameTextField.getText(),
 					memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(),
 					memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));
@@ -330,10 +342,14 @@ public class MemberFrame2 extends JFrame {
 	private void deleteMemberButtonActionPerformed(ActionEvent evt) {
 		error = "";
 
-		callController(() -> ClimbSafeFeatureSet1Controller.deleteMember(currentUser));
-
-		LoginFrame loginFrame = new LoginFrame();
-		loginFrame.setVisible(true);
+		var selectedMember = (String) memberList.getSelectedItem();
+		if (selectedMember == null) {
+			error = "Guide has to be selected for deletion!";
+		} else if (error.isEmpty()) {
+			callController(() -> ClimbSafeFeatureSet1Controller.deleteMember(selectedMember));
+		}
+		HomePageMemberFrame homepage = new HomePageMemberFrame();
+		homepage.setVisible(true);
 		dispose();
 	}
 

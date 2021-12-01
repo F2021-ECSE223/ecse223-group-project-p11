@@ -7,7 +7,7 @@ class Member{
 class Assignment{
   depend ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
   depend ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
-  lazy String authorizationCode;
+  lazy String givenAuthorizationCode;
   lazy Integer refundPercentage;
   Integer totalEquipmentCost = 0;
   Integer totalGuideCost = 0;

@@ -30,6 +30,15 @@ public class AddtitionalController {
 		return list;
 	}
 	
+	public static List<String> getGuideEmails() {
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		List<String> list = new ArrayList<String>();
+		for (Guide guide : cS.getGuides()) {
+			list.add(guide.getEmail());
+		}
+		return list;
+	}
+	
 	public static List<String> getMemberEmails() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
 		List<String> list = new ArrayList<String>();

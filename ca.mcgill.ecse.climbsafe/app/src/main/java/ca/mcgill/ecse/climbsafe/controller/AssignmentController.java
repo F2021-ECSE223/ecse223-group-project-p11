@@ -41,13 +41,13 @@ public class AssignmentController {
 				}
 			}
 		}
-		ClimbSafePersistence.save(climbSafe);
+		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 /**
  * 
  * @param email
  * @throws InvalidInputException
- * @author Maxime Drouin 
+ * @author Maxime Drouinï¿½
  * Check if instance of member is valid,finishes assignment and saves or throws runtime exception.
  */
 	public static void finishTrip(String email) throws InvalidInputException {
@@ -75,7 +75,7 @@ public class AssignmentController {
  * 
  * @param email
  * @throws InvalidInputException
- * @author Anaëlle Drai-Laguens
+ * @author Anaï¿½lle Drai-Laguens
  * Checks validity of member instance,cancels assignment and saves cancellation or throws runtime exception.
  */
 	public static void cancelTrip(String email) throws InvalidInputException {
@@ -176,6 +176,6 @@ public class AssignmentController {
 		if (climbSafe.getAssignments().size() < climbSafe.getMembers().size()) {
 			 throw new InvalidInputException("Assignments could not be completed for all members");
 		}
-		ClimbSafePersistence.save(climbSafe);
+		ClimbSafePersistence.save(ClimbSafeApplication.getClimbSafe());
 	}
 }

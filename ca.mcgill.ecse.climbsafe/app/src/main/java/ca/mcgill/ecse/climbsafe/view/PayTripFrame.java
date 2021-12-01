@@ -10,9 +10,6 @@ import javax.swing.text.AttributeSet.ColorAttribute;
 import ca.mcgill.ecse.climbsafe.application.*;
 
 import ca.mcgill.ecse.climbsafe.controller.*;
-import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet4Controller;
-import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet6Controller;
-import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.view.EquipmentFrame.Executable;
 import java.awt.event.ActionEvent;
 
@@ -22,6 +19,9 @@ public class PayTripFrame extends JFrame {
 
 	private JLabel errorMessage = new JLabel();
 
+	private JComboBox<String> memberList = new JComboBox<>();
+	private JLabel memberLabel = new JLabel("Select Member:");
+
 	private JTextField autCodeTextField = new JTextField();
 	private JLabel autCodeLabel = new JLabel("Authorization code:");
 
@@ -29,12 +29,9 @@ public class PayTripFrame extends JFrame {
 
 	private String error = "";
 
-	private String email;
-
 	private JButton previousPage = new JButton("Return to previous page");
 
-	public PayTripFrame(String email) {
-		this.email = email;
+	public PayTripFrame() {
 		initComponents();
 		refreshData();
 
@@ -57,15 +54,18 @@ public class PayTripFrame extends JFrame {
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage).addGroup(
-				layout.createSequentialGroup().addGroup(layout.createParallelGroup().addComponent(autCodeLabel))
-						.addGroup(layout.createParallelGroup().addComponent(autCodeTextField, 400, 400, 800)
-								.addComponent(payTripButton).addComponent(previousPage)))
+		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup().addComponent(memberLabel).addComponent(autCodeLabel))
+						.addGroup(layout.createParallelGroup().addComponent(memberList)
+								.addComponent(autCodeTextField, 400, 400, 800).addComponent(payTripButton)
+								.addComponent(previousPage)))
 
 		);
 		layout.linkSize(SwingConstants.HORIZONTAL, payTripButton, autCodeTextField);
 
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
+				.addGroup(layout.createParallelGroup().addComponent(memberLabel).addComponent(memberList))
 				.addGroup(layout.createParallelGroup().addComponent(autCodeLabel).addComponent(autCodeTextField))
 				.addGroup(layout.createParallelGroup().addComponent(payTripButton).addComponent(previousPage)));
 		pack();
@@ -80,6 +80,15 @@ public class PayTripFrame extends JFrame {
 		if (error == null || error.isEmpty()) {
 			autCodeTextField.setText("");
 
+			var lists = List.of(memberList);
+			lists.forEach(JComboBox::removeAllItems);
+
+			AddtitionalController.getMemberEmails().forEach(memberList::addItem);
+
+			lists.forEach(list -> list.setSelectedIndex(-1));
+
+			pack();
+
 		}
 		pack();
 	}
@@ -88,10 +97,16 @@ public class PayTripFrame extends JFrame {
 		error = "";
 
 		if (autCodeTextField.getText().equals("")) {
-			error = "Pkease fill the field";
+			error = "Please fill the field";
 		}
 
-		callController(() -> AssignmentController.payTrip(email, autCodeTextField.getText()));
+		var selectedMember = (String) memberList.getSelectedItem();
+		if (selectedMember == null) {
+			error = "Member needs to be selected to update it!";
+		} else if (error.isEmpty()) {
+			System.out.println(autCodeTextField.getText());
+			callController(() -> AssignmentController.payTrip(selectedMember, autCodeTextField.getText()));
+		}
 
 		refreshData();
 	}

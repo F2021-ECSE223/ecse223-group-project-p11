@@ -3,6 +3,7 @@ package ca.mcgill.ecse.climbsafe.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.sql.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -12,10 +13,16 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import ca.mcgill.ecse.climbsafe.controller.AddtitionalController;
+import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet1Controller;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet3Controller;
+import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
+import ca.mcgill.ecse.climbsafe.view.MemberFrame.Executable;
 
-public class InitialHomePage extends JFrame {
+public class InitialHomePage extends JFrame {	
+	
+	private String error;
 
 	private JButton adminHomePage = new JButton("Administrator Home Page");
 
@@ -29,6 +36,8 @@ public class InitialHomePage extends JFrame {
 		
 
 	public InitialHomePage() {
+		callController(() -> AddtitionalController.createAdmin());
+		callController(() -> ClimbSafeFeatureSet1Controller.setup(Date.valueOf("2022-01-01"), 25, 200));
 		initComponents();
 	}
 
@@ -102,4 +111,20 @@ public class InitialHomePage extends JFrame {
         dispose();
 	}
 	
+
+	private String callController(Executable executable) {
+		try {
+			executable.execute();
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+			return error;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return "";
+	}
+	
+	interface Executable {
+		public void execute() throws Throwable;
+	}
 }

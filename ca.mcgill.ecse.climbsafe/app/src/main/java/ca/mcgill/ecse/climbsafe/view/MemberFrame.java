@@ -279,8 +279,6 @@ public class MemberFrame extends JFrame {
 		if (error.isEmpty()) {
 
 			// temporary until other frames finished
-			callController(() -> AddtitionalController.createAdmin());
-			callController(() -> ClimbSafeFeatureSet1Controller.setup(Date.valueOf("2022-01-01"), 25, 200));
 
 			callController(() -> ClimbSafeFeatureSet2Controller.registerMember(memberEmailTextField.getText(),
 					memberPasswordTextField.getText(), memberNameTextField.getText(),

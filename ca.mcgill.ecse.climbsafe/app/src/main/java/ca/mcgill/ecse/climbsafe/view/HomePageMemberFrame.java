@@ -55,13 +55,13 @@ public class HomePageMemberFrame extends JFrame {
 	}
 	
 	private void updateOrModifyAccountActionPerformed(ActionEvent evt) {
-        MemberFrame2 updateMemberFrame = new MemberFrame2(this.email);
+        MemberFrame2 updateMemberFrame = new MemberFrame2();
         updateMemberFrame.setVisible(true);
         dispose();
 	}
 	
 	private void payTripActionPerformed(ActionEvent evt) {
-        PayTripFrame payTripFrame = new PayTripFrame(email);
+        PayTripFrame payTripFrame = new PayTripFrame();
         payTripFrame.setVisible(true);
         dispose();
 	}

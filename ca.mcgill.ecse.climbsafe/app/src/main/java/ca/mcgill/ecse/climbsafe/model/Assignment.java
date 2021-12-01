@@ -18,7 +18,7 @@ public class Assignment implements Serializable
   //------------------------
 
   //Assignment Attributes
-  private String authorizationCode;
+  private String givenAuthorizationCode;
   private int refundPercentage;
   private int totalEquipmentCost;
   private int totalGuideCost;
@@ -41,7 +41,7 @@ public class Assignment implements Serializable
 
   public Assignment(int aStartWeek, int aEndWeek, Member aMember, ClimbSafe aClimbSafe)
   {
-    authorizationCode = null;
+    givenAuthorizationCode = null;
     refundPercentage = 0;
     totalEquipmentCost = 0;
     totalGuideCost = 0;
@@ -64,10 +64,10 @@ public class Assignment implements Serializable
   // INTERFACE
   //------------------------
 
-  public boolean setAuthorizationCode(String aAuthorizationCode)
+  public boolean setGivenAuthorizationCode(String aGivenAuthorizationCode)
   {
     boolean wasSet = false;
-    authorizationCode = aAuthorizationCode;
+    givenAuthorizationCode = aGivenAuthorizationCode;
     wasSet = true;
     return wasSet;
   }
@@ -112,9 +112,9 @@ public class Assignment implements Serializable
     return wasSet;
   }
 
-  public String getAuthorizationCode()
+  public String getGivenAuthorizationCode()
   {
-    return authorizationCode;
+    return givenAuthorizationCode;
   }
 
   public int getRefundPercentage()
@@ -169,7 +169,7 @@ public class Assignment implements Serializable
           wasEventProcessed = true;
           break;
         }
-        if (!(isCorrectCode(getAuthorizationCode()))&&!(isBanned()))
+        if (!(isCorrectCode(authorizationCode))&&!(isBanned()))
         {
         // line 5 "../../../../../ClimbSafeStates.ump"
           rejectPayAssignment();
@@ -177,7 +177,7 @@ public class Assignment implements Serializable
           wasEventProcessed = true;
           break;
         }
-        if (isCorrectCode(getAuthorizationCode())&&!(isBanned()))
+        if (isCorrectCode(authorizationCode)&&!(isBanned()))
         {
         // line 6 "../../../../../ClimbSafeStates.ump"
           doPayAssignment(authorizationCode);
@@ -630,7 +630,7 @@ public class Assignment implements Serializable
 
   // line 105 "../../../../../ClimbSafeStates.ump"
    private void doPayAssignment(String authorizationCode){
-    this.authorizationCode = authorizationCode;
+    this.givenAuthorizationCode = authorizationCode;
   }
 
   // line 110 "../../../../../ClimbSafeStates.ump"
@@ -662,7 +662,7 @@ public class Assignment implements Serializable
   public String toString()
   {
     return super.toString() + "["+
-            "authorizationCode" + ":" + getAuthorizationCode()+ "," +
+            "givenAuthorizationCode" + ":" + getGivenAuthorizationCode()+ "," +
             "refundPercentage" + ":" + getRefundPercentage()+ "," +
             "totalEquipmentCost" + ":" + getTotalEquipmentCost()+ "," +
             "totalGuideCost" + ":" + getTotalGuideCost()+ "," +
