@@ -23,21 +23,211 @@ import ca.mcgill.ecse.climbsafe.view.*;
 import ca.mcgill.ecse.climbsafe.view.MemberFrame.Executable;
 import ca.mcgill.ecse.climbsafe.controller.*;
 
-public class MemberFrame2 extends JFrame {
-
+public class MemberFrame2 extends JFrame{
+	
 	private String error;
-
+	
 	public String currentUser = "placeholder";
-
+	
 	List<String> selectedItemNames = new ArrayList<String>();
-
+	
 	List<Integer> selectedItemQuantities = new ArrayList<Integer>();
-
+	
 	List<Integer> selectedItemCost = new ArrayList<Integer>();
-
+	
 	private static final long serialVersionUID = -44263693998015542L;
-
+	
 	private JLabel errorMessage = new JLabel();
+	  
+	  // member
+	  private JTextField memberNameTextField = new JTextField();
+	  private JLabel memberNameLabel = new JLabel("New Name:");
+	 
+	  
+	  private JTextField memberPasswordTextField = new JTextField();
+	  private JLabel memberPasswordLabel = new JLabel("New Password:");
+	  
+	  private JTextField memberEmergencyContactTextField = new JTextField();
+	  private JLabel memberEmergencyContactLabel = new JLabel("New Emergency Contact Number:");
+	  
+	  private JCheckBox memberGuideCheckBox = new JCheckBox("Guide", false);
+	  private JCheckBox memberHotelCheckBox = new JCheckBox("Hotel", false);
+	  
+	  private JTextField memberWeekNumberTextField = new JTextField();
+	  private JLabel memberWeekNumberLabel = new JLabel("New Number of Weeks");
+	  
+	  private JButton updateMemberButton = new JButton("Update Account");
+	  
+	  private JButton deleteMemberButton = new JButton("Delete Account");
+	  
+	  private JComboBox<String> equipmentAvailableList = new JComboBox<>();
+	  private JButton addEquipmentButton = new JButton("Add Selected Item");
+	  private JLabel equipmentLabel = new JLabel("Select Equipment");
+	  private JTextField equipmentNumberTextField = new JTextField();
+	  private JLabel equipmentNumberLabel = new JLabel("Number of Selected Item");
+	  
+	  //viewing the selected equipment in table for registering member
+	  
+	  private JButton deleteItemButton = new JButton("Remove Selected Item");
+	  //private JComboBox<String> selectedItemsList = new JComboBox<>();
+	 
+	  
+	  
+	  private JTable equipmentOverview = new JTable(new DefaultTableModel()) {
+		  private static final long serialVersionUID = 99L;
+	  };
+	  
+	  
+	  private JScrollPane overviewScrollPane = new JScrollPane(equipmentOverview);
+	  
+	  private static final String[] OVERVIEW_COLUMN_NAMES = {"Booked Item", "Number Selected", "Individual Item Cost"};
+	  private static final int HEIGHT_OVERVIEW_TABLE = 200;
+	  
+	  public MemberFrame2(String email) {
+		  this.currentUser = email;
+		  refreshData();
+		  initComponents();
+		  
+	  }
+	  
+	  
+	  private void initComponents() {
+		  errorMessage.setForeground(Color.RED);
+		  errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
+		  add(overviewScrollPane);
+		    overviewScrollPane.setPreferredSize(new Dimension(equipmentOverview.getPreferredSize().width, HEIGHT_OVERVIEW_TABLE));
+		    overviewScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		  
+		  setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		  setTitle("ClimbSafe Application System");
+		  
+
+		  
+		  
+		  List<String>systemEquipment = AddtitionalController.getEquipmentStrings();
+		  List<String>systemBundles = AddtitionalController.getBundleStrings();
+		  
+		  equipmentAvailableList.addItem("---------");
+		  
+		  for(String i : systemEquipment) {
+		  equipmentAvailableList.addItem(i);}
+		  
+		  for(String j : systemBundles) {
+			  equipmentAvailableList.addItem(j);
+		  }
+		  
+		  
+		  deleteMemberButton.addActionListener(this::deleteMemberButtonActionPerformed);
+		  
+		  updateMemberButton.addActionListener(this::updateMemberButtonActionPerformed);
+		  
+		  addEquipmentButton.addActionListener(this::addEquipmentButtonActionPerformed);
+		  
+		  deleteItemButton.addActionListener(this::deleteItemButtonActionPerformed);
+		  
+	  
+		  
+		  JSeparator horizontalLineTop= new JSeparator();
+		  JSeparator midLine = new JSeparator();
+		  JSeparator horizontalLineBottom = new JSeparator();
+		  
+		  GroupLayout layout = new GroupLayout(getContentPane());
+		  getContentPane().setLayout(layout);
+		  layout.setAutoCreateGaps(true);
+		  layout.setAutoCreateContainerGaps(true);
+		  layout.setHorizontalGroup(
+		        layout.createParallelGroup()
+		             .addComponent(errorMessage).addComponent(horizontalLineTop).addComponent(midLine)
+		             .addComponent(horizontalLineBottom).addComponent(overviewScrollPane)
+		             .addGroup(layout.createSequentialGroup()
+		                 
+		            	 .addGroup(layout.createParallelGroup()
+		                		 .addComponent(memberNameLabel).addComponent(memberPasswordLabel)
+		                		 .addComponent(memberEmergencyContactLabel).addComponent(memberWeekNumberLabel).addComponent(memberGuideCheckBox)
+		                		 .addComponent(memberHotelCheckBox).addComponent(equipmentLabel).addComponent(equipmentNumberLabel).addComponent(updateMemberButton).addComponent(deleteMemberButton)
+		                		 .addComponent(deleteItemButton)
+		                		 )
+		                 
+		                 .addGroup(layout.createParallelGroup()
+		                		 .addComponent(memberNameTextField, 200, 200, 400)
+		                		 .addComponent(memberPasswordTextField, 200, 200, 400)
+		                		 .addComponent(memberEmergencyContactTextField, 200, 200, 400)
+		                		 .addComponent(memberWeekNumberTextField, 200, 200, 400)
+		                		 .addComponent(equipmentNumberTextField, 200, 200, 400)
+		                		 .addComponent(equipmentAvailableList)
+		                		 .addComponent(addEquipmentButton)
+		                		 
+		               
+		                		 )));
+		    
+		    layout.linkSize(SwingConstants.HORIZONTAL, addEquipmentButton, deleteItemButton,memberNameTextField,memberPasswordTextField, memberEmergencyContactTextField, memberWeekNumberTextField, memberGuideCheckBox, memberHotelCheckBox, equipmentAvailableList);
+		    
+		    layout.setVerticalGroup(
+		    		layout.createSequentialGroup()
+		            .addComponent(errorMessage)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(memberNameLabel).addComponent(memberNameTextField)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(memberPasswordLabel).addComponent(memberPasswordTextField)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(memberEmergencyContactLabel).addComponent(memberEmergencyContactTextField)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(memberWeekNumberLabel).addComponent(memberWeekNumberTextField)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(memberGuideCheckBox)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(memberHotelCheckBox)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(equipmentLabel).addComponent(equipmentAvailableList)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(equipmentNumberLabel).addComponent(equipmentNumberTextField)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(addEquipmentButton).addComponent(deleteItemButton)
+		            		
+		            		
+		            		)
+		            .addComponent(midLine)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(updateMemberButton)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(horizontalLineTop)
+		            		)
+		            
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(deleteMemberButton)
+		            		)
+		            .addGroup(layout.createParallelGroup()
+		            		.addComponent(horizontalLineBottom)
+		            		)
+		            .addComponent(overviewScrollPane)
+		        
+		            
+		            );
+
+		    
+		                 
+		                 
+		                		 
+		                		 
+		                		 
+		    
+		    pack();
+		    setLocationRelativeTo(null); // set window location to be in the center of the screen
+		    setResizable(false);
+		    setVisible(true);                		 
+	      
+	      
+		  
+	  
 
 }
 	  
