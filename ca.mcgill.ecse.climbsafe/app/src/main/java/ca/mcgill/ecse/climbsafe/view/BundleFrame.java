@@ -101,7 +101,7 @@ public class BundleFrame extends JFrame {
 		setTitle("Climb Safe Application System");
 
 		// listeners for adding bundle
-		bundleNameTextField.addActionListener(this::addItemButtonActionPerformed);
+		bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
 		itemQTextField.addActionListener(this::addItemButtonActionPerformed);
 		
 		
@@ -113,11 +113,11 @@ public class BundleFrame extends JFrame {
 		// bundleOldNameTextField.addActionListener(this::updatebundleButtonActionPerformed);
 		// oldNameList.addActionListener(this::updatebundleButtonActionPerformed); //
 		// not sure to do this
-		bundleNewNameTextField.addActionListener(this::addUpdatedItemActionPerformed);
+		bundleNewNameTextField.addActionListener(this::updateBundleButtonActionPerformed);
 		itemNewQTextField.addActionListener(this::addUpdatedItemActionPerformed);
 		
-		bundleNewDiscounttTextField.addActionListener(this::updatebundleButtonActionPerformed);
-		updatebundleButton.addActionListener(this::updatebundleButtonActionPerformed);
+		bundleNewDiscounttTextField.addActionListener(this::updateBundleButtonActionPerformed);
+		updatebundleButton.addActionListener(this::updateBundleButtonActionPerformed);
 		previousPage.addActionListener(this::backToPreviousPage);
 
 		//////////////////////////////////////
@@ -127,7 +127,7 @@ public class BundleFrame extends JFrame {
 		// deletebundleButtonActionPerformed);
 		// nameToDeleteList.addActionListener(this::deletebundleButtonActionPerformed);
 		// //not sure to do this
-		deletebundleButton.addActionListener(this::deletebundleButtonActionPerformed);
+		deletebundleButton.addActionListener(this::deleteBundleButtonActionPerformed);
 		//////////////////////////////////////
 
 		// lists
@@ -289,7 +289,7 @@ public class BundleFrame extends JFrame {
 	  
 	}
 
-	private void updatebundleButtonActionPerformed(ActionEvent evt) {
+	private void updateBundleButtonActionPerformed(ActionEvent evt) {
 
 		error = "";
 		var selectedBundle = (String) oldNameList.getSelectedItem();
@@ -309,7 +309,7 @@ public class BundleFrame extends JFrame {
 		refreshData();
 	}
 
-	private void deletebundleButtonActionPerformed(ActionEvent evt) {
+	private void deleteBundleButtonActionPerformed(ActionEvent evt) {
 
 		error = "";
 
