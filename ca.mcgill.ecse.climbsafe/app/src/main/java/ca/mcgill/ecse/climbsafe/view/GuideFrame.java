@@ -78,7 +78,6 @@ public class GuideFrame extends JFrame {
 		deleteGuideButton.addActionListener(this::deleteGuideButtonActionPerformed);
 		previousPage.addActionListener(this::backToPreviousPage);
 
-		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineBottom = new JSeparator();
 
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -86,7 +85,7 @@ public class GuideFrame extends JFrame {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
-				.addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
+				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(newGuideNameLabel)
 								.addComponent(newGuidePasswordLabel).addComponent(newGuideEmergencyContactLabel))
@@ -94,8 +93,8 @@ public class GuideFrame extends JFrame {
 								.addComponent(newGuideNameTextField, 500, 500, 1000)
 								.addComponent(newGuidePasswordTextField, 500, 500, 1000)
 								.addComponent(newGuideEmergencyContactTextField, 500, 500, 1000)
-								.addComponent(updateGuideButton).addComponent(deleteGuideButton)
-								.addComponent(previousPage))));
+								.addComponent(updateGuideButton, 500, 500, 1000).addComponent(deleteGuideButton, 500, 500, 1000)
+								.addComponent(previousPage, 500, 500, 1000))));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, guideList, newGuideNameTextField, newGuidePasswordTextField,
 				newGuideEmergencyContactTextField);
@@ -103,7 +102,6 @@ public class GuideFrame extends JFrame {
 		// .addComponent(errorMessage)
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(guideList))
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup().addComponent(newGuideNameLabel)
 						.addComponent(newGuideNameTextField))
 				.addGroup(layout.createParallelGroup().addComponent(newGuidePasswordLabel)
@@ -111,8 +109,10 @@ public class GuideFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(newGuideEmergencyContactLabel)
 						.addComponent(newGuideEmergencyContactTextField))
 				.addGroup(layout.createParallelGroup().addComponent(updateGuideButton))
-				.addGroup(layout.createParallelGroup().addComponent(deleteGuideButton)).addComponent(previousPage)
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
+				.addGroup(layout.createParallelGroup().addComponent(deleteGuideButton))
+				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
+				.addComponent(previousPage)
+				);
 
 		pack();
 		setLocationRelativeTo(null);

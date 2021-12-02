@@ -130,7 +130,8 @@ public class MemberFrame2 extends JFrame {
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
+		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(previousPage, 400, 400, 500).addComponent(updateMemberButton, 400, 400, 500)
+				.addComponent(deleteMemberButton, 400, 400, 500).addComponent(errorMessage)
 				.addComponent(horizontalLineTop).addComponent(midLine).addComponent(horizontalLineBottom)
 				.addComponent(overviewScrollPane).addGroup(layout.createSequentialGroup()
 
@@ -138,8 +139,7 @@ public class MemberFrame2 extends JFrame {
 								.addComponent(memberPasswordLabel).addComponent(memberEmergencyContactLabel)
 								.addComponent(memberWeekNumberLabel).addComponent(memberGuideCheckBox)
 								.addComponent(memberHotelCheckBox).addComponent(equipmentLabel)
-								.addComponent(equipmentNumberLabel).addComponent(updateMemberButton)
-								.addComponent(deleteMemberButton).addComponent(deleteItemButton))
+								.addComponent(equipmentNumberLabel).addComponent(deleteItemButton))
 
 						.addGroup(layout.createParallelGroup().addComponent(memberList)
 								.addComponent(memberNameTextField, 200, 200, 400)
@@ -148,7 +148,7 @@ public class MemberFrame2 extends JFrame {
 								.addComponent(memberWeekNumberTextField, 200, 200, 400)
 								.addComponent(equipmentNumberTextField, 200, 200, 400)
 								.addComponent(equipmentAvailableList).addComponent(addEquipmentButton)
-								.addComponent(previousPage)
+								
 
 						)));
 
@@ -173,12 +173,14 @@ public class MemberFrame2 extends JFrame {
 						.addComponent(equipmentNumberTextField))
 				.addGroup(layout.createParallelGroup().addComponent(addEquipmentButton).addComponent(deleteItemButton)
 
-				).addComponent(midLine).addGroup(layout.createParallelGroup().addComponent(updateMemberButton))
+				).addComponent(midLine).addGroup(layout.createParallelGroup())
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 
-				.addGroup(layout.createParallelGroup().addComponent(deleteMemberButton)).addComponent(previousPage)
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
 				.addComponent(overviewScrollPane)
+				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
+				.addGroup(layout.createParallelGroup().addComponent(deleteMemberButton))
+				.addGroup(layout.createParallelGroup().addComponent(updateMemberButton))
+				.addGroup(layout.createParallelGroup().addComponent(previousPage))
 
 		);
 

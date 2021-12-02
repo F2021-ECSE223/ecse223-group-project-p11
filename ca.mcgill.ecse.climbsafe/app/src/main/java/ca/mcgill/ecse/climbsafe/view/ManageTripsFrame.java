@@ -37,7 +37,7 @@ public class ManageTripsFrame extends JFrame {
 	private JLabel weekNumberLabel = new JLabel("Week Number:");
 
 	private JButton startTripsButton = new JButton("Start Trips");
-	private JButton finishTripButton = new JButton("Finish Trips");
+	private JButton finishTripButton = new JButton("Finish Trip");
 	private JButton cancelTripButton = new JButton("Cancel Trip");
 	private JButton previousPage = new JButton("Return to previous page");
 

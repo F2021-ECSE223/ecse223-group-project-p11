@@ -2,11 +2,12 @@ package ca.mcgill.ecse.climbsafe.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javax.swing.GroupLayout;
-import javax.swing.JButton;
+import javax.swing.*;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -71,15 +72,12 @@ public class RegisterGuideFrame extends JFrame {
 
 		// listeners for updating guides
 
-		JSeparator horizontalLineTop = new JSeparator();
-		JSeparator horizontalLineBottom = new JSeparator();
-
 		GroupLayout layout = new GroupLayout(getContentPane());
+
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
-				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel, 200, 200, 200)
 								.addComponent(guideNameLabel, 200, 200, 200)
@@ -88,14 +86,13 @@ public class RegisterGuideFrame extends JFrame {
 						.addGroup(layout.createParallelGroup().addComponent(guideEmailTextField, 500, 500, 1000)
 								.addComponent(guideNameTextField, 500, 500, 1000)
 								.addComponent(guideEmergencyContactTextField, 500, 500, 1000)
-								.addComponent(guidePasswordTextField, 500, 500, 1000)))
-						.addComponent(addGuideButton, 500, 500, 500)
-						.addComponent(previousPage, 500, 500, 500));
+								.addComponent(guidePasswordTextField, 500, 500, 1000).addComponent(addGuideButton, 500, 500, 500)
+								.addComponent(previousPage, 500, 500, 500)))
+						);
 
 		layout.linkSize(SwingConstants.HORIZONTAL, guideNameTextField, guidePasswordTextField,
 				guideEmergencyContactTextField);
 
-		
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel, 20, 20, 20)
 						.addComponent(guideEmailTextField, 20, 20, 20))
@@ -105,8 +102,8 @@ public class RegisterGuideFrame extends JFrame {
 						.addComponent(guideEmergencyContactTextField, 20, 20, 20))
 				.addGroup(layout.createParallelGroup().addComponent(guidePasswordLabel, 20, 20, 20)
 						.addComponent(guidePasswordTextField, 20, 20, 20))
-				.addComponent(addGuideButton, 20, 20, 20).addComponent(previousPage, 20, 20, 20)
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
+				.addComponent(addGuideButton).addComponent(previousPage)
+				);
 
 		pack();
 		setLocationRelativeTo(null);

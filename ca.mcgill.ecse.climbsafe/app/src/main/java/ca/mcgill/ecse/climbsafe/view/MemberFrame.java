@@ -24,15 +24,14 @@ import ca.mcgill.ecse.climbsafe.view.*;
 import ca.mcgill.ecse.climbsafe.controller.*;
 
 public class MemberFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1165335027441666041L;
 	private String error;
-	private String currentAccountEmail = "";
 	List<String> selectedItemNames = new ArrayList<String>();
 	List<Integer> selectedItemQuantities = new ArrayList<Integer>();
 	List<Integer> selectedItemCost = new ArrayList<Integer>();
-
-	// private int maxNumOfWeeks = ClimbSafeApplication.getClimbSafe().getNrWeeks();
-
-	private static final long serialVersionUID = -4426369335015542L;
 
 	// UI elements
 	// element for error message
@@ -79,35 +78,13 @@ public class MemberFrame extends JFrame {
 
 	private JTable equipmentOverview = new JTable(new DefaultTableModel()) {
 		private static final long serialVersionUID = 99L;
-	}; /*
-		 * {
-		 * 
-		 * private static final long serialVersionUID = 99L;
-		 * 
-		 * @Override public Component prepareRenderer(TableCellRenderer renderer, int
-		 * row, int column) { Component c = super.prepareRenderer(renderer, row,
-		 * column); if (!c.getBackground().equals(getSelectionBackground())) {
-		 * 
-		 * c.setBackground(Color.WHITE);
-		 * 
-		 * } return c; } };
-		 */
+	}; 
 
 	private JScrollPane overviewScrollPane = new JScrollPane(equipmentOverview);
 
 	private static final String[] OVERVIEW_COLUMN_NAMES = { "Booked Item", "Number Selected", "Individual Item Cost" };
 	private static final int HEIGHT_OVERVIEW_TABLE = 200;
 
-	/*
-	 * 
-	 * 
-	 * 
-	 * private JComboBox<TOMember> memberToggleList = new JComboBox<>(); private
-	 * JLabel memberToggleLabel = new JLabel("Select Member:");
-	 * 
-	 * 
-	 */
-	// private JButton updateMemberButton = new JButton("Update Account");
 
 	public MemberFrame() {
 		refreshData();
@@ -158,7 +135,8 @@ public class MemberFrame extends JFrame {
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage).addComponent(horizontalLine1)
+		layout.setHorizontalGroup(layout.createParallelGroup()
+				.addComponent(previousPage, 400, 400, 400).addComponent(addMemberButton, 400, 400, 400).addComponent(errorMessage).addComponent(horizontalLine1)
 				.addComponent(horizontalLine2).addComponent(overviewScrollPane).addGroup(layout.createSequentialGroup()
 
 						.addGroup(layout.createParallelGroup().addComponent(memberNameLabel)
@@ -166,15 +144,20 @@ public class MemberFrame extends JFrame {
 								.addComponent(memberEmergencyContactLabel).addComponent(memberWeekNumberLabel)
 								.addComponent(memberGuideCheckBox).addComponent(memberHotelCheckBox)
 								.addComponent(equipmentLabel).addComponent(equipmentNumberLabel)
-								.addComponent(addMemberButton).addComponent(deleteItemButton).addComponent(previousPage))
-
+								.addComponent(deleteItemButton)
+								)
+						
 						.addGroup(layout.createParallelGroup().addComponent(memberNameTextField, 200, 200, 400)
 								.addComponent(memberEmailTextField, 200, 200, 400)
 								.addComponent(memberPasswordTextField, 200, 200, 400)
 								.addComponent(memberEmergencyContactTextField, 200, 200, 400)
 								.addComponent(memberWeekNumberTextField, 200, 200, 400)
 								.addComponent(equipmentNumberTextField, 200, 200, 400)
-								.addComponent(equipmentAvailableList).addComponent(addEquipmentButton))
+								.addComponent(equipmentAvailableList)
+								.addComponent(addEquipmentButton)
+								
+								)
+						
 						));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, addEquipmentButton, deleteItemButton, memberNameTextField,
@@ -199,19 +182,10 @@ public class MemberFrame extends JFrame {
 						.addComponent(equipmentNumberTextField))
 				.addGroup(layout.createParallelGroup().addComponent(addEquipmentButton).addComponent(deleteItemButton))
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLine1))
-				.addGroup(layout.createParallelGroup().addComponent(addMemberButton))
-				.addComponent(previousPage)
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLine2))
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(updateMemberButton) )
-				 */
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(horizontalLineBottom) )
-				 * 
-				 * /*.addGroup(layout.createParallelGroup() .addComponent(deleteMemberButton) )
-				 */
 				.addComponent(overviewScrollPane)
-
+				.addGroup(layout.createParallelGroup().addComponent(horizontalLine2))
+				.addGroup(layout.createParallelGroup().addComponent(addMemberButton))
+				.addGroup(layout.createParallelGroup().addComponent(previousPage))
 		);
 
 		pack();
