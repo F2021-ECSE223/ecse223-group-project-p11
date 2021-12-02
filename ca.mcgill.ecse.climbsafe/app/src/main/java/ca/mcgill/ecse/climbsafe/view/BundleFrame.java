@@ -42,12 +42,12 @@ public class BundleFrame extends JFrame {
 	private JTextField itemQTextField = new JTextField();
 	private JLabel itemQLabel = new JLabel("Quantities:");
 
-	private JButton addItemButton = new JButton("Add Item:");
+	private JButton addItemButton = new JButton("Add Item");
 
 	private JTextField bundleDiscountTextField = new JTextField();
 	private JLabel bundleDiscountLabel = new JLabel("Discount:");
 
-	private JButton addBundleButton = new JButton("Add:");
+	private JButton addBundleButton = new JButton("Add");
 
 	// to update Bundles
 	// private JTextField bundleOldNameTextField = new JTextField();
@@ -63,7 +63,7 @@ public class BundleFrame extends JFrame {
 	private JTextField itemNewQTextField = new JTextField();
 	private JLabel itemNewQLabel = new JLabel("New Equipment Quantities:");
 
-	private JButton addUpdatedItemButton = new JButton("Add Updated Item:");
+	private JButton addUpdatedItemButton = new JButton("Add Updated Item");
 
 	private JTextField bundleNewDiscounttTextField = new JTextField();
 	private JLabel bundleNewDiscountLabel = new JLabel("New Discount:");
@@ -78,12 +78,17 @@ public class BundleFrame extends JFrame {
 
 	private JButton previousPage = new JButton("Return to previous page");
 
-	private JTable equipmentBundleOverview = new JTable(new DefaultTableModel()) {
+	private JTable addEquipmentBundleOverview = new JTable(new DefaultTableModel()) {
 		private static final long serialVersionUID = 91L;
 	};
 
-	private JScrollPane overviewScrollPane = new JScrollPane(equipmentBundleOverview);
+	private JScrollPane overviewScrollPane = new JScrollPane(addEquipmentBundleOverview);
+	
+	private JTable updateEquipmentBundleOverview = new JTable(new DefaultTableModel()) {
+		private static final long serialVersionUID = 91L;
+	};
 
+	private JScrollPane updateOverviewScrollPane = new JScrollPane(updateEquipmentBundleOverview);
 	private static final String[] OVERVIEW_COLUMN_NAMES = { "Booked Item", "Number selected" };
 
 	private String error = "";
@@ -91,9 +96,12 @@ public class BundleFrame extends JFrame {
 	public BundleFrame() {
 		initComponents();
 		refreshData();
+		refreshAddOverview();
+		refreshUpdateOverview();
 	}
+
 	private void setComboBoxes() {
-		for(Equipment e: AddtitionalController.getAllEquipment()) {
+		for (Equipment e : AddtitionalController.getAllEquipment()) {
 			itemNewBox.addItem(e.getName());
 			itemBox.addItem(e.getName());
 		}
@@ -110,13 +118,15 @@ public class BundleFrame extends JFrame {
 		setTitle("Climb Safe Application System");
 
 		// listeners for adding bundle
-	   bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
-		//itemQTextField.addActionListener(this::addItemButtonActionPerformed);
-		//itemBox.addActionListener(this::addItemButtonActionPerformed);
+		bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
+		// itemQTextField.addActionListener(this::addItemButtonActionPerformed);
+		// itemBox.addActionListener(this::addItemButtonActionPerformed);
 		addItemButton.addActionListener(this::addItemButtonActionPerformed);
 
 		bundleDiscountTextField.addActionListener(this::addBundleButtonActionPerformed);
 		addBundleButton.addActionListener(this::addBundleButtonActionPerformed);
+		addUpdatedItemButton.addActionListener(this::addUpdatedItemActionPerformed);
+
 		////////////////////////////////////
 
 		// listeners for updating bundle
@@ -129,7 +139,6 @@ public class BundleFrame extends JFrame {
 		bundleNewDiscounttTextField.addActionListener(this::updateBundleButtonActionPerformed);
 		updatebundleButton.addActionListener(this::updateBundleButtonActionPerformed);
 		previousPage.addActionListener(this::backToPreviousPage);
-
 		//////////////////////////////////////
 
 		// listeners for deleting bundle
@@ -150,7 +159,8 @@ public class BundleFrame extends JFrame {
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
+		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage).addComponent(overviewScrollPane, 400, 400, 400)
+				.addComponent(updateOverviewScrollPane, 400, 400, 400)
 				.addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup().addComponent(bundleNameLabel).addComponent(itemNameLabel)
@@ -162,15 +172,11 @@ public class BundleFrame extends JFrame {
 								.addComponent(itemBox).addComponent(itemQTextField, 200, 200, 400)
 								.addComponent(addItemButton).addComponent(bundleDiscountTextField, 200, 200, 400)
 								.addComponent(addBundleButton)
-								// .addComponent(bundleToAddList)
-								// .addComponent(bundleOldNameTextField,200,200,400)
 								.addComponent(oldNameList).addComponent(bundleNewNameTextField, 200, 200, 400)
 								.addComponent(itemNewBox).addComponent(itemNewQTextField, 200, 200, 400)
 								.addComponent(addUpdatedItemButton)
 								.addComponent(bundleNewDiscounttTextField, 200, 200, 400)
 								.addComponent(updatebundleButton)
-								// .addComponent(bundleToUpdateList)
-								// .addComponent(bundleNameToDeleteTextField,200,200,400)
 								.addComponent(deletebundleButton).addComponent(nameToDeleteList)
 								.addComponent(previousPage)
 
@@ -191,10 +197,9 @@ public class BundleFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(addItemButton))
 				.addGroup(layout.createParallelGroup().addComponent(bundleDiscountLabel)
 						.addComponent(bundleDiscountTextField))
+				.addComponent(overviewScrollPane, 100, 100, 100)
 				.addGroup(layout.createParallelGroup().addComponent(addBundleButton))
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(bundleToAddList) )
-				 */
+				
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup().addComponent(bundleOldNameLabel).addComponent(oldNameList))
 				.addGroup(layout.createParallelGroup().addComponent(bundleNewNameLabel)
@@ -204,24 +209,19 @@ public class BundleFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(addUpdatedItemButton))
 				.addGroup(layout.createParallelGroup().addComponent(bundleNewDiscountLabel)
 						.addComponent(bundleNewDiscounttTextField))
-
+				.addComponent(updateOverviewScrollPane, 100, 100, 100)
 				.addGroup(layout.createParallelGroup().addComponent(updatebundleButton))
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(bundleToUpdateList))
-				 */
+	
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup().addComponent(bundleNameToDeleteLabel)
 						.addComponent(nameToDeleteList))
 				.addGroup(layout.createParallelGroup().addComponent(deletebundleButton)).addComponent(previousPage)
-		// .addComponent(overviewScrollPane)
-		/*
-		 * .addGroup(layout.createParallelGroup() .addComponent(bundleToDeleteList))
-		 */
+
 		);
 		setComboBoxes();
 		pack();
 		setLocationRelativeTo(null);
-		setResizable(false);
+		setResizable(true);
 		setVisible(true);
 	}
 
@@ -233,11 +233,13 @@ public class BundleFrame extends JFrame {
 			// add bundle
 			bundleNameTextField.setText("");
 			bundleDiscountTextField.setText("");
+			itemQTextField.setText("");
 
 			// update bundle
 			// bundleOldNameTextField.setText("");
 			bundleNewNameTextField.setText("");
 			bundleNewDiscounttTextField.setText("");
+			itemNewQLabel.setText("");
 
 			var lists = List.of(oldNameList, nameToDeleteList);
 			lists.forEach(JComboBox::removeAllItems);
@@ -250,17 +252,38 @@ public class BundleFrame extends JFrame {
 		}
 		pack();
 	}
-	/*
-	 * private void refreshOverview() { errorMessage.setText(error); if(error ==
-	 * null || error.isEmpty()) { var overviewDtm = new DefaultTableModel(0,0);
-	 * overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
-	 * equipmentBundleOverview.setModel(overviewDtm);
-	 * if(oldNameList.getSelectedItem()!= null) { DefaultTableModel model =
-	 * (DefaultTableModel) equipmentBundleOverview.getModel(); for(int i = 0; i <
-	 * selectedEquipmentNames.size();i++) { model.addRow(new Object[]
-	 * {selectedEquipmentNames.get(i),selectedEquipmentQuantities.get(i)}); } }
-	 * oldNameList.setSelectedIndex(0); } }
-	 */
+
+	private void refreshAddOverview() {
+		errorMessage.setText(error);
+		if (error == null || error.isEmpty()) {
+			var overviewDtm = new DefaultTableModel(0, 0);
+			overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
+			addEquipmentBundleOverview.setModel(overviewDtm);
+			if (oldNameList.getSelectedItem() != null) {
+				DefaultTableModel model = (DefaultTableModel) addEquipmentBundleOverview.getModel();
+				for (int i = 0; i < selectedEquipmentNames.size(); i++) {
+					model.addRow(new Object[] { selectedEquipmentNames.get(i), selectedEquipmentQuantities.get(i) });
+				}
+			}
+			itemBox.setSelectedIndex(0);
+		}
+	}
+	
+	private void refreshUpdateOverview() {
+		errorMessage.setText(error);
+		if (error == null || error.isEmpty()) {
+			var overviewDtm = new DefaultTableModel(0, 0);
+			overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
+			updateEquipmentBundleOverview.setModel(overviewDtm);
+			if (oldNameList.getSelectedItem() != null) {
+				DefaultTableModel model = (DefaultTableModel) updateEquipmentBundleOverview.getModel();
+				for (int i = 0; i < selectedNewEquipmentNames.size(); i++) {
+					model.addRow(new Object[] { selectedNewEquipmentNames.get(i), selectedNewEquipmentQuantities.get(i) });
+				}
+			}
+			oldNameList.setSelectedIndex(0);
+		}
+	}
 
 	private void addItemButtonActionPerformed(ActionEvent evt) {
 		error = "";
@@ -277,6 +300,8 @@ public class BundleFrame extends JFrame {
 			System.out.println("added");
 			selectedEquipmentNames.add(name);
 			selectedEquipmentQuantities.add(amt);
+			refreshAddOverview();
+
 		}
 
 	}
@@ -299,7 +324,8 @@ public class BundleFrame extends JFrame {
 					discount, selectedEquipmentNames, selectedEquipmentQuantities));
 			selectedEquipmentNames.clear();
 			selectedEquipmentQuantities.clear();
-
+			refreshAddOverview();
+			refreshUpdateOverview();
 		}
 
 		refreshData();
@@ -308,22 +334,30 @@ public class BundleFrame extends JFrame {
 
 	private void addUpdatedItemActionPerformed(ActionEvent evt) {
 		error = "";
-		Integer amt = Integer.valueOf(itemQTextField.getText());
-		String name = (String) itemBox.getSelectedItem();
-		String bName= (String) oldNameList.getSelectedItem();
-
-		if (bundleNewNameTextField.getText().equals("") || bundleNewDiscounttTextField.getText().equals("")|| bName=="") {
+		
+		String name = (String) itemNewBox.getSelectedItem();
+		Integer amt = 0;
+		if (name.equals("") || itemNewQTextField.getText().equals("")) {
 			error = "Please fill all fields!";
+		} else {
+			amt = Integer.valueOf(itemNewQTextField.getText());
+
 		}
-	
+		
+		if (selectedNewEquipmentNames.contains(name)) {
+			error += " " + name + " is already added!";
+		}
+		
 		if (error.isEmpty()) {
-			if (selectedEquipmentNames.contains(name)) {
-				AddtitionalController.updateBundleItem(name, bName, amt);
-			} else {
+//			if (selectedEquipmentNames.contains(name)) {
+//				AddtitionalController.updateBundleItem(name, bName, amt);
+//			} else {
 			selectedNewEquipmentNames.add(name);
 			selectedNewEquipmentQuantities.add(amt);
-			}
+			refreshUpdateOverview();
+//			}
 		}
+		
 	}
 
 	private void updateBundleButtonActionPerformed(ActionEvent evt) {
