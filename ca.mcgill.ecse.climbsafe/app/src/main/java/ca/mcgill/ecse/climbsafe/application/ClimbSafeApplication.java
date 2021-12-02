@@ -38,8 +38,6 @@ public class ClimbSafeApplication {
 		if (climbSafe == null) {
 			// these attributes are default, you should set them later with the setters
 
-			// just doing this to get rid of null pointer exception
-
 			climbSafe = ClimbSafePersistence.load();
 
 		}
