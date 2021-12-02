@@ -53,33 +53,32 @@ public class HomePageAdminFrame extends JFrame {
 		viewAssignments.addActionListener(this::ViewAssignmentActionPerformed);
 
 		
-		JSeparator horizontalLineTop = new JSeparator();
-		JSeparator horizontalLineBottom = new JSeparator();
 
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
-				.addComponent(horizontalLineTop)
-				.addComponent(startCancelFinishTrips)
-				.addComponent(addUpdateEquipment)
-				.addComponent(addUpdateEquipmentBundle)
-				.addComponent(setUpNMCInfo)
-				.addComponent(initiateAssignments)
-				.addComponent(viewAssignments)
-				.addComponent(previousPage)
-				.addComponent(horizontalLineBottom));
+		layout.setHorizontalGroup(layout.createParallelGroup().addGap(25)
+				.addComponent(errorMessage, 500, 500, 1000)
+				.addComponent(startCancelFinishTrips, 500, 500, 1000)
+				.addComponent(addUpdateEquipment, 500, 500, 1000)
+				.addComponent(addUpdateEquipmentBundle, 500, 500, 1000)
+				.addComponent(setUpNMCInfo, 500, 500, 1000)
+				.addComponent(initiateAssignments, 500, 500, 1000)
+				.addComponent(viewAssignments, 500, 500, 1000)
+				.addComponent(previousPage, 500, 500, 1000).addGap(25)
+				);
 		
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage).addComponent(horizontalLineTop)
-				.addComponent(startCancelFinishTrips)
-				.addComponent(addUpdateEquipment)
-				.addComponent(addUpdateEquipmentBundle)
-				.addComponent(setUpNMCInfo)
-				.addComponent(initiateAssignments)
-				.addComponent(viewAssignments)
-				.addComponent(previousPage)
-				.addComponent(horizontalLineBottom));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGap(25)
+				.addComponent(errorMessage)
+				.addComponent(startCancelFinishTrips, 50, 50, 50)
+				.addComponent(addUpdateEquipment, 50, 50, 50)
+				.addComponent(addUpdateEquipmentBundle, 50, 50, 50)
+				.addComponent(setUpNMCInfo, 50, 50, 50)
+				.addComponent(initiateAssignments, 50, 50, 50)
+				.addComponent(viewAssignments, 50, 50, 50)
+				.addComponent(previousPage, 50, 50, 50).addGap(25)
+				);
 		
 		pack();
 		setLocationRelativeTo(null);

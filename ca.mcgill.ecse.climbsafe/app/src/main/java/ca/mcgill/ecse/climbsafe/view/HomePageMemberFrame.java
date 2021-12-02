@@ -36,17 +36,19 @@ public class HomePageMemberFrame extends JFrame {
 		payTrip.addActionListener(this::payTripActionPerformed);
 		previousPage.addActionListener(this::backToPreviousPage);
 
-		JSeparator horizontalLineTop = new JSeparator();
-		JSeparator horizontalLineBottom = new JSeparator();
-
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(payTrip).addComponent(previousPage).addComponent(horizontalLineBottom));
+		layout.setHorizontalGroup(layout.createParallelGroup().addGap(25)
+				.addComponent(updateOrModifyAccount, 500, 500, 1000)
+				.addComponent(payTrip, 500, 500, 1000)
+				.addComponent(previousPage, 500, 500, 1000).addGap(25));
 		
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(horizontalLineTop).addComponent(updateOrModifyAccount).addComponent(payTrip).addComponent(previousPage).addComponent(horizontalLineBottom));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGap(25)
+				.addComponent(updateOrModifyAccount,  50, 50, 50)
+				.addComponent(payTrip,  50, 50, 50)
+				.addComponent(previousPage,  50, 50, 50).addGap(25));
 		
 		pack();
 		setLocationRelativeTo(null);
