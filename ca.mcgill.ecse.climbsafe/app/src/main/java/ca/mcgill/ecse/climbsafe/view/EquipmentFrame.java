@@ -235,6 +235,10 @@ public class EquipmentFrame extends JFrame {
         if (selectedEquipment == null) {
             error = "Equipment needs to be selected to update it!";
         }
+        if(equipmentNewNameTextField.getText().equals("") || equipmentNewWeightTextField.getText().equals("")
+            || equipmentNewPricePerWeekTextField.getText().equals("")) {
+          error = "Please all the fields";
+        }
         error = error.trim();
 
         if (error.isEmpty()) {
