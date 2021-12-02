@@ -19,13 +19,12 @@ import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.controller.AddtitionalController;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet3Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
-import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.view.GuideFrame.Executable;
 
 public class RegisterGuideFrame extends JFrame {
 
 	private static final long serialVersionUID = 5L;
-	
+
 	private JLabel errorMessage = new JLabel(); // element for error message
 
 	// Guide Addition labels
@@ -41,17 +40,18 @@ public class RegisterGuideFrame extends JFrame {
 
 	private JTextField guideEmergencyContactTextField = new JTextField();
 	private JLabel guideEmergencyContactLabel = new JLabel("Emergency Contact:");
-	
+
 	private JButton addGuideButton = new JButton("Add Guide");
-	
+
 	private JButton previousPage = new JButton("Return to previous page");
 
-	private String error = "";	
+	private String error = "";
 
 	public RegisterGuideFrame() {
 		initComponents();
 		refreshData();
 	}
+
 	private void initComponents() {
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
@@ -81,27 +81,31 @@ public class RegisterGuideFrame extends JFrame {
 		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel, 200, 200, 400)
-								.addComponent(guideNameLabel).addComponent(guideEmergencyContactLabel)
-								.addComponent(guidePasswordLabel))
+						.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel, 200, 200, 200)
+								.addComponent(guideNameLabel, 200, 200, 200)
+								.addComponent(guideEmergencyContactLabel, 200, 200, 400)
+								.addComponent(guidePasswordLabel, 200, 200, 200))
 						.addGroup(layout.createParallelGroup().addComponent(guideEmailTextField, 500, 500, 1000)
 								.addComponent(guideNameTextField, 500, 500, 1000)
-								.addComponent(guideEmergencyContactTextField)
-								.addComponent(guidePasswordTextField, 500, 500, 1000).addComponent(addGuideButton).addComponent(previousPage))));
+								.addComponent(guideEmergencyContactTextField, 500, 500, 1000)
+								.addComponent(guidePasswordTextField, 500, 500, 1000)))
+						.addComponent(addGuideButton, 500, 500, 500)
+						.addComponent(previousPage, 500, 500, 500));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, guideNameTextField, guidePasswordTextField,
 				guideEmergencyContactTextField);
 
-		layout.linkSize(SwingConstants.HORIZONTAL, addGuideButton);
-
+		
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
-				.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel).addComponent(guideEmailTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guideNameLabel).addComponent(guideNameTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guideEmergencyContactLabel)
-						.addComponent(guideEmergencyContactTextField))
-				.addGroup(layout.createParallelGroup().addComponent(guidePasswordLabel)
-						.addComponent(guidePasswordTextField))
-				.addComponent(addGuideButton).addComponent(previousPage)
+				.addGroup(layout.createParallelGroup().addComponent(guideEmailLabel, 20, 20, 20)
+						.addComponent(guideEmailTextField, 20, 20, 20))
+				.addGroup(layout.createParallelGroup().addComponent(guideNameLabel, 20, 20, 20)
+						.addComponent(guideNameTextField, 20, 20, 20))
+				.addGroup(layout.createParallelGroup().addComponent(guideEmergencyContactLabel, 20, 20, 20)
+						.addComponent(guideEmergencyContactTextField, 20, 20, 20))
+				.addGroup(layout.createParallelGroup().addComponent(guidePasswordLabel, 20, 20, 20)
+						.addComponent(guidePasswordTextField, 20, 20, 20))
+				.addComponent(addGuideButton, 20, 20, 20).addComponent(previousPage, 20, 20, 20)
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
 
 		pack();
@@ -113,44 +117,35 @@ public class RegisterGuideFrame extends JFrame {
 	private void refreshData() {
 		errorMessage.setText(error);
 		if (error == null || error.isEmpty()) {
-			// populate page with data
-
-			// add equipment
 			guideEmailTextField.setText("");
 			guideNameTextField.setText("");
 			guidePasswordTextField.setText("");
 			guideEmergencyContactTextField.setText("");
-
-			
-
-			ClimbSafe climbSafeApp = ClimbSafeApplication.getClimbSafe();
-
-			String eq = climbSafeApp.getEquipment().toString();
 
 			pack();
 
 		}
 
 	}
-	
+
 	private void addGuideButtonActionPerformed(ActionEvent evt) {
 
 		// clear error message
 		error = "";
-		
-	    callController(() -> ClimbSafeFeatureSet3Controller.registerGuide(guideEmailTextField.getText(),
-	    		guidePasswordTextField.getText(),  guideNameTextField.getText(), guideEmergencyContactTextField.getText()));
-	    
-	    // update visuals 
-	    refreshData();
+
+		callController(() -> ClimbSafeFeatureSet3Controller.registerGuide(guideEmailTextField.getText(),
+				guidePasswordTextField.getText(), guideNameTextField.getText(),
+				guideEmergencyContactTextField.getText()));
+
+		// update visuals
+		refreshData();
 
 	}
-	
 
 	private void backToPreviousPage(ActionEvent evt) {
-        InitialHomePage initialPage = new InitialHomePage();
-        initialPage.setVisible(true);
-        dispose();
+		InitialHomePage initialPage = new InitialHomePage();
+		initialPage.setVisible(true);
+		dispose();
 	}
 
 	private String callController(Executable executable) {
@@ -169,5 +164,5 @@ public class RegisterGuideFrame extends JFrame {
 	interface Executable {
 		public void execute() throws Throwable;
 	}
-	
+
 }

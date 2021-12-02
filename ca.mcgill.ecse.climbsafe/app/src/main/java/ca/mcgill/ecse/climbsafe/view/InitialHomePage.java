@@ -36,8 +36,6 @@ public class InitialHomePage extends JFrame {
 		
 
 	public InitialHomePage() {
-		callController(() -> AddtitionalController.createAdmin());
-
 		initComponents();
 	}
 
