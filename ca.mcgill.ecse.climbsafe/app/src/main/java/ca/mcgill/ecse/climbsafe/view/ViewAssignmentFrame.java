@@ -1,6 +1,8 @@
 package ca.mcgill.ecse.climbsafe.view;
 
 import java.util.ArrayList;
+
+
 import java.util.List;
 
 import java.awt.Color;
@@ -24,6 +26,13 @@ import java.sql.*;
 import java.time.*;
 
 import java.awt.event.ActionEvent;
+
+/**
+ * This class represents the View Assignment frame.
+ * More specifically, a part of feature 6.
+ * @author Oliver Cafferty
+ *
+ */
 
 public class ViewAssignmentFrame extends JFrame {
 
@@ -106,7 +115,11 @@ public class ViewAssignmentFrame extends JFrame {
 		setVisible(true);
 
 	}
-
+    /**
+     * This method validates the user is going back to the previous page.
+     * @author Oliver Cafferty
+     * @param evt
+     */
 	private void backToPreviousPage(ActionEvent evt) {
 		HomePageAdminFrame homepage = new HomePageAdminFrame();
 		homepage.setVisible(true);

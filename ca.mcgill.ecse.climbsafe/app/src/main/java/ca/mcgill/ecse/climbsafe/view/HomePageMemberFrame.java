@@ -9,6 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.WindowConstants;
 
+/***
+ * 
+ * @author Sam Snodgrass, Anaëlle Drai Laguéns
+ *
+ */
+
 public class HomePageMemberFrame extends JFrame {
 	private JButton updateOrModifyAccount = new JButton("Update Information or Delete Account");
 
@@ -24,8 +30,6 @@ public class HomePageMemberFrame extends JFrame {
 		this.email = "test";
 		initComponents();
 	}
-
-	
 	private void initComponents() {
 		// global settings
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -55,19 +59,31 @@ public class HomePageMemberFrame extends JFrame {
 		setResizable(false);
 		setVisible(true);
 	}
-	
+	/**
+     * This method brings the user to the Member2 frame.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void updateOrModifyAccountActionPerformed(ActionEvent evt) {
         MemberFrame2 updateMemberFrame = new MemberFrame2();
         updateMemberFrame.setVisible(true);
         dispose();
 	}
-	
+	/**
+     * This method brings the user to the Member2 frame.
+     * @author Anaëlle Drai Laguéns
+     * @param evt
+     */
 	private void payTripActionPerformed(ActionEvent evt) {
         PayTripFrame payTripFrame = new PayTripFrame();
         payTripFrame.setVisible(true);
         dispose();
 	}
-	
+	/**
+	 * This method validates the user is going back to the previous page.
+	 * @author Anaëlle Drai Laguéns
+	 * @param evt
+	 */
 	private void backToPreviousPage(ActionEvent evt) {
         InitialHomePage initialPage = new InitialHomePage();
         initialPage.setVisible(true);

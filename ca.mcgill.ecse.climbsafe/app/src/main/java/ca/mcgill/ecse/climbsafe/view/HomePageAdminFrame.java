@@ -2,6 +2,7 @@ package ca.mcgill.ecse.climbsafe.view;
 
 import java.awt.event.ActionEvent;
 
+
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,13 @@ import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet1Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
 import ca.mcgill.ecse.climbsafe.view.GuideFrame.Executable;
+
+/***
+ * 
+ * @author Oliver Cafferty, Can Akin, Maxime Drouin, Anaëlle Drai Laguéns, Sam Snodgrass, Lee Brickman
+ *
+ *
+ */
 
 public class HomePageAdminFrame extends JFrame {
 
@@ -86,41 +94,70 @@ public class HomePageAdminFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	
+	/**
+	 * This method brings the user to the ManageTrips frame.
+	 * @author Oliver Cafferty 
+	 * @param evt
+	 */
 	private void startCancelFinishTripsActionPerformed(ActionEvent evt) {
         ManageTripsFrame manageTripsFrame = new ManageTripsFrame();
         manageTripsFrame.setVisible(true);
         dispose();
 	}
-	
+	/**
+	 * This method brings the user to the EquipmentFrame frame.
+	 * @author Can Akin
+	 * @param evt
+	 */
 	private void addUpdateEquipmentActionPerformed(ActionEvent evt) {
         EquipmentFrame updateEquipmentFrame = new EquipmentFrame();
         updateEquipmentFrame.setVisible(true);
         dispose();
 	}
+	/**
+     * This method brings the user to the ViewAssignment frame.
+     * @author Oliver Cafferty
+     * @param evt
+     */
 	private void ViewAssignmentActionPerformed(ActionEvent evt) {
         ViewAssignmentFrame viewAssignmentFrame = new ViewAssignmentFrame();
         viewAssignmentFrame.setVisible(true);
         dispose();
 	}
-	
+	/**
+     * This method brings the user to the ViewAssignment frame.
+     * @author Maxime Drouin
+     * @param evt
+     */
 	private void addUpdateEquipmentBundleActionPerformed(ActionEvent evt) {
         BundleFrame bundleFrame = new BundleFrame();
         bundleFrame.setVisible(true);
         dispose();
 	}
-	
+	/**
+     * This method brings the user to the NMCSetUpInfoFrame frame.
+     * @author Lee Brickman
+     * @param evt
+     */
 	private void setUpNMCInfoActionPerformed(ActionEvent evt) {
         NMCSetUpInfoFrame nmcInfoFrame = new NMCSetUpInfoFrame();
         nmcInfoFrame.setVisible(true);
         dispose();
 	}
-	
+	/**
+     * This method validates that assignments are initiated.
+     * @author Anaëlle Drai Laguéns
+     * @param evt
+     */
 	private void initiateAssignmentsActionPerformed(ActionEvent evt) {
 		callController(() -> AssignmentController.initiateAssignment());
 	}
 	
-	
+	/***
+     * This method validates the user is going back to the previous page.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void backToPreviousPage(ActionEvent evt) {
         InitialHomePage initialPage = new InitialHomePage();
         initialPage.setVisible(true);
@@ -129,7 +166,7 @@ public class HomePageAdminFrame extends JFrame {
 	
 	/**
 	 * Calls the controller and sets the error message.
-	 * 
+	 * @author Sam Snodgrass
 	 * @param executable a controller call preceded by "() -> ", eg,<br>
 	 * @return
 	 */

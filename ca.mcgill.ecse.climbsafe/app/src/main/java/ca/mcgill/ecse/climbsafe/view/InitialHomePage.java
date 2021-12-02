@@ -20,6 +20,11 @@ import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
 import ca.mcgill.ecse.climbsafe.view.MemberFrame.Executable;
 
+/**
+ * This class represents the Home Page frame.
+ * @author Oliver Cafferty, Can Akin, Maxime Drouin
+ *
+ */
 public class InitialHomePage extends JFrame {	
 	
 	private String error;
@@ -73,39 +78,63 @@ public class InitialHomePage extends JFrame {
 		setResizable(false);
 		setVisible(true);
 	}
-	
-	
-
+	/**
+     * This method brings the user to the HomePageAdminFrame frame.
+     * @author Oliver Cafferty
+     * @param evt
+     */
 	private void adminHomePageActionPerformed(ActionEvent evt) {
         HomePageAdminFrame homepageAdmin = new HomePageAdminFrame();
         homepageAdmin.setVisible(true);
         dispose();
 	}
-
+	/**
+     * This method brings the user to the HomePageMemberFrame frame.
+     * @author Can Akin
+     * @param evt
+     */
 	private void memberHomePageActionPerformed(ActionEvent evt) {
         HomePageMemberFrame homePageMember = new HomePageMemberFrame();
         homePageMember.setVisible(true);
         dispose();
 	}
-
+	/**
+     * This method brings the user to the HomePageGuideFrame frame.
+     * @author Maxime Drouin
+     * @param evt
+     */
 	private void guideHomePageActionPerformed(ActionEvent evt) {
         HomePageGuideFrame homePageGuide = new HomePageGuideFrame();
         homePageGuide.setVisible(true);
         dispose();
 	}
+	/**
+     * This method brings the user to RegisterGuideFrame frame.
+     * @author Oliver Cafferty
+     * @param evt
+     */
 	private void registerGuideActionPerformed(ActionEvent evt) {
         RegisterGuideFrame registerGuideFrame = new RegisterGuideFrame();
         registerGuideFrame.setVisible(true);
         dispose();
 	}
-
+	/**
+     * This method brings the user to the MemberFrame frame.
+     * @author Can Akin
+     * @param evt
+     */
 	private void registerMemberActionPerformed(ActionEvent evt) {
 		MemberFrame registerMemberFrame = new MemberFrame();
         registerMemberFrame.setVisible(true);
         dispose();
 	}
 	
-
+	/**
+     * Calls the controller and sets the error message.
+     * @author Maxime Drouin
+     * @param executable a controller call preceded by "() -> ", eg,<br>
+     * @return
+     */
 	private String callController(Executable executable) {
 		try {
 			executable.execute();
