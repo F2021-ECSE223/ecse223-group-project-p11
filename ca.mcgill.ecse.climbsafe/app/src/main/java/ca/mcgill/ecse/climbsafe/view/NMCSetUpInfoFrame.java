@@ -161,10 +161,10 @@ public class NMCSetUpInfoFrame extends JFrame {
 	private void applyAllActionPerformed(ActionEvent e) {
 	  error = "";
 	    if(characterCheck(numberOfWeeks)==false) {
-	      error = "The number of weeks must be a positive integer";
+	      error = "The number of climbing weeks must be greater than or equal to zero";
 	      refreshData();}
 	    if (characterCheck(weeklyGuidePrice)==false) {
-	      error = "The weekly price of guides must be a positive integer";
+	      error = "The price of guide per week must be greater than or equal to zero";
 	      refreshData();}
 	    
 
