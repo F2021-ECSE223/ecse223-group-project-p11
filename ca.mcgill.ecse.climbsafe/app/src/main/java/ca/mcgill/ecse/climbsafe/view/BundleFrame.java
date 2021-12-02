@@ -100,6 +100,8 @@ public class BundleFrame extends JFrame {
         refreshData();
     }
     private void setComboBoxes() {
+    	itemBox.addItem("-----");
+    	itemNewBox.addItem("-----");
         for(Equipment e: AddtitionalController.getAllEquipment()) {
             itemNewBox.addItem(e.getName());
             itemBox.addItem(e.getName());
@@ -239,10 +241,10 @@ public class BundleFrame extends JFrame {
      */
     private void addItemButtonActionPerformed(ActionEvent evt) {
         error = "";
-        Integer amt = Integer.valueOf(itemQTextField.getText());
+      
         String name = (String) itemBox.getSelectedItem();
-
-        if (name.equals("") || itemQTextField.getText().equals("")) {
+        int amt = getNumberFromField(itemQTextField, "must be a number");
+        if (name.equals("") || itemQTextField.getText().equals("")||name.equals("-----")) {
             error = "Please fill all fields!";
         }
         if (selectedEquipmentNames.contains(name)) {
@@ -276,6 +278,7 @@ public class BundleFrame extends JFrame {
             System.out.println(selectedEquipmentNames.toString());
             callController(() -> ClimbSafeFeatureSet5Controller.addEquipmentBundle(bundleNameTextField.getText(),
                     discount, selectedEquipmentNames, selectedEquipmentQuantities));
+            //need if statement for if item then dont clear
             selectedEquipmentNames.clear();
             selectedEquipmentQuantities.clear();
 
@@ -291,17 +294,19 @@ public class BundleFrame extends JFrame {
      */ 
     private void addUpdatedItemActionPerformed(ActionEvent evt) {
         error = "";
-        Integer amt = Integer.valueOf(itemQTextField.getText());
-        String name = (String) itemBox.getSelectedItem();
+        Integer amt = getNumberFromField(itemNewQTextField, "must be a number");
+        
+        String name = (String) itemNewBox.getSelectedItem();
         String bName= (String) oldNameList.getSelectedItem();
 
-        if (bundleNewNameTextField.getText().equals("") || bundleNewDiscounttTextField.getText().equals("")|| bName=="") {
+        if (name.equals("----")||name.equals("")||itemNewQTextField.getText().equals("")||bName.equals("")) {
             error = "Please fill all fields!";
         }
     
         if (error.isEmpty()) {
             if (selectedEquipmentNames.contains(name)) {
-                AddtitionalController.updateBundleItem(name, bName, amt);
+            	
+            	AddtitionalController.updateBundleItem(name, bName, amt);
             } else {
             selectedNewEquipmentNames.add(name);
             selectedNewEquipmentQuantities.add(amt);

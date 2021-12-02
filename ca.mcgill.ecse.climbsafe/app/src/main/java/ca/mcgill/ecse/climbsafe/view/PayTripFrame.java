@@ -76,7 +76,7 @@ public class PayTripFrame extends JFrame {
                 .addGroup(layout.createParallelGroup().addComponent(memberLabel).addComponent(memberList))
                 .addGroup(layout.createParallelGroup().addComponent(autCodeLabel).addComponent(autCodeTextField))
                 .addGroup(layout.createParallelGroup().addComponent(payTripButton)
-                .addGroup(layout.createParallelGroup().addComponent(previousPage)));
+                .addGroup(layout.createParallelGroup().addComponent(previousPage))));
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
