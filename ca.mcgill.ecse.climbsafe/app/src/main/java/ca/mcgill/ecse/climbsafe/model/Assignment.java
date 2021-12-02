@@ -6,8 +6,8 @@ import java.io.Serializable;
 import ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 
-// line 107 "../../../../../ClimbSafePersistence.ump"
-// line 7 "../../../../../ClimbSafeExtended.ump"
+// line 112 "../../../../../ClimbSafePersistence.ump"
+// line 8 "../../../../../ClimbSafeExtended.ump"
 // line 1 "../../../../../ClimbSafeStates.ump"
 // line 95 "../../../../../ClimbSafe.ump"
 public class Assignment implements Serializable
@@ -507,12 +507,12 @@ public class Assignment implements Serializable
     }
   }
 
-  // line 15 "../../../../../ClimbSafeExtended.ump"
+  // line 16 "../../../../../ClimbSafeExtended.ump"
    public void setAssignmentState(AssignmentStatus status){
     setAssignmentStatus(status);
   }
 
-  // line 19 "../../../../../ClimbSafeExtended.ump"
+  // line 20 "../../../../../ClimbSafeExtended.ump"
    public void assignmentEquipmentCost(){
     ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
         int sum=0;
@@ -542,7 +542,7 @@ public class Assignment implements Serializable
         this.setTotalEquipmentCost(sum);
   }
 
-  // line 49 "../../../../../ClimbSafeExtended.ump"
+  // line 50 "../../../../../ClimbSafeExtended.ump"
    public void assignmentGuideCost(){
     ClimbSafe cs= ClimbSafeApplication.getClimbSafe();
       int sum = 0;
@@ -552,7 +552,7 @@ public class Assignment implements Serializable
       }
   }
 
-  // line 58 "../../../../../ClimbSafeExtended.ump"
+  // line 59 "../../../../../ClimbSafeExtended.ump"
    public void assignmentCost(){
     assignmentGuideCost();
       assignmentEquipmentCost();
@@ -677,7 +677,7 @@ public class Assignment implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 110 "../../../../../ClimbSafePersistence.ump"
+  // line 115 "../../../../../ClimbSafePersistence.ump"
   private static final long serialVersionUID = 11L ;
 
   

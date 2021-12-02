@@ -183,12 +183,23 @@ public class ClimbSafeFeatureSet5Controller {
 
 				if (oldName.equals(d.getName())) {
 					List<String> temp = new ArrayList<>();
-					for (int k = 0; k < d.getBundleItems().size(); k++) {
-						String g = d.getBundleItem(k).getEquipment().toString();
-
-						temp.add(g);
-
+					int k= 0;
+					//int kmax = d.getBundleItems().size();
+					List<BundleItem> bundleItems = d.getBundleItems();
+					while(k< d.getBundleItems().size()) {
+						
+						BundleItem item = bundleItems.get(k);
+						String x = item.getEquipment().getName();
+						
+						if(!newEquipmentNames.contains(x)) {
+							d.getBundleItem(k).delete();
+						}
+						else{
+							temp.add(x);
+							k++;
+						}
 					}
+					
 					String bundleAsString = temp.toString();
 
 					d.setDiscount(newDiscount);

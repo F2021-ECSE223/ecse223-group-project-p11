@@ -13,6 +13,7 @@ import java.util.Map;
 import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet5Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
+import ca.mcgill.ecse.climbsafe.model.Administrator;
 import ca.mcgill.ecse.climbsafe.model.BookableItem;
 import ca.mcgill.ecse.climbsafe.model.BundleItem;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
@@ -40,6 +41,10 @@ public class P8StepDefinitions {
     climbSafe.setStartDate(java.sql.Date.valueOf(date));
     climbSafe.setNrWeeks(Integer.parseInt(weeks));
     climbSafe.setPriceOfGuidePerWeek(Integer.parseInt(price));
+	if(!climbSafe.hasAdministrator()) {
+		Administrator admin = new Administrator("admin@nmc.nt", "admin", climbSafe);
+		climbSafe.setAdministrator(admin);
+	}
   }
 
   // @Joey

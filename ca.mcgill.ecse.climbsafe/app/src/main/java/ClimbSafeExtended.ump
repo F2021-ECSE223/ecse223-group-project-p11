@@ -4,6 +4,7 @@ class Member{
   BanStatus banStatus = BanStatus.NotBanned; 
 }
 
+
 class Assignment{
   depend ca.mcgill.ecse.climbsafe.model.Member.BanStatus;
   depend ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
