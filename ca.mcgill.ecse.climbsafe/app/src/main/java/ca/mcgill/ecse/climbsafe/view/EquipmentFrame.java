@@ -2,6 +2,7 @@ package ca.mcgill.ecse.climbsafe.view;
 
 import java.util.List;
 
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -20,307 +21,301 @@ import java.time.*;
 
 import java.awt.event.ActionEvent;
 
+/**
+ * This class represents the equipment frame. More specifically, the Add/Update/Delete equipment feature.
+ * @author Can Akin
+ * 
+ */
+
 public class EquipmentFrame extends JFrame {
 
-	private static final long serialVersionUID = -4426310869335015542L;
+    private static final long serialVersionUID = -4426310869335015542L;
 
-	private JLabel errorMessage = new JLabel(); // element for error message
+    private JLabel errorMessage = new JLabel(); // element for error message
 
-	// to add equipment
-	private JTextField equipmentNameTextField = new JTextField();
-	private JLabel equipmentNameLabel = new JLabel("Name:");
+    // to add equipment
+    private JTextField equipmentNameTextField = new JTextField();
+    private JLabel equipmentNameLabel = new JLabel("Name:");
 
-	private JTextField equipmentWeightTextField = new JTextField();
-	private JLabel equipmentWeightLabel = new JLabel("Weight:");
+    private JTextField equipmentWeightTextField = new JTextField();
+    private JLabel equipmentWeightLabel = new JLabel("Weight:");
 
-	private JTextField equipmentPricePerWeekTextField = new JTextField();
-	private JLabel equipmentPricePerWeekLabel = new JLabel("Price Per Week:");
+    private JTextField equipmentPricePerWeekTextField = new JTextField();
+    private JLabel equipmentPricePerWeekLabel = new JLabel("Price Per Week:");
 
-	private JButton addEquipmentButton = new JButton("Add Equipment");
+    private JButton addEquipmentButton = new JButton("Add Equipment");
 
-	/////////////////////////////
+    /////////////////////////////
 
-	private JButton previousPage = new JButton("Return to previous page");
+    private JButton previousPage = new JButton("Return to previous page");
 
-	// to update equipment
-	// private JTextField equipmentOldNameTextField = new JTextField();
-	private JComboBox<String> oldNameList = new JComboBox<>();
-	private JLabel equipmentOldNameLabel = new JLabel("Old Name:");
+    // to update equipment
+    private JComboBox<String> oldNameList = new JComboBox<>();
+    private JLabel equipmentOldNameLabel = new JLabel("Old Name:");
 
-	private JTextField equipmentNewNameTextField = new JTextField();
-	private JLabel equipmentNewNameLabel = new JLabel("New Name:");
+    private JTextField equipmentNewNameTextField = new JTextField();
+    private JLabel equipmentNewNameLabel = new JLabel("New Name:");
 
-	private JTextField equipmentNewWeightTextField = new JTextField();
-	private JLabel equipmentNewWeightLabel = new JLabel("New Weight:");
+    private JTextField equipmentNewWeightTextField = new JTextField();
+    private JLabel equipmentNewWeightLabel = new JLabel("New Weight:");
 
-	private JTextField equipmentNewPricePerWeekTextField = new JTextField();
-	private JLabel equipmentNewPricePerWeekLabel = new JLabel("New Price Per Week:");
+    private JTextField equipmentNewPricePerWeekTextField = new JTextField();
+    private JLabel equipmentNewPricePerWeekLabel = new JLabel("New Price Per Week:");
 
-	private JButton updateEquipmentButton = new JButton("Update Equipment");
+    private JButton updateEquipmentButton = new JButton("Update Equipment");
+    ////////////////////////
 
-	// private JComboBox<String> equipmentToUpdateList = new JComboBox<>();
-	////////////////////////
+    // to delete equipment
+    private JComboBox<String> nameToDeleteList = new JComboBox<>();
+    private JLabel equipmentNameToDeleteLabel = new JLabel("Name:");
 
-	// to delete equipment
-	// private JTextField equipmentNameToDeleteTextField = new JTextField();
-	private JComboBox<String> nameToDeleteList = new JComboBox<>();
-	private JLabel equipmentNameToDeleteLabel = new JLabel("Name:");
+    private JButton deleteEquipmentButton = new JButton("Delete Equipment");
+    /////////////////////////////////////
 
-	private JButton deleteEquipmentButton = new JButton("Delete Equipment");
+    private String error = "";
 
-	// private JComboBox<String> equipmentToDeleteList = new JComboBox<>();
-	/////////////////////////////////////
+    /** Creates new form EquipmentFrame */
+    public EquipmentFrame() {
+        initComponents();
+        refreshData();
+    }
+    private void initComponents() {
 
-	private String error = "";
+        errorMessage.setForeground(Color.RED);
+        errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
 
-	public EquipmentFrame() {
-		initComponents();
-		refreshData();
-	}
+        // global settings
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Climb Safe Application System");
 
-	/** This method is called from within the constructor to initialize the form. */
-	private void initComponents() {
 
-		errorMessage.setForeground(Color.RED);
-		errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
+        // listeners for adding equipment
+        equipmentNameTextField.addActionListener(this::addEquipmentButtonActionPerformed);
+        equipmentWeightTextField.addActionListener(this::addEquipmentButtonActionPerformed);
+        equipmentPricePerWeekTextField.addActionListener(this::addEquipmentButtonActionPerformed);
+        addEquipmentButton.addActionListener(this::addEquipmentButtonActionPerformed);
+        previousPage.addActionListener(this::backToPreviousPage);
 
-		// global settings
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle("Climb Safe Application System");
+        ////////////////////////////////////
 
-		/*
-		 * List<String> oldEquipment = AdditionalController.getEquipmentStrings();
-		 * List<String> toDeleteEquipment = AdditionalController.getEquipmentStrings();
-		 * 
-		 * for(String i : oldEquipment) { oldNameList.addItem(i); }
-		 * 
-		 * for(String j : toDeleteEquipment) { nameToDeleteList.addItem(j); }
-		 */
+        // listeners for updating equipment
+        equipmentNewNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
+        equipmentNewWeightTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
+        equipmentNewPricePerWeekTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
+        updateEquipmentButton.addActionListener(this::updateEquipmentButtonActionPerformed);
+        //////////////////////////////////////
 
-		// listeners for adding equipment
-		equipmentNameTextField.addActionListener(this::addEquipmentButtonActionPerformed);
-		equipmentWeightTextField.addActionListener(this::addEquipmentButtonActionPerformed);
-		equipmentPricePerWeekTextField.addActionListener(this::addEquipmentButtonActionPerformed);
-		addEquipmentButton.addActionListener(this::addEquipmentButtonActionPerformed);
-		previousPage.addActionListener(this::backToPreviousPage);
+        // listeners for deleting equipment
+        deleteEquipmentButton.addActionListener(this::deleteEquipmentButtonActionPerformed);
+        //////////////////////////////////////
 
-		////////////////////////////////////
+        // horizontal line elements
+        JSeparator horizontalLineTop = new JSeparator();
+        JSeparator horizontalLineBottom = new JSeparator();
 
-		// listeners for updating equipment
-		// equipmentOldNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
-		// oldNameList.addActionListener(this::updateEquipmentButtonActionPerformed); //
-		// not sure to do this
-		equipmentNewNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
-		equipmentNewWeightTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
-		equipmentNewPricePerWeekTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
-		updateEquipmentButton.addActionListener(this::updateEquipmentButtonActionPerformed);
-		//////////////////////////////////////
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
+                .addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
+                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup().addComponent(equipmentNameLabel)
+                                .addComponent(equipmentWeightLabel).addComponent(equipmentPricePerWeekLabel)
+                                .addComponent(equipmentOldNameLabel).addComponent(equipmentNewNameLabel)
+                                .addComponent(equipmentNewWeightLabel).addComponent(equipmentNewPricePerWeekLabel)
+                                .addComponent(equipmentNameToDeleteLabel))
+                        .addGroup(layout.createParallelGroup().addComponent(equipmentNameTextField, 200, 200, 400)
+                                .addComponent(equipmentWeightTextField, 200, 200, 400)
+                                .addComponent(equipmentPricePerWeekTextField, 200, 200, 400)
+                                .addComponent(addEquipmentButton)
+                                .addComponent(oldNameList).addComponent(equipmentNewNameTextField, 200, 200, 400)
+                                .addComponent(equipmentNewWeightTextField, 200, 200, 400)
+                                .addComponent(equipmentNewPricePerWeekTextField, 200, 200, 400)
+                                .addComponent(updateEquipmentButton)
+                                // .addComponent(equipmentToUpdateList)
+                                // .addComponent(equipmentNameToDeleteTextField,200,200,400)
+                                .addComponent(deleteEquipmentButton).addComponent(nameToDeleteList)
+                                .addComponent(previousPage))));
 
-		// listeners for deleting equipment
-		// equipmentNameToDeleteTextField.addActionListener(this::
-		// deleteEquipmentButtonActionPerformed);
-		// nameToDeleteList.addActionListener(this::deleteEquipmentButtonActionPerformed);
-		// //not sure to do this
-		deleteEquipmentButton.addActionListener(this::deleteEquipmentButtonActionPerformed);
-		//////////////////////////////////////
+        layout.linkSize(SwingConstants.HORIZONTAL, addEquipmentButton, equipmentNameTextField, equipmentWeightTextField,
+                equipmentPricePerWeekTextField);
+        layout.linkSize(SwingConstants.HORIZONTAL, updateEquipmentButton,
+                 equipmentNewNameTextField, equipmentNewWeightTextField,
+                equipmentNewPricePerWeekTextField);
+        layout.linkSize(SwingConstants.HORIZONTAL, deleteEquipmentButton );
 
-		// lists
+        layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
+                .addGroup(layout.createParallelGroup().addComponent(equipmentNameLabel)
+                        .addComponent(equipmentNameTextField))
+                .addGroup(layout.createParallelGroup().addComponent(equipmentWeightLabel)
+                        .addComponent(equipmentWeightTextField))
+                .addGroup(layout.createParallelGroup().addComponent(equipmentPricePerWeekLabel)
+                        .addComponent(equipmentPricePerWeekTextField))
+                .addGroup(layout.createParallelGroup().addComponent(addEquipmentButton))
+                .addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
+                .addGroup(layout.createParallelGroup().addComponent(equipmentOldNameLabel).addComponent(oldNameList))
+                .addGroup(layout.createParallelGroup().addComponent(equipmentNewNameLabel)
+                        .addComponent(equipmentNewNameTextField))
+                .addGroup(layout.createParallelGroup().addComponent(equipmentNewWeightLabel)
+                        .addComponent(equipmentNewWeightTextField))
+                .addGroup(layout.createParallelGroup().addComponent(equipmentNewPricePerWeekLabel)
+                        .addComponent(equipmentNewPricePerWeekTextField))
+                .addGroup(layout.createParallelGroup().addComponent(updateEquipmentButton))
+                .addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
+                .addGroup(layout.createParallelGroup().addComponent(equipmentNameToDeleteLabel)
+                        .addComponent(nameToDeleteList))
+                .addGroup(layout.createParallelGroup().addComponent(deleteEquipmentButton))
+                .addComponent(previousPage)
+        
+        );
 
-		// horizontal line elements
-		JSeparator horizontalLineTop = new JSeparator();
-		JSeparator horizontalLineBottom = new JSeparator();
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
+    private void refreshData() {
+        errorMessage.setText(error);
+        if (error == null || error.isEmpty()) {
+            // populate page with data
 
-		GroupLayout layout = new GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
-				.addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
-				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup().addComponent(equipmentNameLabel)
-								.addComponent(equipmentWeightLabel).addComponent(equipmentPricePerWeekLabel)
-								.addComponent(equipmentOldNameLabel).addComponent(equipmentNewNameLabel)
-								.addComponent(equipmentNewWeightLabel).addComponent(equipmentNewPricePerWeekLabel)
-								.addComponent(equipmentNameToDeleteLabel))
-						.addGroup(layout.createParallelGroup().addComponent(equipmentNameTextField, 200, 200, 400)
-								.addComponent(equipmentWeightTextField, 200, 200, 400)
-								.addComponent(equipmentPricePerWeekTextField, 200, 200, 400)
-								.addComponent(addEquipmentButton)
-								// .addComponent(equipmentToAddList)
-								// .addComponent(equipmentOldNameTextField,200,200,400)
-								.addComponent(oldNameList).addComponent(equipmentNewNameTextField, 200, 200, 400)
-								.addComponent(equipmentNewWeightTextField, 200, 200, 400)
-								.addComponent(equipmentNewPricePerWeekTextField, 200, 200, 400)
-								.addComponent(updateEquipmentButton)
-								// .addComponent(equipmentToUpdateList)
-								// .addComponent(equipmentNameToDeleteTextField,200,200,400)
-								.addComponent(deleteEquipmentButton).addComponent(nameToDeleteList)
-								.addComponent(previousPage))));
+            // add equipment
+            equipmentNameTextField.setText("");
+            equipmentWeightTextField.setText("");
+            equipmentPricePerWeekTextField.setText("");
 
-		layout.linkSize(SwingConstants.HORIZONTAL, addEquipmentButton, equipmentNameTextField, equipmentWeightTextField,
-				equipmentPricePerWeekTextField);
-		layout.linkSize(SwingConstants.HORIZONTAL, updateEquipmentButton,
-				/* equipmentOldNameTextField, */ equipmentNewNameTextField, equipmentNewWeightTextField,
-				equipmentNewPricePerWeekTextField);
-		layout.linkSize(SwingConstants.HORIZONTAL, deleteEquipmentButton /* ,equipmentNameToDeleteTextField */);
+            // update equipment
+            equipmentNewNameTextField.setText("");
+            equipmentNewWeightTextField.setText("");
+            equipmentNewPricePerWeekTextField.setText("");
 
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
-				.addGroup(layout.createParallelGroup().addComponent(equipmentNameLabel)
-						.addComponent(equipmentNameTextField))
-				.addGroup(layout.createParallelGroup().addComponent(equipmentWeightLabel)
-						.addComponent(equipmentWeightTextField))
-				.addGroup(layout.createParallelGroup().addComponent(equipmentPricePerWeekLabel)
-						.addComponent(equipmentPricePerWeekTextField))
-				.addGroup(layout.createParallelGroup().addComponent(addEquipmentButton))
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(equipmentToAddList) )
-				 */
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
-				.addGroup(layout.createParallelGroup().addComponent(equipmentOldNameLabel).addComponent(oldNameList))
-				.addGroup(layout.createParallelGroup().addComponent(equipmentNewNameLabel)
-						.addComponent(equipmentNewNameTextField))
-				.addGroup(layout.createParallelGroup().addComponent(equipmentNewWeightLabel)
-						.addComponent(equipmentNewWeightTextField))
-				.addGroup(layout.createParallelGroup().addComponent(equipmentNewPricePerWeekLabel)
-						.addComponent(equipmentNewPricePerWeekTextField))
-				.addGroup(layout.createParallelGroup().addComponent(updateEquipmentButton))
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(equipmentToUpdateList))
-				 */
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
-				.addGroup(layout.createParallelGroup().addComponent(equipmentNameToDeleteLabel)
-						.addComponent(nameToDeleteList))
-				.addGroup(layout.createParallelGroup().addComponent(deleteEquipmentButton))
-				.addComponent(previousPage)
-		/*
-		 * .addGroup(layout.createParallelGroup() .addComponent(equipmentToDeleteList))
-		 */
-		);
+            var lists = List.of(oldNameList, nameToDeleteList);
+            lists.forEach(JComboBox::removeAllItems);
 
-		pack();
-		setLocationRelativeTo(null);
-		setResizable(false);
-		setVisible(true);
-	}
+            AddtitionalController.getEquipmentStrings().forEach(oldNameList::addItem);
+            AddtitionalController.getEquipmentStrings().forEach(nameToDeleteList::addItem);
 
-	private void refreshData() {
-		errorMessage.setText(error);
-		if (error == null || error.isEmpty()) {
-			// populate page with data
+            lists.forEach(list -> list.setSelectedIndex(-1));
 
-			// add equipment
-			equipmentNameTextField.setText("");
-			equipmentWeightTextField.setText("");
-			equipmentPricePerWeekTextField.setText("");
+        }
+        pack();
+    }
+    /***
+     * This method validates the equipment has been added.
+     * @author Can Akin
+     * @param evt
+     */
+    private void addEquipmentButtonActionPerformed(ActionEvent evt) {
 
-			// update equipment
-			// equipmentOldNameTextField.setText("");
-			equipmentNewNameTextField.setText("");
-			equipmentNewWeightTextField.setText("");
-			equipmentNewPricePerWeekTextField.setText("");
+        // clear error message
+        error = "";
 
-			var lists = List.of(oldNameList, nameToDeleteList);
-			lists.forEach(JComboBox::removeAllItems);
+        if (equipmentNameTextField.getText().equals("") || equipmentWeightTextField.getText().equals("")
+                || equipmentPricePerWeekTextField.getText().equals("")) {
+            error = "Please fill all fields!";
+        }
 
-			AddtitionalController.getEquipmentStrings().forEach(oldNameList::addItem);
-			AddtitionalController.getEquipmentStrings().forEach(nameToDeleteList::addItem);
+        callController(() -> ClimbSafeFeatureSet4Controller.addEquipment(equipmentNameTextField.getText(),
+                getNumberFromField(equipmentWeightTextField, error),
+                getNumberFromField(equipmentPricePerWeekTextField, error)));
 
-			lists.forEach(list -> list.setSelectedIndex(-1));
+        refreshData();
 
-		}
-		pack();
-	}
+    }
+    /***
+     * This method validates the equipment has been updated.
+     * @author Can Akin
+     * @param evt
+     */
+    private void updateEquipmentButtonActionPerformed(ActionEvent evt) {
 
-	private void addEquipmentButtonActionPerformed(ActionEvent evt) {
+        error = "";
+        var selectedEquipment = (String) oldNameList.getSelectedItem();
+        if (selectedEquipment == null) {
+            error = "Equipment needs to be selected to update it!";
+        }
+        if(equipmentNewNameTextField.getText().equals("") || equipmentNewWeightTextField.getText().equals("")
+            || equipmentNewPricePerWeekTextField.getText().equals("")) {
+          error = "Please all the fields";
+        }
+        error = error.trim();
 
-		// clear error message
-		error = "";
+        if (error.isEmpty()) {
+            var updatedEquipment = selectedEquipment;
+            callController(() -> ClimbSafeFeatureSet4Controller.updateEquipment(selectedEquipment,
+                    equipmentNewNameTextField.getText(), getNumberFromField(equipmentNewWeightTextField, error),
+                    getNumberFromField(equipmentNewPricePerWeekTextField, error)));
+        }
+        refreshData();
+    }
+    /***
+     * This method validates the equipment has been deleted.
+     * @author Can Akin
+     * @param evt
+     */
+    private void deleteEquipmentButtonActionPerformed(ActionEvent evt) {
 
-		if (equipmentNameTextField.getText().equals("") || equipmentWeightTextField.getText().equals("")
-				|| equipmentPricePerWeekTextField.getText().equals("")) {
-			error = "Please fill all fields!";
-		}
+        error = "";
 
-		callController(() -> ClimbSafeFeatureSet4Controller.addEquipment(equipmentNameTextField.getText(),
-				getNumberFromField(equipmentWeightTextField, error),
-				getNumberFromField(equipmentPricePerWeekTextField, error)));
+        var selectedEquipment = (String) nameToDeleteList.getSelectedItem();
+        if (selectedEquipment == null) {
+            error = "Equipment has to be selected for deletion!";
+        } else {
+            callController(() -> ClimbSafeFeatureSet6Controller.deleteEquipment(selectedEquipment));
+        }
 
-		refreshData();
+        refreshData();
 
-	}
-
-	private void updateEquipmentButtonActionPerformed(ActionEvent evt) {
-
-		error = "";
-		var selectedEquipment = (String) oldNameList.getSelectedItem();
-		if (selectedEquipment == null) {
-			error = "Equipment needs to be selected to update it!";
-		}
-		error = error.trim();
-
-		if (error.isEmpty()) {
-			var updatedEquipment = selectedEquipment;
-			callController(() -> ClimbSafeFeatureSet4Controller.updateEquipment(selectedEquipment,
-					equipmentNewNameTextField.getText(), getNumberFromField(equipmentNewWeightTextField, error),
-					getNumberFromField(equipmentNewPricePerWeekTextField, error)));
-		}
-		refreshData();
-	}
-
-	private void deleteEquipmentButtonActionPerformed(ActionEvent evt) {
-
-		error = "";
-
-		var selectedEquipment = (String) nameToDeleteList.getSelectedItem();
-		if (selectedEquipment == null) {
-			error = "Equipment has to be selected for deletion!";
-		} else {
-			callController(() -> ClimbSafeFeatureSet6Controller.deleteEquipment(selectedEquipment));
-		}
-
-		refreshData();
-
-	}
-
-	private void backToPreviousPage(ActionEvent evt) {
+    }
+    /***
+     * This method validates the user goes back to the previous page.
+     * @author Can Akin
+     * @param evt
+     */
+    private void backToPreviousPage(ActionEvent evt) {
         HomePageAdminFrame homepage = new HomePageAdminFrame();
         homepage.setVisible(true);
         dispose();
-	}
-	/**
-	 * Returns the number from the given text field if present, otherwise appends
-	 * error string to the given message.
-	 */
-	private int getNumberFromField(JTextField field, String errorMessage) {
-		try {
-			return Integer.parseInt(field.getText());
-		} catch (NumberFormatException e) {
-			error += errorMessage;
-		}
-		return 0;
-	}
+    }
+    /***
+     * This method returns the number from the given text field if present, otherwise appends
+     * error string to the given message.
+     * @author Can Akin
+     * @param field
+     * @param errorMessage
+     * @return
+     */
+    private int getNumberFromField(JTextField field, String errorMessage) {
+        try {
+            return Integer.parseInt(field.getText());
+        } catch (NumberFormatException e) {
+            error += errorMessage;
+        }
+        return 0;
+    }
 
-	/**
-	 * Calls the controller and sets the error message.
-	 * 
-	 * @param executable a controller call preceded by "() -> ", eg,<br>
-	 * @return
-	 */
-	private String callController(Executable executable) {
-		try {
-			executable.execute();
-		} catch (InvalidInputException e) {
-			error = e.getMessage();
-			return error;
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		return "";
-	}
+    /**
+     * Calls the controller and sets the error message.
+     * @author Can Akin
+     * @param executable a controller call preceded by "() -> ", eg,<br>
+     * @return
+     */
+    private String callController(Executable executable) {
+        try {
+            executable.execute();
+        } catch (InvalidInputException e) {
+            error = e.getMessage();
+            return error;
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return "";
+    }
 
-	@FunctionalInterface
-	interface Executable {
-		public void execute() throws Throwable;
-	}
+    @FunctionalInterface
+    interface Executable {
+        public void execute() throws Throwable;
+    }
 
 }

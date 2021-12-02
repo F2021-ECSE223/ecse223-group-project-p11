@@ -23,10 +23,14 @@ import ca.mcgill.ecse.climbsafe.application.*;
 import ca.mcgill.ecse.climbsafe.view.*;
 import ca.mcgill.ecse.climbsafe.controller.*;
 
+/***
+ * This class represents the Member frame .
+ * More specifically the Add/Update/Delete member feature.
+ * @author Sam Snodgrass
+ *
+ */
 public class MemberFrame extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1165335027441666041L;
 	private String error;
 	List<String> selectedItemNames = new ArrayList<String>();
@@ -136,7 +140,7 @@ public class MemberFrame extends JFrame {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(previousPage, 400, 400, 400).addComponent(addMemberButton, 400, 400, 400).addComponent(errorMessage).addComponent(horizontalLine1)
+				.addComponent(previousPage, 1000, 1000, 1000).addComponent(addMemberButton, 1000, 1000, 1000).addComponent(errorMessage).addComponent(horizontalLine1)
 				.addComponent(horizontalLine2).addComponent(overviewScrollPane).addGroup(layout.createSequentialGroup()
 
 						.addGroup(layout.createParallelGroup().addComponent(memberNameLabel)
@@ -147,12 +151,12 @@ public class MemberFrame extends JFrame {
 								.addComponent(deleteItemButton)
 								)
 						
-						.addGroup(layout.createParallelGroup().addComponent(memberNameTextField, 200, 200, 400)
-								.addComponent(memberEmailTextField, 200, 200, 400)
-								.addComponent(memberPasswordTextField, 200, 200, 400)
-								.addComponent(memberEmergencyContactTextField, 200, 200, 400)
-								.addComponent(memberWeekNumberTextField, 200, 200, 400)
-								.addComponent(equipmentNumberTextField, 200, 200, 400)
+						.addGroup(layout.createParallelGroup().addComponent(memberNameTextField, 500, 500, 500)
+								.addComponent(memberEmailTextField, 500, 500, 500)
+								.addComponent(memberPasswordTextField, 500, 500, 500)
+								.addComponent(memberEmergencyContactTextField, 500, 500, 500)
+								.addComponent(memberWeekNumberTextField, 500, 500, 500)
+								.addComponent(equipmentNumberTextField, 500, 500, 500)
 								.addComponent(equipmentAvailableList)
 								.addComponent(addEquipmentButton)
 								
@@ -235,16 +239,20 @@ public class MemberFrame extends JFrame {
 		}
 
 	}
-
+	/***
+     * This method validates that the member has been added.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void addMemberButtonActionPerformed(ActionEvent evt) {
 		// clear error message
 		error = "";
 
-		if (memberEmailTextField.getText().equals("") || memberPasswordTextField.getText().equals("")
-				|| memberNameTextField.getText().equals("") || memberEmergencyContactTextField.getText().equals("")
-				|| memberWeekNumberTextField.getText().equals("")) {
-			error = "Please fill all Fields! ";
-		}
+//		if (memberEmailTextField.getText().equals("") || memberPasswordTextField.getText().equals("")
+//				|| memberNameTextField.getText().equals("") || memberEmergencyContactTextField.getText().equals("")
+//				|| memberWeekNumberTextField.getText().equals("")) {
+//			error = "Please fill all Fields! ";
+//		}
 
 		int weekNumber = getNumberFromField(memberWeekNumberTextField, "Must be a number!");
 		error.trim();
@@ -272,7 +280,11 @@ public class MemberFrame extends JFrame {
 		refreshData();
 		refreshEquipment();
 	}
-
+	/***
+     * This method validates that the selected item has been deleted.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void deleteItemButtonActionPerformed(ActionEvent evt) {
 		error = "";
 		String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
@@ -300,7 +312,11 @@ public class MemberFrame extends JFrame {
 		}
 
 	}
-
+	/***
+     * This method validates that the equipment has been added.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void addEquipmentButtonActionPerformed(ActionEvent evt) {
 
 		error = "";
@@ -333,7 +349,14 @@ public class MemberFrame extends JFrame {
 			}
 		}
 	}
-
+	/***
+     * This method returns the number from the given text field if present, otherwise appends
+     * error string to the given message.
+     * @author Sam Snodgrass
+     * @param field
+     * @param errorMessage
+     * @return
+     */
 	private int getNumberFromField(JTextField field, String errorMessage) {
 		try {
 			return Integer.parseInt(field.getText());
@@ -344,7 +367,12 @@ public class MemberFrame extends JFrame {
 		}
 		return 0;
 	}
-
+	/**
+     * Calls the controller and sets the error message.
+     * @author Sam Snodgrass
+     * @param executable a controller call preceded by "() -> ", eg,<br>
+     * @return
+     */
 	private String callController(Executable executable) {
 		try {
 			executable.execute();
@@ -356,7 +384,11 @@ public class MemberFrame extends JFrame {
 		}
 		return "";
 	}
-
+	/***
+     * This method validates the user goes back to the previous page.
+     * @author Sam Snodgras
+     * @param evt
+     */
 	private void backToPreviousPage(ActionEvent evt) {
         InitialHomePage initialPage = new InitialHomePage();
         initialPage.setVisible(true);
