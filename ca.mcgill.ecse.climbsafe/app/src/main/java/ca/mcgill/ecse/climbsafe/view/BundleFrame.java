@@ -37,7 +37,7 @@ public class BundleFrame extends JFrame {
 	private JLabel bundleNameLabel = new JLabel("Bundle:");
 
 	private JComboBox<String> itemBox = new JComboBox<>();
-	private JLabel itemNameLabel = new JLabel("Item:");
+	private JLabel itemNameLabel = new JLabel("Item");
 
 	private JTextField itemQTextField = new JTextField();
 	private JLabel itemQLabel = new JLabel("Quantities:");
@@ -110,8 +110,10 @@ public class BundleFrame extends JFrame {
 		setTitle("Climb Safe Application System");
 
 		// listeners for adding bundle
-		bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
-		itemQTextField.addActionListener(this::addItemButtonActionPerformed);
+	   bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
+		//itemQTextField.addActionListener(this::addItemButtonActionPerformed);
+		//itemBox.addActionListener(this::addItemButtonActionPerformed);
+		addItemButton.addActionListener(this::addItemButtonActionPerformed);
 
 		bundleDiscountTextField.addActionListener(this::addBundleButtonActionPerformed);
 		addBundleButton.addActionListener(this::addBundleButtonActionPerformed);
@@ -265,12 +267,14 @@ public class BundleFrame extends JFrame {
 		Integer amt = Integer.valueOf(itemQTextField.getText());
 		String name = (String) itemBox.getSelectedItem();
 
-		if (bundleNameTextField.getText().equals("") || bundleDiscountTextField.getText().equals("")) {
+		if (name.equals("") || itemQTextField.getText().equals("")) {
 			error = "Please fill all fields!";
 		}
-		if (selectedEquipmentNames.contains(name))
+		if (selectedEquipmentNames.contains(name)) {
 			error += " " + name + " is already added!";
+		}
 		if (error.isEmpty()) {
+			System.out.println("added");
 			selectedEquipmentNames.add(name);
 			selectedEquipmentQuantities.add(amt);
 		}
@@ -290,6 +294,7 @@ public class BundleFrame extends JFrame {
 		error.trim();
 
 		if (error.isEmpty()) {
+			System.out.println(selectedEquipmentNames.toString());
 			callController(() -> ClimbSafeFeatureSet5Controller.addEquipmentBundle(bundleNameTextField.getText(),
 					discount, selectedEquipmentNames, selectedEquipmentQuantities));
 			selectedEquipmentNames.clear();
