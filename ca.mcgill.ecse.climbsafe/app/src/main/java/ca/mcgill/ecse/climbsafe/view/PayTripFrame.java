@@ -62,15 +62,17 @@ public class PayTripFrame extends JFrame {
 								.addComponent(previousPage)))
 
 		);
-		layout.linkSize(SwingConstants.HORIZONTAL, payTripButton, autCodeTextField);
+		layout.linkSize(SwingConstants.HORIZONTAL, payTripButton, autCodeTextField, previousPage);
 
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup().addComponent(memberLabel).addComponent(memberList))
 				.addGroup(layout.createParallelGroup().addComponent(autCodeLabel).addComponent(autCodeTextField))
-				.addGroup(layout.createParallelGroup().addComponent(payTripButton).addComponent(previousPage)));
+				.addGroup(layout.createParallelGroup().addComponent(payTripButton))
+				.addGroup(layout.createParallelGroup().addComponent(previousPage))
+				);
 		pack();
 		setLocationRelativeTo(null);
-		setResizable(false);
+		setResizable(true);
 		setVisible(true);
 
 	}

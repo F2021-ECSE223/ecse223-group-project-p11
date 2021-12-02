@@ -70,7 +70,7 @@ public class ViewAssignmentFrame extends JFrame {
 			} else {
 				hotel = a.getHotel().getName();
 			}
-			overviewDtm.addRow(new Object[] { a.getMember().getEmail(), a.getMember().getName(), a.getMember().getBanStatus(), guideName,
+			overviewDtm.addRow(new Object[] { a.getMember().getEmail(), a.getMember().getName(), a.getMember().getBanStatus(), guideEmail, guideName,
 					hotel, a.getStartWeek(), a.getEndWeek(), a.getTotalGuideCost(), a.getTotalEquipmentCost(),
 					a.getAssignmentStatusFullName(), a.getGivenAuthorizationCode(), a.getRefundPercentage()});
 		}
@@ -83,7 +83,6 @@ public class ViewAssignmentFrame extends JFrame {
 
 		
 		JSeparator horizontalLineTop = new JSeparator();
-		JSeparator horizontalLineBottom = new JSeparator();
 
 		//add(overviewScrollPane);
 		GroupLayout layout = new GroupLayout(getContentPane());
