@@ -276,7 +276,7 @@ public class AssignmentFeatureStepDefinitions {
 	public void the_assignment_for_shall_record_the_authorization_code(String email, String authorizationCode) {
 		Member member = (Member) User.getWithEmail(email);
 		Assignment assignment = member.getAssignment();
-		assertEquals(authorizationCode, assignment.getAuthorizationCode());
+		assertEquals(authorizationCode, assignment.getGivenAuthorizationCode());
 	}
 /**
  * 
