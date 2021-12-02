@@ -140,7 +140,7 @@ public class MemberFrame extends JFrame {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(previousPage, 400, 400, 400).addComponent(addMemberButton, 400, 400, 400).addComponent(errorMessage).addComponent(horizontalLine1)
+				.addComponent(previousPage, 1000, 1000, 1000).addComponent(addMemberButton, 1000, 1000, 1000).addComponent(errorMessage).addComponent(horizontalLine1)
 				.addComponent(horizontalLine2).addComponent(overviewScrollPane).addGroup(layout.createSequentialGroup()
 
 						.addGroup(layout.createParallelGroup().addComponent(memberNameLabel)
@@ -151,12 +151,12 @@ public class MemberFrame extends JFrame {
 								.addComponent(deleteItemButton)
 								)
 						
-						.addGroup(layout.createParallelGroup().addComponent(memberNameTextField, 200, 200, 400)
-								.addComponent(memberEmailTextField, 200, 200, 400)
-								.addComponent(memberPasswordTextField, 200, 200, 400)
-								.addComponent(memberEmergencyContactTextField, 200, 200, 400)
-								.addComponent(memberWeekNumberTextField, 200, 200, 400)
-								.addComponent(equipmentNumberTextField, 200, 200, 400)
+						.addGroup(layout.createParallelGroup().addComponent(memberNameTextField, 500, 500, 500)
+								.addComponent(memberEmailTextField, 500, 500, 500)
+								.addComponent(memberPasswordTextField, 500, 500, 500)
+								.addComponent(memberEmergencyContactTextField, 500, 500, 500)
+								.addComponent(memberWeekNumberTextField, 500, 500, 500)
+								.addComponent(equipmentNumberTextField, 500, 500, 500)
 								.addComponent(equipmentAvailableList)
 								.addComponent(addEquipmentButton)
 								
@@ -248,11 +248,11 @@ public class MemberFrame extends JFrame {
 		// clear error message
 		error = "";
 
-		if (memberEmailTextField.getText().equals("") || memberPasswordTextField.getText().equals("")
-				|| memberNameTextField.getText().equals("") || memberEmergencyContactTextField.getText().equals("")
-				|| memberWeekNumberTextField.getText().equals("")) {
-			error = "Please fill all Fields! ";
-		}
+//		if (memberEmailTextField.getText().equals("") || memberPasswordTextField.getText().equals("")
+//				|| memberNameTextField.getText().equals("") || memberEmergencyContactTextField.getText().equals("")
+//				|| memberWeekNumberTextField.getText().equals("")) {
+//			error = "Please fill all Fields! ";
+//		}
 
 		int weekNumber = getNumberFromField(memberWeekNumberTextField, "Must be a number!");
 		error.trim();

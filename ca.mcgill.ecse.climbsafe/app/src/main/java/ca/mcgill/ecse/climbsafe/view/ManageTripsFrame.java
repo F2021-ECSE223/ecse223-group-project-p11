@@ -76,7 +76,7 @@ public class ManageTripsFrame extends JFrame {
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
+		layout.setHorizontalGroup(layout.createParallelGroup()
 				.addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup().addComponent(weekNumberLabel).addComponent(memberLabel))
@@ -89,7 +89,7 @@ public class ManageTripsFrame extends JFrame {
 		layout.linkSize(SwingConstants.HORIZONTAL, weekNumber, memberList);
 		layout.linkSize(SwingConstants.HORIZONTAL, startTripsButton, finishTripButton, cancelTripButton);
 		// .addComponent(errorMessage)
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
+		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup().addComponent(weekNumber).addComponent(weekNumberLabel))
 				.addComponent(startTripsButton)
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
