@@ -2,6 +2,7 @@ package ca.mcgill.ecse.climbsafe.view;
 
 import java.util.List;
 
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -19,6 +20,12 @@ import java.sql.*;
 import java.time.*;
 
 import java.awt.event.ActionEvent;
+
+/**
+ * This class represents the equipment frame. More specifically, the Add/Update/Delete equipment feature.
+ * @author canakin
+ * 
+ */
 
 public class EquipmentFrame extends JFrame {
 
@@ -43,7 +50,6 @@ public class EquipmentFrame extends JFrame {
 	private JButton previousPage = new JButton("Return to previous page");
 
 	// to update equipment
-	// private JTextField equipmentOldNameTextField = new JTextField();
 	private JComboBox<String> oldNameList = new JComboBox<>();
 	private JLabel equipmentOldNameLabel = new JLabel("Old Name:");
 
@@ -57,28 +63,22 @@ public class EquipmentFrame extends JFrame {
 	private JLabel equipmentNewPricePerWeekLabel = new JLabel("New Price Per Week:");
 
 	private JButton updateEquipmentButton = new JButton("Update Equipment");
-
-	// private JComboBox<String> equipmentToUpdateList = new JComboBox<>();
 	////////////////////////
 
 	// to delete equipment
-	// private JTextField equipmentNameToDeleteTextField = new JTextField();
 	private JComboBox<String> nameToDeleteList = new JComboBox<>();
 	private JLabel equipmentNameToDeleteLabel = new JLabel("Name:");
 
 	private JButton deleteEquipmentButton = new JButton("Delete Equipment");
-
-	// private JComboBox<String> equipmentToDeleteList = new JComboBox<>();
 	/////////////////////////////////////
 
 	private String error = "";
 
+	/** Creates new form EquipmentFrame */
 	public EquipmentFrame() {
 		initComponents();
 		refreshData();
 	}
-
-	/** This method is called from within the constructor to initialize the form. */
 	private void initComponents() {
 
 		errorMessage.setForeground(Color.RED);
@@ -88,14 +88,6 @@ public class EquipmentFrame extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Climb Safe Application System");
 
-		/*
-		 * List<String> oldEquipment = AdditionalController.getEquipmentStrings();
-		 * List<String> toDeleteEquipment = AdditionalController.getEquipmentStrings();
-		 * 
-		 * for(String i : oldEquipment) { oldNameList.addItem(i); }
-		 * 
-		 * for(String j : toDeleteEquipment) { nameToDeleteList.addItem(j); }
-		 */
 
 		// listeners for adding equipment
 		equipmentNameTextField.addActionListener(this::addEquipmentButtonActionPerformed);
@@ -107,9 +99,6 @@ public class EquipmentFrame extends JFrame {
 		////////////////////////////////////
 
 		// listeners for updating equipment
-		// equipmentOldNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
-		// oldNameList.addActionListener(this::updateEquipmentButtonActionPerformed); //
-		// not sure to do this
 		equipmentNewNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
 		equipmentNewWeightTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
 		equipmentNewPricePerWeekTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
@@ -117,14 +106,8 @@ public class EquipmentFrame extends JFrame {
 		//////////////////////////////////////
 
 		// listeners for deleting equipment
-		// equipmentNameToDeleteTextField.addActionListener(this::
-		// deleteEquipmentButtonActionPerformed);
-		// nameToDeleteList.addActionListener(this::deleteEquipmentButtonActionPerformed);
-		// //not sure to do this
 		deleteEquipmentButton.addActionListener(this::deleteEquipmentButtonActionPerformed);
 		//////////////////////////////////////
-
-		// lists
 
 		// horizontal line elements
 		JSeparator horizontalLineTop = new JSeparator();
@@ -146,8 +129,6 @@ public class EquipmentFrame extends JFrame {
 								.addComponent(equipmentWeightTextField, 200, 200, 400)
 								.addComponent(equipmentPricePerWeekTextField, 200, 200, 400)
 								.addComponent(addEquipmentButton)
-								// .addComponent(equipmentToAddList)
-								// .addComponent(equipmentOldNameTextField,200,200,400)
 								.addComponent(oldNameList).addComponent(equipmentNewNameTextField, 200, 200, 400)
 								.addComponent(equipmentNewWeightTextField, 200, 200, 400)
 								.addComponent(equipmentNewPricePerWeekTextField, 200, 200, 400)
@@ -160,9 +141,9 @@ public class EquipmentFrame extends JFrame {
 		layout.linkSize(SwingConstants.HORIZONTAL, addEquipmentButton, equipmentNameTextField, equipmentWeightTextField,
 				equipmentPricePerWeekTextField);
 		layout.linkSize(SwingConstants.HORIZONTAL, updateEquipmentButton,
-				/* equipmentOldNameTextField, */ equipmentNewNameTextField, equipmentNewWeightTextField,
+				 equipmentNewNameTextField, equipmentNewWeightTextField,
 				equipmentNewPricePerWeekTextField);
-		layout.linkSize(SwingConstants.HORIZONTAL, deleteEquipmentButton /* ,equipmentNameToDeleteTextField */);
+		layout.linkSize(SwingConstants.HORIZONTAL, deleteEquipmentButton );
 
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup().addComponent(equipmentNameLabel)
@@ -172,9 +153,6 @@ public class EquipmentFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(equipmentPricePerWeekLabel)
 						.addComponent(equipmentPricePerWeekTextField))
 				.addGroup(layout.createParallelGroup().addComponent(addEquipmentButton))
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(equipmentToAddList) )
-				 */
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup().addComponent(equipmentOldNameLabel).addComponent(oldNameList))
 				.addGroup(layout.createParallelGroup().addComponent(equipmentNewNameLabel)
@@ -184,17 +162,12 @@ public class EquipmentFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(equipmentNewPricePerWeekLabel)
 						.addComponent(equipmentNewPricePerWeekTextField))
 				.addGroup(layout.createParallelGroup().addComponent(updateEquipmentButton))
-				/*
-				 * .addGroup(layout.createParallelGroup() .addComponent(equipmentToUpdateList))
-				 */
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup().addComponent(equipmentNameToDeleteLabel)
 						.addComponent(nameToDeleteList))
 				.addGroup(layout.createParallelGroup().addComponent(deleteEquipmentButton))
 				.addComponent(previousPage)
-		/*
-		 * .addGroup(layout.createParallelGroup() .addComponent(equipmentToDeleteList))
-		 */
+		
 		);
 
 		pack();
@@ -202,7 +175,6 @@ public class EquipmentFrame extends JFrame {
 		setResizable(false);
 		setVisible(true);
 	}
-
 	private void refreshData() {
 		errorMessage.setText(error);
 		if (error == null || error.isEmpty()) {
@@ -214,7 +186,6 @@ public class EquipmentFrame extends JFrame {
 			equipmentPricePerWeekTextField.setText("");
 
 			// update equipment
-			// equipmentOldNameTextField.setText("");
 			equipmentNewNameTextField.setText("");
 			equipmentNewWeightTextField.setText("");
 			equipmentNewPricePerWeekTextField.setText("");
@@ -230,7 +201,11 @@ public class EquipmentFrame extends JFrame {
 		}
 		pack();
 	}
-
+	/***
+	 * This method validates the equipment has been added.
+	 * @author canakin
+	 * @param evt
+	 */
 	private void addEquipmentButtonActionPerformed(ActionEvent evt) {
 
 		// clear error message
@@ -248,7 +223,11 @@ public class EquipmentFrame extends JFrame {
 		refreshData();
 
 	}
-
+    /***
+     * This method validates the equipment has been updated.
+     * @author canakin
+     * @param evt
+     */
 	private void updateEquipmentButtonActionPerformed(ActionEvent evt) {
 
 		error = "";
@@ -266,7 +245,11 @@ public class EquipmentFrame extends JFrame {
 		}
 		refreshData();
 	}
-
+    /***
+     * This method validates the equipment has been deleted.
+     * @author canakin
+     * @param evt
+     */
 	private void deleteEquipmentButtonActionPerformed(ActionEvent evt) {
 
 		error = "";
@@ -281,15 +264,22 @@ public class EquipmentFrame extends JFrame {
 		refreshData();
 
 	}
-
+    /***
+     * This method validates the user goes back to the prevois page.
+     * @author canakin
+     * @param evt
+     */
 	private void backToPreviousPage(ActionEvent evt) {
         HomePageAdminFrame homepage = new HomePageAdminFrame();
         homepage.setVisible(true);
         dispose();
 	}
-	/**
-	 * Returns the number from the given text field if present, otherwise appends
-	 * error string to the given message.
+	/***
+	 * This method returns the number from the given text field if present, otherwise appends
+	 * @author canakin
+	 * @param field
+	 * @param errorMessage
+	 * @return
 	 */
 	private int getNumberFromField(JTextField field, String errorMessage) {
 		try {
@@ -302,7 +292,7 @@ public class EquipmentFrame extends JFrame {
 
 	/**
 	 * Calls the controller and sets the error message.
-	 * 
+	 * @author canakin
 	 * @param executable a controller call preceded by "() -> ", eg,<br>
 	 * @return
 	 */
