@@ -284,15 +284,15 @@ public class MemberFrame extends JFrame {
 					memberEmergencyContactTextField.getText(), weekNumber, memberGuideCheckBox.isSelected(),
 					memberHotelCheckBox.isSelected(), selectedItemNames, selectedItemQuantities));
 
-			String email = memberEmailTextField.getText();
-			HomePageMemberFrame homepage = new HomePageMemberFrame();
-			homepage.setVisible(true);
-			dispose();
-			selectedItemNames.clear();
-			selectedItemQuantities.clear();
-			selectedItemCost.clear();
-			refreshOverview();
-
+			if (error.isEmpty()) {
+				HomePageMemberFrame homepage = new HomePageMemberFrame();
+				homepage.setVisible(true);
+				dispose();
+				selectedItemNames.clear();
+				selectedItemQuantities.clear();
+				selectedItemCost.clear();
+				refreshOverview();
+			}
 		}
 		// update visuals
 		refreshData();

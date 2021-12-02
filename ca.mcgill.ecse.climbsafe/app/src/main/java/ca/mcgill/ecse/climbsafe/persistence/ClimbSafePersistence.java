@@ -7,17 +7,17 @@ import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 
 public class ClimbSafePersistence {
   /**
-   * @author Lee Brickman 
+   * @author Lee Brickmanï¿½
    * @author Sam Snodgrass
-   * @author Maxime Drouin 
-   * @author Anaëlle Drai-Laguens
+   * @author Maxime Drouinï¿½
+   * @author Anaï¿½lle Drai-Laguens
    * @author Oliver Cafferty
    * @author Can Akin
    * The following saves an instance of climbsafe, loads an instance or creates a new instance if there is none
    * to load, reinitialize during load to properly construct data structures
    */
 
-  private static String filename = "data.climbsafe";
+  private static String filename = "ClimbSafeDemo.data";
 
   public static void setFilename(String filename) {
     ClimbSafePersistence.filename = filename;

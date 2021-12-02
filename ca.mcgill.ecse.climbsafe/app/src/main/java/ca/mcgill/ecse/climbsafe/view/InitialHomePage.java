@@ -37,7 +37,7 @@ public class InitialHomePage extends JFrame {
 
 	public InitialHomePage() {
 		callController(() -> AddtitionalController.createAdmin());
-		callController(() -> ClimbSafeFeatureSet1Controller.setup(Date.valueOf("2022-01-01"), 25, 200));
+
 		initComponents();
 	}
 

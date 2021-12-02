@@ -14,38 +14,36 @@ import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.persistence.ClimbSafePersistence;
 import ca.mcgill.ecse.climbsafe.view.*;
 
-
 public class ClimbSafeApplication {
-  private static ClimbSafe climbSafe;
+	private static ClimbSafe climbSafe;
 
-  public String getGreeting() {
-    return "Hello World!";
-  }
+	public String getGreeting() {
+		return "Hello World!";
+	}
 
-  public static void main(String[] args) {
-	  try {
-	      UIManager.setLookAndFeel(UIManager.getLookAndFeel());
-	    } catch (UnsupportedLookAndFeelException e) {
-	      // Use regular Swing theme if FlatLaf is unavailable
-	      e.printStackTrace();
-	    }
-	  	
+	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			// Use regular Swing theme if FlatLaf is unavailable
+			e.printStackTrace();
+		}
+
 //	  	HomePageMemberFrame homepagemember = new HomePageMemberFrame("samuel@mcgill.ca");
 //	  	homepagemember.setVisible(true);
-	    EventQueue.invokeLater(BundleFrame::new);
-  }
+		EventQueue.invokeLater(InitialHomePage::new);
+	}
 
-  public static ClimbSafe getClimbSafe() {
-    if (climbSafe == null) {
-      // these attributes are default, you should set them later with the setters
-    
-    	
-    	//just doing this to get rid of null pointer exception
-		
-      climbSafe = ClimbSafePersistence.load();
-      
-    }
-    
-    return climbSafe;
-  }
+	public static ClimbSafe getClimbSafe() {
+		if (climbSafe == null) {
+			// these attributes are default, you should set them later with the setters
+
+			// just doing this to get rid of null pointer exception
+
+			climbSafe = ClimbSafePersistence.load();
+
+		}
+
+		return climbSafe;
+	}
 }

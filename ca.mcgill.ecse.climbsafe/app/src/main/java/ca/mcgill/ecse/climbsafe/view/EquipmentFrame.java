@@ -190,7 +190,8 @@ public class EquipmentFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup().addComponent(equipmentNameToDeleteLabel)
 						.addComponent(nameToDeleteList))
-				.addGroup(layout.createParallelGroup().addComponent(deleteEquipmentButton).addComponent(previousPage))
+				.addGroup(layout.createParallelGroup().addComponent(deleteEquipmentButton))
+				.addComponent(previousPage)
 		/*
 		 * .addGroup(layout.createParallelGroup() .addComponent(equipmentToDeleteList))
 		 */
