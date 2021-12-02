@@ -166,7 +166,7 @@ public class MemberFrame extends JFrame {
 								.addComponent(memberEmergencyContactLabel).addComponent(memberWeekNumberLabel)
 								.addComponent(memberGuideCheckBox).addComponent(memberHotelCheckBox)
 								.addComponent(equipmentLabel).addComponent(equipmentNumberLabel)
-								.addComponent(addMemberButton).addComponent(deleteItemButton))
+								.addComponent(addMemberButton).addComponent(deleteItemButton).addComponent(previousPage))
 
 						.addGroup(layout.createParallelGroup().addComponent(memberNameTextField, 200, 200, 400)
 								.addComponent(memberEmailTextField, 200, 200, 400)
@@ -174,9 +174,8 @@ public class MemberFrame extends JFrame {
 								.addComponent(memberEmergencyContactTextField, 200, 200, 400)
 								.addComponent(memberWeekNumberTextField, 200, 200, 400)
 								.addComponent(equipmentNumberTextField, 200, 200, 400)
-								.addComponent(equipmentAvailableList).addComponent(addEquipmentButton).addComponent(previousPage)
-
-						)));
+								.addComponent(equipmentAvailableList).addComponent(addEquipmentButton))
+						));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, addEquipmentButton, deleteItemButton, memberNameTextField,
 				memberEmailTextField, memberPasswordTextField, memberEmergencyContactTextField,

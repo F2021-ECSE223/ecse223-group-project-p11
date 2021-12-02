@@ -19,7 +19,6 @@ public class HomePageAdminFrame extends JFrame {
 
 	private JLabel errorMessage = new JLabel(); // element for error message
 
-	private JButton banMember = new JButton("Ban Member");
 
 	private JButton startCancelFinishTrips = new JButton("Start, Finish or Cancel Trips");
 
@@ -45,7 +44,6 @@ public class HomePageAdminFrame extends JFrame {
 		setTitle("Climb Safe Application System");
 		setSize(500, 500);
 
-		banMember.addActionListener(this::banMemberActionPerformed);
 		startCancelFinishTrips.addActionListener(this::startCancelFinishTripsActionPerformed);
 		addUpdateEquipment.addActionListener(this::addUpdateEquipmentActionPerformed);
 		addUpdateEquipmentBundle.addActionListener(this::addUpdateEquipmentBundleActionPerformed);
@@ -64,7 +62,6 @@ public class HomePageAdminFrame extends JFrame {
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
-				.addComponent(banMember)
 				.addComponent(startCancelFinishTrips)
 				.addComponent(addUpdateEquipment)
 				.addComponent(addUpdateEquipmentBundle)
@@ -75,7 +72,6 @@ public class HomePageAdminFrame extends JFrame {
 				.addComponent(horizontalLineBottom));
 		
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage).addComponent(horizontalLineTop)
-				.addComponent(banMember)
 				.addComponent(startCancelFinishTrips)
 				.addComponent(addUpdateEquipment)
 				.addComponent(addUpdateEquipmentBundle)
@@ -91,9 +87,6 @@ public class HomePageAdminFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	private void banMemberActionPerformed(ActionEvent evt) {
-
-	}
 	
 	private void startCancelFinishTripsActionPerformed(ActionEvent evt) {
         ManageTripsFrame manageTripsFrame = new ManageTripsFrame();

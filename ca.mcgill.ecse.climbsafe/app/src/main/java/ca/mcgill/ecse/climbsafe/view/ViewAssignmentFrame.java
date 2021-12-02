@@ -33,10 +33,9 @@ public class ViewAssignmentFrame extends JFrame {
 		private static final long serialVersionUID = 99L;
 	};
 	private JScrollPane overviewScrollPane = new JScrollPane(assignmentOverview);
-	
+
 	private JButton previousPage = new JButton("Return to previous page");
 
-	
 	// maybe remove status below
 	private static final String[] ASSIGNMENT_COLUMN_NAMES = { "memberEmail", "memberName", "guideEmail", "guideName",
 			"hotelName", "startWeek", "endWeek", "totalCostForGuide", "totalCostForEquipment", "Status" };
@@ -51,22 +50,49 @@ public class ViewAssignmentFrame extends JFrame {
 		var overviewDtm = new DefaultTableModel(0, 0);
 		overviewDtm.setColumnIdentifiers(ASSIGNMENT_COLUMN_NAMES);
 		assignmentOverview.setModel(overviewDtm);
-		
+
 		for (Assignment a : AddtitionalController.getAllAssignments()) {
 			// { "memberEmail", "memberName", "guideEmail", "guideName" "hotelName",
 			// "startWeek", "endWeek", "totalCostForGuide", "totalCostForEquipment",
 			// "Status" };
-			overviewDtm
-					.addRow(new Object[] { a.getMember().getEmail(), a.getMember().getName(), a.getGuide().getEmail(),
-							a.getGuide().getName(), a.getHotel().getName(), a.getStartWeek(), a.getEndWeek(),
-							a.getTotalGuideCost(), a.getTotalEquipmentCost(), a.getAssignmentStatusFullName() });
+			String guideName;
+			String guideEmail;
+			String hotel;
+			if (a.getGuide() == null) {
+				guideName = "No Guide Selected";
+				guideEmail = "No Guide Selected";
+			} else {
+				guideName = a.getGuide().getName();
+				guideEmail = a.getGuide().getEmail();
+			}
+			if (a.getHotel() == null) {
+				hotel = "No Hotel Selected";
+			} else {
+				hotel = a.getHotel().getName();
+			}
+			overviewDtm.addRow(new Object[] { a.getMember().getEmail(), a.getMember().getName(), guideEmail, guideName,
+					hotel, a.getStartWeek(), a.getEndWeek(), a.getTotalGuideCost(), a.getTotalEquipmentCost(),
+					a.getAssignmentStatusFullName() });
 		}
 		overviewScrollPane
 				.setPreferredSize(new Dimension(assignmentOverview.getPreferredSize().width, HEIGHT_OVERVIEW_TABLE));
 	}
 
 	private void initComponents() {
-		add(overviewScrollPane);
+		previousPage.addActionListener(this::backToPreviousPage);
+
+		
+		JSeparator horizontalLineTop = new JSeparator();
+		JSeparator horizontalLineBottom = new JSeparator();
+
+		//add(overviewScrollPane);
+		GroupLayout layout = new GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(overviewScrollPane).addComponent(horizontalLineTop).addComponent(previousPage));
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(overviewScrollPane).addComponent(horizontalLineTop).addComponent(previousPage));
+				
 		overviewScrollPane
 				.setPreferredSize(new Dimension(assignmentOverview.getPreferredSize().width, HEIGHT_OVERVIEW_TABLE));
 		overviewScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -75,8 +101,8 @@ public class ViewAssignmentFrame extends JFrame {
 		setTitle("ClimbSafe Application System");
 		// set up comboboxes
 		pack();
-	    setLocationRelativeTo(null); // set window location to be in the center of the screen
-	    setResizable(true);
+		setLocationRelativeTo(null); // set window location to be in the center of the screen
+		setResizable(true);
 		setVisible(true);
 
 	}

@@ -142,7 +142,9 @@ public class AssignmentController {
 	public static void initiateAssignment() throws InvalidInputException {
 
 		ClimbSafe climbSafe = ClimbSafeApplication.getClimbSafe();
-
+		if (climbSafe.getGuides().isEmpty()) {
+			throw new InvalidInputException("There are no guides in the system.");
+		}
 		for (Guide guide : climbSafe.getGuides()) {
 			int currentWeek = 1;
 			for (Member member : climbSafe.getMembers()) {

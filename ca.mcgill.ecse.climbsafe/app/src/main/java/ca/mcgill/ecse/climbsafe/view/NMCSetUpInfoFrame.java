@@ -1,4 +1,5 @@
 package ca.mcgill.ecse.climbsafe.view;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -19,183 +20,178 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-
 import ca.mcgill.ecse.climbsafe.view.*;
 import ca.mcgill.ecse.climbsafe.controller.*;
 
-
 public class NMCSetUpInfoFrame extends JFrame {
-  
-  private static final long serialVersionUID = 2;
-  private JLabel errorMessage = new JLabel();
-  private String error="";  
-  //Set date format of input box to;"year-month-day"
-  private DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-  private JFormattedTextField startDate = new JFormattedTextField(format);
-  private JLabel startDateLabel = new JLabel("Start Date (yyyy-mm-dd)");
-  
-  private JTextField numberOfWeeks=new JTextField();
-  private JLabel numberOfWeeksLabel = new JLabel("Number of Weeks:");
-  
-  private JTextField weeklyGuidePrice = new JTextField();
-  private JLabel weeklyGuidePriceLabel = new JLabel("Weekly Price of Guides:");
 
+	private static final long serialVersionUID = 2;
+	private JLabel errorMessage = new JLabel();
+	private String error = "";
+	// Set date format of input box to;"year-month-day"
+	private DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+	private JFormattedTextField startDate = new JFormattedTextField(format);
+	private JLabel startDateLabel = new JLabel("Start Date (yyyy-mm-dd)");
 
-  private JButton applyAllButton = new JButton("Apply All");
+	private JTextField numberOfWeeks = new JTextField();
+	private JLabel numberOfWeeksLabel = new JLabel("Number of Weeks:");
 
-  private Date today=new Date(System.currentTimeMillis());  
-  
- 
-  // get instance of climbsafe
-  
+	private JTextField weeklyGuidePrice = new JTextField();
+	private JLabel weeklyGuidePriceLabel = new JLabel("Weekly Price of Guides:");
 
-  public NMCSetUpInfoFrame() {
-    refreshData();
-    initComponents();
-  }
+	private JButton applyAllButton = new JButton("Apply All");
 
-/**
- * @author Lee Brickman
- * Create formatting for error message and initialize components IFF "Apply All" button is selected
- */
-  private void initComponents() {
-    errorMessage.setForeground(Color.RED);
-    errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
-    applyAllButton.addActionListener(this::applyAllActionPerformed);
-    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    setTitle("Climb Safe Application System");
-    setSize(500, 500);
-    
-    JSeparator horizontalLineTop = new JSeparator();
-    JSeparator horizontalLineBottom = new JSeparator();
+	private JButton previousPage = new JButton("Return to previous page");
 
-    GroupLayout layout = new GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-   
-    layout.setAutoCreateGaps(true);
-    layout.setAutoCreateContainerGaps(true);
-    layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
-            .addComponent(horizontalLineBottom)
-            .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup().addComponent(startDateLabel, 200, 200, 400)
-                            .addComponent(numberOfWeeksLabel).addComponent(weeklyGuidePriceLabel))
-                    .addGroup(layout.createParallelGroup().addComponent(startDate, 500, 500, 1000)
-                            .addComponent(numberOfWeeks, 500, 500, 1000).addComponent(weeklyGuidePrice,500,500,1000)
-                            .addComponent(applyAllButton,500,500,1000))));
+	private Date today = new Date(System.currentTimeMillis());
 
-    layout.linkSize(SwingConstants.HORIZONTAL, startDate, numberOfWeeks,weeklyGuidePrice);
-    layout.linkSize(SwingConstants.HORIZONTAL, applyAllButton);
+	// get instance of climbsafe
 
-    layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
-            .addGroup(layout.createParallelGroup().addComponent(startDateLabel).addComponent(startDate))
-            .addGroup(layout.createParallelGroup().addComponent(numberOfWeeksLabel).addComponent(numberOfWeeks))
-            .addGroup(layout.createParallelGroup().addComponent(weeklyGuidePriceLabel).addComponent(weeklyGuidePrice))
-            .addComponent(applyAllButton)
-            .addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
+	public NMCSetUpInfoFrame() {
+		refreshData();
+		initComponents();
+	}
 
-    pack();
-    setLocationRelativeTo(null);
-    setResizable(false);
-    setVisible(true);
-}
+	/**
+	 * @author Lee Brickman Create formatting for error message and initialize
+	 *         components IFF "Apply All" button is selected
+	 */
+	private void initComponents() {
+		errorMessage.setForeground(Color.RED);
+		errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
+		applyAllButton.addActionListener(this::applyAllActionPerformed);
+		previousPage.addActionListener(this::backToPreviousPage);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setTitle("Climb Safe Application System");
+		setSize(500, 500);
 
-    
+		JSeparator horizontalLineTop = new JSeparator();
+		JSeparator horizontalLineBottom = new JSeparator();
 
- 
+		GroupLayout layout = new GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
 
-  
-  /**
-   * @author Lee Brickman
-   * set text boxes to empty
-   */
-  private void refreshData() {
-    errorMessage.setText(error);
-    if (error == null || error.isEmpty()) {
-      // populate page with empty text boxes
-      
-      numberOfWeeks.setText("");
-      weeklyGuidePrice.setText("");
-      startDate.setText("");}
-    else {
-      numberOfWeeks.setText("");
-      weeklyGuidePrice.setText("");
-      startDate.setText("");
-    }
-     
-      
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+		layout.setHorizontalGroup(
+				layout.createParallelGroup().addComponent(errorMessage).addComponent(horizontalLineBottom)
+						.addGroup(layout.createSequentialGroup()
+								.addGroup(layout.createParallelGroup().addComponent(startDateLabel, 200, 200, 400)
+										.addComponent(numberOfWeeksLabel).addComponent(weeklyGuidePriceLabel))
+								.addGroup(layout.createParallelGroup().addComponent(startDate, 500, 500, 1000)
+										.addComponent(numberOfWeeks, 500, 500, 1000)
+										.addComponent(weeklyGuidePrice, 500, 500, 1000)
+										.addComponent(applyAllButton, 500, 500, 1000).addComponent(previousPage))));
 
-  }
-  /**
-   * @author Lee Brickman
-   * @param date
-   * return true if date is valid (february 30th would return false)
-   * @return
-   */
+		layout.linkSize(SwingConstants.HORIZONTAL, startDate, numberOfWeeks, weeklyGuidePrice);
+		layout.linkSize(SwingConstants.HORIZONTAL, applyAllButton);
 
-  public boolean isRealDate(String date) {
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    format.setLenient(false);
-    try {
-      format.parse(date);
-    }catch(ParseException e) {
-      return false;}
-    return true;
-  }
-      
-      
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
+				.addGroup(layout.createParallelGroup().addComponent(startDateLabel).addComponent(startDate))
+				.addGroup(layout.createParallelGroup().addComponent(numberOfWeeksLabel).addComponent(numberOfWeeks))
+				.addGroup(
+						layout.createParallelGroup().addComponent(weeklyGuidePriceLabel).addComponent(weeklyGuidePrice))
+				.addComponent(applyAllButton).addComponent(previousPage)
+				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom)));
 
- 
-  /**
-   * @author Lee Brickman
-   * @param e
-   * if date is valid and all text boxes have entered values,call the controller and apply data entered
-   */
-  private void applyAllActionPerformed(ActionEvent e) {
-    
-  
-    error = "";
-    
+		pack();
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setVisible(true);
+	}
 
-   
-    if (startDate.getText().equals("")||numberOfWeeks.getText().equals("")||weeklyGuidePrice.equals("")) {
-      error = "Please fill out all fields";
-      refreshData();}
-    if (isRealDate(startDate.getText())==true){
-        if (Date.valueOf(startDate.getText()).before(today)) {
-          error = "Invalid date";
-      
-          refreshData();}
-        else {
-          callController(()-> ClimbSafeFeatureSet1Controller.setup(Date.valueOf(startDate.getText()),Integer.valueOf(numberOfWeeks.getText()),Integer.valueOf(weeklyGuidePrice.getText())));
-          refreshData();}}
+	/**
+	 * @author Lee Brickman set text boxes to empty
+	 */
+	private void refreshData() {
+		errorMessage.setText(error);
+		if (error == null || error.isEmpty()) {
+			// populate page with empty text boxes
 
-    else {
-      error = "Invalid date";
-      refreshData();}
-          //navigate back to admin home screen}
-        }
-  
-/**
- * @author Lee Brickman
- * @param executable
- * implements controller call
- * @return
- */
-  private String callController(Executable executable) {
-    try {
-        executable.execute();
-    } catch (InvalidInputException e) {
-        error = e.getMessage();
-        return error;
-    } catch (Throwable t) {
-        t.printStackTrace();
-    }
-    return "";}
-  interface Executable {
-    public void execute() throws Throwable;
-}
+			numberOfWeeks.setText("");
+			weeklyGuidePrice.setText("");
+			startDate.setText("");
+		} else {
+			numberOfWeeks.setText("");
+			weeklyGuidePrice.setText("");
+			startDate.setText("");
+		}
 
+	}
 
-  
-  
+	/**
+	 * @author Lee Brickman
+	 * @param date return true if date is valid (february 30th would return false)
+	 * @return
+	 */
+
+	public boolean isRealDate(String date) {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		format.setLenient(false);
+		try {
+			format.parse(date);
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @author Lee Brickman
+	 * @param e if date is valid and all text boxes have entered values,call the
+	 *          controller and apply data entered
+	 */
+	private void applyAllActionPerformed(ActionEvent e) {
+
+		error = "";
+
+		if (startDate.getText().equals("") || numberOfWeeks.getText().equals("") || weeklyGuidePrice.equals("")) {
+			error = "Please fill out all fields";
+			refreshData();
+		}
+		if (isRealDate(startDate.getText()) == true) {
+			if (Date.valueOf(startDate.getText()).before(today)) {
+				error = "Invalid date";
+
+				refreshData();
+			} else {
+				callController(() -> ClimbSafeFeatureSet1Controller.setup(Date.valueOf(startDate.getText()),
+						Integer.valueOf(numberOfWeeks.getText()), Integer.valueOf(weeklyGuidePrice.getText())));
+				refreshData();
+			}
+		}
+
+		else {
+			error = "Invalid date";
+			refreshData();
+		}
+		// navigate back to admin home screen}
+	}
+
+	private void backToPreviousPage(ActionEvent evt) {
+        HomePageAdminFrame homePage = new HomePageAdminFrame();
+        homePage.setVisible(true);
+        dispose();
+	}
+	/**
+	 * @author Lee Brickman
+	 * @param executable implements controller call
+	 * @return
+	 */
+	private String callController(Executable executable) {
+		try {
+			executable.execute();
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+			return error;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return "";
+	}
+
+	interface Executable {
+		public void execute() throws Throwable;
+	}
+
 }
