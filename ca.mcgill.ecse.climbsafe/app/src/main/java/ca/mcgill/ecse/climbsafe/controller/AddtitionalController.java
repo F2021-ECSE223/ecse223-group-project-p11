@@ -38,6 +38,28 @@ public class AddtitionalController {
 		}
 		return list;
 	}
+	public static void updateBundleItem(String BundleName, String itemName, Integer newNum){
+		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+		
+		for(EquipmentBundle e: cS.getBundles()) {
+			if(e.getName() == BundleName) {
+				for(BundleItem bI: e.getBundleItems()) {
+					if(bI.getEquipment().getName().equals(itemName)) {
+						bI.setQuantity(newNum);
+						break;
+					}
+				}
+			}
+		}
+		
+	}
+
+	
+	public static List<Equipment> getAllEquipment(){
+		ClimbSafe cS= ClimbSafeApplication.getClimbSafe();
+		return  cS.getEquipment();
+	}
+
 	
 	public static List<String> getMemberEmails() {
 		ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
