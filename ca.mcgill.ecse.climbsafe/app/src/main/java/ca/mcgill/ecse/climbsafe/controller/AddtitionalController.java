@@ -53,6 +53,7 @@ public class AddtitionalController {
 		}
 		
 	}
+	
 
 	
 	public static List<Equipment> getAllEquipment(){

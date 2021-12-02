@@ -32,7 +32,7 @@ public class ClimbSafeApplication {
 	  	
 //	  	HomePageMemberFrame homepagemember = new HomePageMemberFrame("samuel@mcgill.ca");
 //	  	homepagemember.setVisible(true);
-	    EventQueue.invokeLater(InitialHomePage::new);
+	    EventQueue.invokeLater(BundleFrame::new);
   }
 
   public static ClimbSafe getClimbSafe() {

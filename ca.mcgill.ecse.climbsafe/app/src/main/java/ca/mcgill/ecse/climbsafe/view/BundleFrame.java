@@ -13,6 +13,7 @@ import javax.swing.text.AttributeSet.ColorAttribute;
 import ca.mcgill.ecse.climbsafe.application.*;
 
 import ca.mcgill.ecse.climbsafe.controller.*;
+import ca.mcgill.ecse.climbsafe.model.Equipment;
 
 import java.sql.*;
 import java.time.*;
@@ -25,6 +26,8 @@ public class BundleFrame extends JFrame {
 
 	List<String> selectedEquipmentNames = new ArrayList<String>();
 	List<Integer> selectedEquipmentQuantities = new ArrayList<Integer>();
+	List<String> selectedNewEquipmentNames = new ArrayList<String>();
+	List<Integer> selectedNewEquipmentQuantities = new ArrayList<Integer>();
 
 	private JLabel errorMessage = new JLabel(); // element for error message
 
@@ -32,13 +35,13 @@ public class BundleFrame extends JFrame {
 
 	private JTextField bundleNameTextField = new JTextField();
 	private JLabel bundleNameLabel = new JLabel("Bundle:");
-	
+
 	private JComboBox<String> itemBox = new JComboBox<>();
 	private JLabel itemNameLabel = new JLabel("Item:");
-	
+
 	private JTextField itemQTextField = new JTextField();
 	private JLabel itemQLabel = new JLabel("Quantities:");
-	
+
 	private JButton addItemButton = new JButton("Add Item:");
 
 	private JTextField bundleDiscountTextField = new JTextField();
@@ -53,14 +56,14 @@ public class BundleFrame extends JFrame {
 
 	private JTextField bundleNewNameTextField = new JTextField();
 	private JLabel bundleNewNameLabel = new JLabel("New Name:");
-	
+
 	private JComboBox<String> itemNewBox = new JComboBox<>();
-    private JLabel itemNewNameLabel = new JLabel("New Equipment Names:");
-    
-    private JTextField itemNewQTextField = new JTextField();
-    private JLabel itemNewQLabel = new JLabel("New Equipment Quantities:");
-    
-    private JButton addUpdatedItemButton = new JButton("Add Updated Item:");
+	private JLabel itemNewNameLabel = new JLabel("New Equipment Names:");
+
+	private JTextField itemNewQTextField = new JTextField();
+	private JLabel itemNewQLabel = new JLabel("New Equipment Quantities:");
+
+	private JButton addUpdatedItemButton = new JButton("Add Updated Item:");
 
 	private JTextField bundleNewDiscounttTextField = new JTextField();
 	private JLabel bundleNewDiscountLabel = new JLabel("New Discount:");
@@ -89,6 +92,12 @@ public class BundleFrame extends JFrame {
 		initComponents();
 		refreshData();
 	}
+	private void setComboBoxes() {
+		for(Equipment e: AddtitionalController.getAllEquipment()) {
+			itemNewBox.addItem(e.getName());
+			itemBox.addItem(e.getName());
+		}
+	}
 
 	/** This method is called from within the constructor to initialise the form. */
 	private void initComponents() {
@@ -103,8 +112,7 @@ public class BundleFrame extends JFrame {
 		// listeners for adding bundle
 		bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
 		itemQTextField.addActionListener(this::addItemButtonActionPerformed);
-		
-		
+
 		bundleDiscountTextField.addActionListener(this::addBundleButtonActionPerformed);
 		addBundleButton.addActionListener(this::addBundleButtonActionPerformed);
 		////////////////////////////////////
@@ -115,7 +123,7 @@ public class BundleFrame extends JFrame {
 		// not sure to do this
 		bundleNewNameTextField.addActionListener(this::updateBundleButtonActionPerformed);
 		itemNewQTextField.addActionListener(this::addUpdatedItemActionPerformed);
-		
+
 		bundleNewDiscounttTextField.addActionListener(this::updateBundleButtonActionPerformed);
 		updatebundleButton.addActionListener(this::updateBundleButtonActionPerformed);
 		previousPage.addActionListener(this::backToPreviousPage);
@@ -143,47 +151,42 @@ public class BundleFrame extends JFrame {
 		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
 				.addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup().addComponent(bundleNameLabel)
-						        .addComponent(itemNameLabel)
-						        .addComponent(itemQLabel)
-				                .addComponent(bundleDiscountLabel)
-								.addComponent(bundleOldNameLabel)
-								.addComponent(bundleNewNameLabel)
-								.addComponent(itemNewNameLabel)
-								.addComponent(itemNewQLabel)
-								.addComponent(bundleNewDiscountLabel)
-								.addComponent(bundleNameToDeleteLabel))
+						.addGroup(layout.createParallelGroup().addComponent(bundleNameLabel).addComponent(itemNameLabel)
+								.addComponent(itemQLabel).addComponent(bundleDiscountLabel)
+								.addComponent(bundleOldNameLabel).addComponent(bundleNewNameLabel)
+								.addComponent(itemNewNameLabel).addComponent(itemNewQLabel)
+								.addComponent(bundleNewDiscountLabel).addComponent(bundleNameToDeleteLabel))
 						.addGroup(layout.createParallelGroup().addComponent(bundleNameTextField, 200, 200, 400)
-						        .addComponent(itemBox)
-						        .addComponent(itemQTextField,200,200,400)
-						        .addComponent(addItemButton)
-								.addComponent(bundleDiscountTextField, 200, 200, 400).addComponent(addBundleButton)
+								.addComponent(itemBox).addComponent(itemQTextField, 200, 200, 400)
+								.addComponent(addItemButton).addComponent(bundleDiscountTextField, 200, 200, 400)
+								.addComponent(addBundleButton)
 								// .addComponent(bundleToAddList)
 								// .addComponent(bundleOldNameTextField,200,200,400)
 								.addComponent(oldNameList).addComponent(bundleNewNameTextField, 200, 200, 400)
-								.addComponent(itemNewBox)
-								.addComponent(itemNewQTextField,200,200,400)
+								.addComponent(itemNewBox).addComponent(itemNewQTextField, 200, 200, 400)
 								.addComponent(addUpdatedItemButton)
 								.addComponent(bundleNewDiscounttTextField, 200, 200, 400)
 								.addComponent(updatebundleButton)
 								// .addComponent(bundleToUpdateList)
 								// .addComponent(bundleNameToDeleteTextField,200,200,400)
-								.addComponent(deletebundleButton).addComponent(nameToDeleteList).addComponent(previousPage)
+								.addComponent(deletebundleButton).addComponent(nameToDeleteList)
+								.addComponent(previousPage)
 
 						)
 				// .addComponent(overviewScrollPane)
 				));
 
-		layout.linkSize(SwingConstants.HORIZONTAL, addBundleButton, bundleNameTextField,itemQTextField, bundleDiscountTextField);
+		layout.linkSize(SwingConstants.HORIZONTAL, addBundleButton, bundleNameTextField, itemQTextField,
+				bundleDiscountTextField);
 		layout.linkSize(SwingConstants.HORIZONTAL, updatebundleButton,
-				/* bundleOldNameTextField, */ bundleNewNameTextField, itemNewQTextField,bundleNewDiscounttTextField);
+				/* bundleOldNameTextField, */ bundleNewNameTextField, itemNewQTextField, bundleNewDiscounttTextField);
 		layout.linkSize(SwingConstants.HORIZONTAL, deletebundleButton /* ,bundleNameToDeleteTextField */);
 
 		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup().addComponent(bundleNameLabel).addComponent(bundleNameTextField))
 				.addGroup(layout.createParallelGroup().addComponent(itemNameLabel).addComponent(itemBox))
-                .addGroup(layout.createParallelGroup().addComponent(itemQLabel).addComponent(itemQTextField))
-                .addGroup(layout.createParallelGroup().addComponent(addItemButton))
+				.addGroup(layout.createParallelGroup().addComponent(itemQLabel).addComponent(itemQTextField))
+				.addGroup(layout.createParallelGroup().addComponent(addItemButton))
 				.addGroup(layout.createParallelGroup().addComponent(bundleDiscountLabel)
 						.addComponent(bundleDiscountTextField))
 				.addGroup(layout.createParallelGroup().addComponent(addBundleButton))
@@ -195,8 +198,8 @@ public class BundleFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(bundleNewNameLabel)
 						.addComponent(bundleNewNameTextField))
 				.addGroup(layout.createParallelGroup().addComponent(itemNewNameLabel).addComponent(itemNewBox))
-                .addGroup(layout.createParallelGroup().addComponent(itemNewQLabel).addComponent(itemNewQTextField))
-                .addGroup(layout.createParallelGroup().addComponent(addUpdatedItemButton))
+				.addGroup(layout.createParallelGroup().addComponent(itemNewQLabel).addComponent(itemNewQTextField))
+				.addGroup(layout.createParallelGroup().addComponent(addUpdatedItemButton))
 				.addGroup(layout.createParallelGroup().addComponent(bundleNewDiscountLabel)
 						.addComponent(bundleNewDiscounttTextField))
 
@@ -207,14 +210,13 @@ public class BundleFrame extends JFrame {
 				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup().addComponent(bundleNameToDeleteLabel)
 						.addComponent(nameToDeleteList))
-				.addGroup(layout.createParallelGroup().addComponent(deletebundleButton))
-				.addComponent(previousPage)
+				.addGroup(layout.createParallelGroup().addComponent(deletebundleButton)).addComponent(previousPage)
 		// .addComponent(overviewScrollPane)
 		/*
 		 * .addGroup(layout.createParallelGroup() .addComponent(bundleToDeleteList))
 		 */
 		);
-
+		setComboBoxes();
 		pack();
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -257,9 +259,22 @@ public class BundleFrame extends JFrame {
 	 * {selectedEquipmentNames.get(i),selectedEquipmentQuantities.get(i)}); } }
 	 * oldNameList.setSelectedIndex(0); } }
 	 */
-	
+
 	private void addItemButtonActionPerformed(ActionEvent evt) {
-	  
+		error = "";
+		Integer amt = Integer.valueOf(itemQTextField.getText());
+		String name = (String) itemBox.getSelectedItem();
+
+		if (bundleNameTextField.getText().equals("") || bundleDiscountTextField.getText().equals("")) {
+			error = "Please fill all fields!";
+		}
+		if (selectedEquipmentNames.contains(name))
+			error += " " + name + " is already added!";
+		if (error.isEmpty()) {
+			selectedEquipmentNames.add(name);
+			selectedEquipmentQuantities.add(amt);
+		}
+
 	}
 
 	private void addBundleButtonActionPerformed(ActionEvent evt) {
@@ -277,16 +292,33 @@ public class BundleFrame extends JFrame {
 		if (error.isEmpty()) {
 			callController(() -> ClimbSafeFeatureSet5Controller.addEquipmentBundle(bundleNameTextField.getText(),
 					discount, selectedEquipmentNames, selectedEquipmentQuantities));
-			// selectedEquipmentNames.clear();
-			// selectedEquipmentQuantities.clear();
+			selectedEquipmentNames.clear();
+			selectedEquipmentQuantities.clear();
 
 		}
 
 		refreshData();
 
 	}
+
 	private void addUpdatedItemActionPerformed(ActionEvent evt) {
-	  
+		error = "";
+		Integer amt = Integer.valueOf(itemQTextField.getText());
+		String name = (String) itemBox.getSelectedItem();
+		String bName= (String) oldNameList.getSelectedItem();
+
+		if (bundleNewNameTextField.getText().equals("") || bundleNewDiscounttTextField.getText().equals("")|| bName=="") {
+			error = "Please fill all fields!";
+		}
+	
+		if (error.isEmpty()) {
+			if (selectedEquipmentNames.contains(name)) {
+				AddtitionalController.updateBundleItem(name, bName, amt);
+			} else {
+			selectedNewEquipmentNames.add(name);
+			selectedNewEquipmentQuantities.add(amt);
+			}
+		}
 	}
 
 	private void updateBundleButtonActionPerformed(ActionEvent evt) {
@@ -302,7 +334,7 @@ public class BundleFrame extends JFrame {
 			var updatedBundle = selectedBundle;
 			callController(() -> ClimbSafeFeatureSet5Controller.updateEquipmentBundle(selectedBundle,
 					bundleNewNameTextField.getText(), getNumberFromField(bundleNewDiscounttTextField, error),
-					selectedEquipmentNames, selectedEquipmentQuantities));
+					selectedNewEquipmentNames, selectedNewEquipmentQuantities));
 			// selectedEquipmentNames.clear();
 			// selectedEquipmentQuantities.clear();
 		}
