@@ -27,177 +27,196 @@ import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.model.Equipment;
 import ca.mcgill.ecse.climbsafe.view.EquipmentFrame.Executable;
 
+/***
+ * This class represents the guide frame. 
+ * More specifically, the Register/Update/Delete guide feature.
+ * @author Anaëlle Drai Laguéns
+ *
+ */
+
 public class GuideFrame extends JFrame {
 
-	private static final long serialVersionUID = 5L;
+    private static final long serialVersionUID = 5L;
 
-	private JLabel errorMessage = new JLabel(); // element for error message
+    private JLabel errorMessage = new JLabel(); // element for error message
 
-	// Select Guide for update
-	private JComboBox<String> guideList = new JComboBox<>();
-	private JLabel guideLabel = new JLabel("Select Guide:");
+    // Select Guide for update
+    private JComboBox<String> guideList = new JComboBox<>();
+    private JLabel guideLabel = new JLabel("Select Guide:");
 
-	private JTextField newGuideNameTextField = new JTextField();
-	private JLabel newGuideNameLabel = new JLabel("New Name:");
+    private JTextField newGuideNameTextField = new JTextField();
+    private JLabel newGuideNameLabel = new JLabel("New Name:");
 
-	private JTextField newGuidePasswordTextField = new JTextField();
-	private JLabel newGuidePasswordLabel = new JLabel("New Password:");
+    private JTextField newGuidePasswordTextField = new JTextField();
+    private JLabel newGuidePasswordLabel = new JLabel("New Password:");
 
-	private JTextField newGuideEmergencyContactTextField = new JTextField();
-	private JLabel newGuideEmergencyContactLabel = new JLabel("New Emergency Contact:");
+    private JTextField newGuideEmergencyContactTextField = new JTextField();
+    private JLabel newGuideEmergencyContactLabel = new JLabel("New Emergency Contact:");
 
-	private JButton updateGuideButton = new JButton("Update Guide");
+    private JButton updateGuideButton = new JButton("Update Guide");
 
-	// Select Guide for Deletion
-	private JButton previousPage = new JButton("Return to previous page");
+    // Select Guide for Deletion
+    private JButton previousPage = new JButton("Return to previous page");
 
-	private JButton deleteGuideButton = new JButton("Delete Guide");
+    private JButton deleteGuideButton = new JButton("Delete Guide");
 
-	private String error = "";
+    private String error = "";
 
-	public GuideFrame() {
-		initComponents();
-		refreshData();
-	}
+    public GuideFrame() {
+        initComponents();
+        refreshData();
+    }
 
-	private void initComponents() {
-		errorMessage.setForeground(Color.RED);
-		errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
+    private void initComponents() {
+        errorMessage.setForeground(Color.RED);
+        errorMessage.setFont(new Font(Font.SANS_SERIF, Font.BOLD, errorMessage.getFont().getSize()));
 
-		// global settings
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle("Climb Safe Application System");
-		setSize(500, 500);
+        // global settings
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Climb Safe Application System");
+        setSize(500, 500);
 
-		// listeners for updating guides
-		newGuideNameTextField.addActionListener(this::updateGuideButtonActionPerformed);
-		newGuidePasswordTextField.addActionListener(this::updateGuideButtonActionPerformed);
-		newGuideEmergencyContactTextField.addActionListener(this::updateGuideButtonActionPerformed);
-		updateGuideButton.addActionListener(this::updateGuideButtonActionPerformed);
+        // listeners for updating guides
+        newGuideNameTextField.addActionListener(this::updateGuideButtonActionPerformed);
+        newGuidePasswordTextField.addActionListener(this::updateGuideButtonActionPerformed);
+        newGuideEmergencyContactTextField.addActionListener(this::updateGuideButtonActionPerformed);
+        updateGuideButton.addActionListener(this::updateGuideButtonActionPerformed);
 
-		deleteGuideButton.addActionListener(this::deleteGuideButtonActionPerformed);
-		previousPage.addActionListener(this::backToPreviousPage);
+        deleteGuideButton.addActionListener(this::deleteGuideButtonActionPerformed);
+        previousPage.addActionListener(this::backToPreviousPage);
 
-		JSeparator horizontalLineBottom = new JSeparator();
+        JSeparator horizontalLineBottom = new JSeparator();
 
-		GroupLayout layout = new GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
-				.addComponent(horizontalLineBottom)
-				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(newGuideNameLabel)
-								.addComponent(newGuidePasswordLabel).addComponent(newGuideEmergencyContactLabel))
-						.addGroup(layout.createParallelGroup().addComponent(guideList)
-								.addComponent(newGuideNameTextField, 500, 500, 1000)
-								.addComponent(newGuidePasswordTextField, 500, 500, 1000)
-								.addComponent(newGuideEmergencyContactTextField, 500, 500, 1000)
-								.addComponent(updateGuideButton, 500, 500, 1000).addComponent(deleteGuideButton, 500, 500, 1000)
-								.addComponent(previousPage, 500, 500, 1000))));
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
+                .addComponent(horizontalLineBottom)
+                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(newGuideNameLabel)
+                                .addComponent(newGuidePasswordLabel).addComponent(newGuideEmergencyContactLabel))
+                        .addGroup(layout.createParallelGroup().addComponent(guideList)
+                                .addComponent(newGuideNameTextField, 500, 500, 1000)
+                                .addComponent(newGuidePasswordTextField, 500, 500, 1000)
+                                .addComponent(newGuideEmergencyContactTextField, 500, 500, 1000)
+                                .addComponent(updateGuideButton, 500, 500, 1000).addComponent(deleteGuideButton, 500, 500, 1000)
+                                .addComponent(previousPage, 500, 500, 1000))));
 
-		layout.linkSize(SwingConstants.HORIZONTAL, guideList, newGuideNameTextField, newGuidePasswordTextField,
-				newGuideEmergencyContactTextField);
-		layout.linkSize(SwingConstants.HORIZONTAL, deleteGuideButton, updateGuideButton);
-		// .addComponent(errorMessage)
-		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
-				.addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(guideList))
-				.addGroup(layout.createParallelGroup().addComponent(newGuideNameLabel)
-						.addComponent(newGuideNameTextField))
-				.addGroup(layout.createParallelGroup().addComponent(newGuidePasswordLabel)
-						.addComponent(newGuidePasswordTextField))
-				.addGroup(layout.createParallelGroup().addComponent(newGuideEmergencyContactLabel)
-						.addComponent(newGuideEmergencyContactTextField))
-				.addGroup(layout.createParallelGroup().addComponent(updateGuideButton))
-				.addGroup(layout.createParallelGroup().addComponent(deleteGuideButton))
-				.addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
-				.addComponent(previousPage)
-				);
+        layout.linkSize(SwingConstants.HORIZONTAL, guideList, newGuideNameTextField, newGuidePasswordTextField,
+                newGuideEmergencyContactTextField);
+        layout.linkSize(SwingConstants.HORIZONTAL, deleteGuideButton, updateGuideButton);
+        // .addComponent(errorMessage)
+        layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
+                .addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(guideList))
+                .addGroup(layout.createParallelGroup().addComponent(newGuideNameLabel)
+                        .addComponent(newGuideNameTextField))
+                .addGroup(layout.createParallelGroup().addComponent(newGuidePasswordLabel)
+                        .addComponent(newGuidePasswordTextField))
+                .addGroup(layout.createParallelGroup().addComponent(newGuideEmergencyContactLabel)
+                        .addComponent(newGuideEmergencyContactTextField))
+                .addGroup(layout.createParallelGroup().addComponent(updateGuideButton))
+                .addGroup(layout.createParallelGroup().addComponent(deleteGuideButton))
+                .addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
+                .addComponent(previousPage)
+                );
 
-		pack();
-		setLocationRelativeTo(null);
-		setResizable(false);
-		setVisible(true);
-	}
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
 
-	private void refreshData() {
-		errorMessage.setText(error);
-		if (error == null || error.isEmpty()) {
-			// populate page with data
+    private void refreshData() {
+        errorMessage.setText(error);
+        if (error == null || error.isEmpty()) {
+            // populate page with data
 
-			// update equipment
-			newGuideNameTextField.setText("");
-			newGuidePasswordTextField.setText("");
-			newGuideEmergencyContactTextField.setText("");
+            // update equipment
+            newGuideNameTextField.setText("");
+            newGuidePasswordTextField.setText("");
+            newGuideEmergencyContactTextField.setText("");
 
-			var lists = List.of(guideList);
-			lists.forEach(JComboBox::removeAllItems);
+            var lists = List.of(guideList);
+            lists.forEach(JComboBox::removeAllItems);
 
-			AddtitionalController.getGuideEmails().forEach(guideList::addItem);
+            AddtitionalController.getGuideEmails().forEach(guideList::addItem);
 
-			lists.forEach(list -> list.setSelectedIndex(-1));
+            lists.forEach(list -> list.setSelectedIndex(-1));
 
-			pack();
+            pack();
 
-		}
+        }
 
-	}
+    }
+    /***
+     * This method validates the guide has been updated.
+     * @author Anaëlle Drai Laguéns
+     * @param evt
+     */
+    private void updateGuideButtonActionPerformed(ActionEvent evt) {
 
-	private void updateGuideButtonActionPerformed(ActionEvent evt) {
+        error = "";
 
-		error = "";
+        var selectedGuide = (String) guideList.getSelectedItem();
+        if (selectedGuide == null) {
+            error = "Guide needs to be selected to update it!";
+        } else if (error.isEmpty()) {
+            callController(() -> ClimbSafeFeatureSet3Controller.updateGuide(selectedGuide, newGuidePasswordTextField.getText(),
+                    newGuideNameTextField.getText(), newGuideEmergencyContactTextField.getText()));
+        }
+        refreshData();
+    }
+    /***
+     * This method validates the guide has been deleted.
+     * @author Anaëlle Drai Laguéns
+     * @param evt
+     */
+    private void deleteGuideButtonActionPerformed(ActionEvent evt) {
 
-		var selectedGuide = (String) guideList.getSelectedItem();
-		if (selectedGuide == null) {
-			error = "Guide needs to be selected to update it!";
-		} else if (error.isEmpty()) {
-			callController(() -> ClimbSafeFeatureSet3Controller.updateGuide(selectedGuide, newGuidePasswordTextField.getText(),
-					newGuideNameTextField.getText(), newGuideEmergencyContactTextField.getText()));
-		}
-		refreshData();
-	}
+        error = "";
 
-	private void deleteGuideButtonActionPerformed(ActionEvent evt) {
+        var selectedGuide = (String) guideList.getSelectedItem();
+        if (selectedGuide == null) {
+            error = "Guide has to be selected for deletion!";
+        } else if (error.isEmpty()) {
+        callController(() -> ClimbSafeFeatureSet1Controller.deleteGuide(selectedGuide));
+        }
+        refreshData();
 
-		error = "";
+    }
+    /***
+     * This method validates the user is going back to the previous page.
+     * @author Anaëlle Drai Laguéns
+     * @param evt
+     */
+    private void backToPreviousPage(ActionEvent evt) {
+        HomePageGuideFrame homepage = new HomePageGuideFrame();
+        homepage.setVisible(true);
+        dispose();
+    }
 
-		var selectedGuide = (String) guideList.getSelectedItem();
-		if (selectedGuide == null) {
-			error = "Guide has to be selected for deletion!";
-		} else if (error.isEmpty()) {
-		callController(() -> ClimbSafeFeatureSet1Controller.deleteGuide(selectedGuide));
-		}
-		refreshData();
+    /**
+     * Calls the controller and sets the error message.
+     * @author Anaëlle Drai Laguéns
+     * @param executable a controller call preceded by "() -> ", eg,<br>
+     * @return
+     */
+    private String callController(Executable executable) {
+        try {
+            executable.execute();
+        } catch (InvalidInputException e) {
+            error = e.getMessage();
+            return error;
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return "";
+    }
 
-	}
-
-	private void backToPreviousPage(ActionEvent evt) {
-		HomePageGuideFrame homepage = new HomePageGuideFrame();
-		homepage.setVisible(true);
-		dispose();
-	}
-
-	/**
-	 * Calls the controller and sets the error message.
-	 * 
-	 * @param executable a controller call preceded by "() -> ", eg,<br>
-	 * @return
-	 */
-	private String callController(Executable executable) {
-		try {
-			executable.execute();
-		} catch (InvalidInputException e) {
-			error = e.getMessage();
-			return error;
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		return "";
-	}
-
-	@FunctionalInterface
-	interface Executable {
-		public void execute() throws Throwable;
-	}
+    @FunctionalInterface
+    interface Executable {
+        public void execute() throws Throwable;
+    }
 
 }

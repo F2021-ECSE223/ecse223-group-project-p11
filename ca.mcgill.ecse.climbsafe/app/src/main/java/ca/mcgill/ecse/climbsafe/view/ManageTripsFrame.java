@@ -25,6 +25,12 @@ import ca.mcgill.ecse.climbsafe.controller.TOGuide;
 import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.view.GuideFrame.Executable;
 
+/**
+ * This class represnets the ManageTrips frame, where the trips are going to be managed.
+ * @author Sam Snodgrass, Lee Brickman, Anaëlle Drai Laguéns
+ *
+ */
+
 public class ManageTripsFrame extends JFrame {
 
 	private JLabel errorMessage = new JLabel(); // element for error message
@@ -124,7 +130,11 @@ public class ManageTripsFrame extends JFrame {
 		}
 
 	}
-
+    /**
+     * This method validates that the trip has been cancelled.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void cancelTripActionPerformed(ActionEvent evt) {
 
 		error = "";
@@ -137,7 +147,11 @@ public class ManageTripsFrame extends JFrame {
 		}
 		refreshData();
 	}
-
+	/**
+     * This method validates that the trip has been finished.
+     * @author Anaëlle Drai Laguéns
+     * @param evt
+     */
 	private void finishTripsActionPerformed(ActionEvent evt) {
 
 		error = "";
@@ -150,7 +164,14 @@ public class ManageTripsFrame extends JFrame {
 		}
 		refreshData();
 	}
-	
+	/***
+     * This method returns the number from the given text field if present, otherwise appends
+     * error string to the given message.
+     * @author Sam Snodgrass
+     * @param field
+     * @param errorMessage
+     * @return
+     */
 	  private int getNumberFromField(JTextField field, String errorMessage) {
 		    try {
 		      return Integer.parseInt(field.getText());
@@ -159,7 +180,11 @@ public class ManageTripsFrame extends JFrame {
 		    }
 		    return 0;
 		  }
-
+	 /**
+	  * This method validates that the trip has been started.
+	  * @author Lee Brickman
+	  * @param evt
+	  */
 	private void startTripsActionPerformed(ActionEvent evt) {
 
 		error = "";
@@ -170,7 +195,11 @@ public class ManageTripsFrame extends JFrame {
 		}
 		refreshData();
 	}
-
+	/**
+     * This method validates that the user is going back to the previous page.
+     * @author Lee Brickman
+     * @param evt
+     */
 	private void backToPreviousPage(ActionEvent evt) {
         HomePageAdminFrame homepage = new HomePageAdminFrame();
         homepage.setVisible(true);

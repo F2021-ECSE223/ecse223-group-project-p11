@@ -23,10 +23,14 @@ import ca.mcgill.ecse.climbsafe.application.*;
 import ca.mcgill.ecse.climbsafe.view.*;
 import ca.mcgill.ecse.climbsafe.controller.*;
 
+/***
+ * This class represents the Member frame .
+ * More specifically the Add/Update/Delete member feature.
+ * @author Sam Snodgrass
+ *
+ */
 public class MemberFrame extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1165335027441666041L;
 	private String error;
 	List<String> selectedItemNames = new ArrayList<String>();
@@ -235,7 +239,11 @@ public class MemberFrame extends JFrame {
 		}
 
 	}
-
+	/***
+     * This method validates that the member has been added.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void addMemberButtonActionPerformed(ActionEvent evt) {
 		// clear error message
 		error = "";
@@ -272,7 +280,11 @@ public class MemberFrame extends JFrame {
 		refreshData();
 		refreshEquipment();
 	}
-
+	/***
+     * This method validates that the selected item has been deleted.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void deleteItemButtonActionPerformed(ActionEvent evt) {
 		error = "";
 		String equipmentNameText2 = equipmentAvailableList.getSelectedItem().toString();
@@ -300,7 +312,11 @@ public class MemberFrame extends JFrame {
 		}
 
 	}
-
+	/***
+     * This method validates that the equipment has been added.
+     * @author Sam Snodgrass
+     * @param evt
+     */
 	private void addEquipmentButtonActionPerformed(ActionEvent evt) {
 
 		error = "";
@@ -333,7 +349,14 @@ public class MemberFrame extends JFrame {
 			}
 		}
 	}
-
+	/***
+     * This method returns the number from the given text field if present, otherwise appends
+     * error string to the given message.
+     * @author Sam Snodgrass
+     * @param field
+     * @param errorMessage
+     * @return
+     */
 	private int getNumberFromField(JTextField field, String errorMessage) {
 		try {
 			return Integer.parseInt(field.getText());
@@ -344,7 +367,12 @@ public class MemberFrame extends JFrame {
 		}
 		return 0;
 	}
-
+	/**
+     * Calls the controller and sets the error message.
+     * @author Sam Snodgrass
+     * @param executable a controller call preceded by "() -> ", eg,<br>
+     * @return
+     */
 	private String callController(Executable executable) {
 		try {
 			executable.execute();
@@ -356,7 +384,11 @@ public class MemberFrame extends JFrame {
 		}
 		return "";
 	}
-
+	/***
+     * This method validates the user goes back to the previous page.
+     * @author Sam Snodgras
+     * @param evt
+     */
 	private void backToPreviousPage(ActionEvent evt) {
         InitialHomePage initialPage = new InitialHomePage();
         initialPage.setVisible(true);

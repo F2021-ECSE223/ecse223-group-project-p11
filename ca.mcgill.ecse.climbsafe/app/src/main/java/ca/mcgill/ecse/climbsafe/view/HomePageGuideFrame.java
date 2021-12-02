@@ -12,6 +12,11 @@ import javax.swing.WindowConstants;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet3Controller;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
 
+/***
+ * 
+ * @author Anaëlle Drai Laguéns, Lee Brickman
+ *
+ */
 public class HomePageGuideFrame extends JFrame {
 
 	private JButton updateOrModifyAccount = new JButton("Update Information or Delete Account");
@@ -54,13 +59,21 @@ public class HomePageGuideFrame extends JFrame {
 		setResizable(false);
 		setVisible(true);
 	}
-
+    /***
+     * This method validates that the account has been updated/modified.
+     * @author Anaëlle Drai Laguéns
+     * @param evt
+     */
 	private void updateOrModifyAccountActionPerformed(ActionEvent evt) {
 		GuideFrame updateGuideFrame = new GuideFrame();
 		updateGuideFrame.setVisible(true);
 		dispose();
 	}
-
+	/***
+     * This method validates that the user is going back to the previous page.
+     * @author Lee Brickman
+     * @param evt
+     */
 	private void backToPreviousPage(ActionEvent evt) {
 		InitialHomePage initialPage = new InitialHomePage();
 		initialPage.setVisible(true);
