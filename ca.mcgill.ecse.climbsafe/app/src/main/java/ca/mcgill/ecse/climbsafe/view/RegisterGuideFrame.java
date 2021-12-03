@@ -126,10 +126,8 @@ public class RegisterGuideFrame extends JFrame {
             guidePasswordTextField.setText("");
             guideEmergencyContactTextField.setText("");
 
-            pack();
-
         }
-
+        pack();
     }
     /***
      * This method validates the guide has been added.
