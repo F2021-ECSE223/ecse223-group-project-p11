@@ -12,6 +12,7 @@ public class TOAssignment
   //------------------------
 
   //TOAssignment Attributes
+  private String memberBanStatus;
   private String memberEmail;
   private String memberName;
   private String guideEmail;
@@ -29,8 +30,9 @@ public class TOAssignment
   // CONSTRUCTOR
   //------------------------
 
-  public TOAssignment(String aMemberEmail, String aMemberName, String aGuideEmail, String aGuideName, String aHotelName, int aStartWeek, int aEndWeek, int aTotalCostForGuide, int aTotalCostForEquipment, String aStatus, String aAuthorizationCode, int aRefundedPercentageAmount)
+  public TOAssignment(String aMemberBanStatus, String aMemberEmail, String aMemberName, String aGuideEmail, String aGuideName, String aHotelName, int aStartWeek, int aEndWeek, int aTotalCostForGuide, int aTotalCostForEquipment, String aStatus, String aAuthorizationCode, int aRefundedPercentageAmount)
   {
+    memberBanStatus = aMemberBanStatus;
     memberEmail = aMemberEmail;
     memberName = aMemberName;
     guideEmail = aGuideEmail;
@@ -48,6 +50,14 @@ public class TOAssignment
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setMemberBanStatus(String aMemberBanStatus)
+  {
+    boolean wasSet = false;
+    memberBanStatus = aMemberBanStatus;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setMemberEmail(String aMemberEmail)
   {
@@ -145,6 +155,11 @@ public class TOAssignment
     return wasSet;
   }
 
+  public String getMemberBanStatus()
+  {
+    return memberBanStatus;
+  }
+
   public String getMemberEmail()
   {
     return memberEmail;
@@ -212,6 +227,7 @@ public class TOAssignment
   public String toString()
   {
     return super.toString() + "["+
+            "memberBanStatus" + ":" + getMemberBanStatus()+ "," +
             "memberEmail" + ":" + getMemberEmail()+ "," +
             "memberName" + ":" + getMemberName()+ "," +
             "guideEmail" + ":" + getGuideEmail()+ "," +

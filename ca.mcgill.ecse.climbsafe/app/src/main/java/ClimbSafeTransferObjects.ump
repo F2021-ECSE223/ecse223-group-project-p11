@@ -1,6 +1,7 @@
 namespace ca.mcgill.ecse.climbsafe.controller;
 
 class TOAssignment {
+  memberBanStatus;
   memberEmail;
   memberName;
   guideEmail;

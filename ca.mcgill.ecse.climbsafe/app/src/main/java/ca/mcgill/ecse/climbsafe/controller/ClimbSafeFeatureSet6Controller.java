@@ -121,7 +121,7 @@ public class ClimbSafeFeatureSet6Controller {
 			} else {
 				guideEmail = guide.getEmail();
 			}
-			TOAssignment t = new TOAssignment(member.getEmail(), member.getName(), guideEmail, guideName, hotelName,
+			TOAssignment t = new TOAssignment(member.getBanStatus().toString(), member.getEmail(), member.getName(), guideEmail, guideName, hotelName,
 					a.getStartWeek(), a.getEndWeek(), guidePrice,
 					totalCostEquipment, a.getAssignmentStatusFullName(), a.getGivenAuthorizationCode(), a.getRefundPercentage());
 			list.add(t);
