@@ -13,7 +13,7 @@ import javax.swing.text.AttributeSet.ColorAttribute;
 import ca.mcgill.ecse.climbsafe.application.*;
 
 import ca.mcgill.ecse.climbsafe.controller.*;
-import ca.mcgill.ecse.climbsafe.model.Equipment;
+
 
 import java.sql.*;
 import java.time.*;
@@ -102,7 +102,7 @@ public class BundleFrame extends JFrame {
     private void setComboBoxes() {
     	itemBox.addItem("-----");
     	itemNewBox.addItem("-----");
-        for(Equipment e: AddtitionalController.getAllEquipment()) {
+        for(TOEquipment e: AddtitionalController.getEquipment()) {
             itemNewBox.addItem(e.getName());
             itemBox.addItem(e.getName());
         }
@@ -119,20 +119,20 @@ public class BundleFrame extends JFrame {
         setTitle("Climb Safe Application System");
 
         // listeners for adding bundle
-       bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
+       //bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
         addItemButton.addActionListener(this::addItemButtonActionPerformed);
 
-        bundleDiscountTextField.addActionListener(this::addBundleButtonActionPerformed);
+       // bundleDiscountTextField.addActionListener(this::addBundleButtonActionPerformed);
         addBundleButton.addActionListener(this::addBundleButtonActionPerformed);
         ////////////////////////////////////
 
         // listeners for updating bundle
-        bundleNewNameTextField.addActionListener(this::updateBundleButtonActionPerformed);
-        itemNewQTextField.addActionListener(this::addUpdatedItemActionPerformed);
-
-        bundleNewDiscounttTextField.addActionListener(this::updateBundleButtonActionPerformed);
+        //bundleNewNameTextField.addActionListener(this::updateBundleButtonActionPerformed);
+       // itemNewQTextField.addActionListener(this::addUpdatedItemActionPerformed);
+        addUpdatedItemButton.addActionListener(this::addUpdatedItemActionPerformed);
+        //bundleNewDiscounttTextField.addActionListener(this::updateBundleButtonActionPerformed);
         updatebundleButton.addActionListener(this::updateBundleButtonActionPerformed);
-        previousPage.addActionListener(this::backToPreviousPage);
+       // previousPage.addActionListener(this::backToPreviousPage);
 
         //////////////////////////////////////
 
@@ -247,9 +247,11 @@ public class BundleFrame extends JFrame {
         if (name.equals("") || itemQTextField.getText().equals("")||name.equals("-----")) {
             error = "Please fill all fields!";
         }
+        
         if (selectedEquipmentNames.contains(name)) {
             error += " " + name + " is already added!";
         }
+        errorMessage.setText(error);
         if (error.isEmpty()) {
             System.out.println("added");
             selectedEquipmentNames.add(name);
@@ -273,15 +275,15 @@ public class BundleFrame extends JFrame {
 
         int discount = getNumberFromField(bundleDiscountTextField, "must be a number");
         error.trim();
-
+        errorMessage.setText(error);
         if (error.isEmpty()) {
             System.out.println(selectedEquipmentNames.toString());
             callController(() -> ClimbSafeFeatureSet5Controller.addEquipmentBundle(bundleNameTextField.getText(),
                     discount, selectedEquipmentNames, selectedEquipmentQuantities));
-            //need if statement for if item then dont clear
-            selectedEquipmentNames.clear();
-            selectedEquipmentQuantities.clear();
-
+            if(selectedEquipmentNames.size()>=2) {
+            	selectedEquipmentNames.clear();
+            	selectedEquipmentQuantities.clear();
+            }
         }
 
         refreshData();
@@ -293,25 +295,34 @@ public class BundleFrame extends JFrame {
      * @param evt
      */ 
     private void addUpdatedItemActionPerformed(ActionEvent evt) {
-        error = "";
+        System.out.println(1);
+    	error = "";
         Integer amt = getNumberFromField(itemNewQTextField, "must be a number");
         
         String name = (String) itemNewBox.getSelectedItem();
         String bName= (String) oldNameList.getSelectedItem();
-
-        if (name.equals("----")||name.equals("")||itemNewQTextField.getText().equals("")||bName.equals("")) {
+        
+   
+        if (name.equals("-----")||name.equals("")||itemNewQTextField.getText().equals("")||bName.equals("")) {
             error = "Please fill all fields!";
         }
-    
+        selectedNewEquipmentNames=AddtitionalController.getBundleItemNames(bName);
+      
+        selectedNewEquipmentQuantities=AddtitionalController.getBundleItemQuantities(bName);
+        errorMessage.setText(error);
         if (error.isEmpty()) {
-            if (selectedEquipmentNames.contains(name)) {
+            if (selectedNewEquipmentNames.contains(name)) {
+            	System.out.println("mod");
+            	int index=selectedNewEquipmentNames.indexOf(name);
+            	selectedNewEquipmentQuantities.set(index,amt);
             	
-            	AddtitionalController.updateBundleItem(name, bName, amt);
             } else {
+            	System.out.println("add");
             selectedNewEquipmentNames.add(name);
             selectedNewEquipmentQuantities.add(amt);
             }
         }
+        
     }
     /**
      * This method validates the equipment bundle has been updated.
@@ -326,14 +337,14 @@ public class BundleFrame extends JFrame {
             error = "bundle needs to be selected to update it!";
         }
         error = error.trim();
-
+        System.out.println(selectedNewEquipmentNames.isEmpty());
         if (error.isEmpty()) {
             var updatedBundle = selectedBundle;
             callController(() -> ClimbSafeFeatureSet5Controller.updateEquipmentBundle(selectedBundle,
                     bundleNewNameTextField.getText(), getNumberFromField(bundleNewDiscounttTextField, error),
                     selectedNewEquipmentNames, selectedNewEquipmentQuantities));
-            // selectedEquipmentNames.clear();
-            // selectedEquipmentQuantities.clear();
+             selectedNewEquipmentNames.clear();
+             selectedNewEquipmentQuantities.clear();
         }
         refreshData();
     }

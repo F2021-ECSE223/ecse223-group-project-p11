@@ -58,9 +58,9 @@ public class AddtitionalController {
    */
   public static void updateBundleItem(String BundleName, String itemName, Integer newNum){
     ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
-    
+ 
     for(EquipmentBundle e: cS.getBundles()) {
-      if(e.getName() == BundleName) {
+      if(e.getName().equals(BundleName)) {
         for(BundleItem bI: e.getBundleItems()) {
           if(bI.getEquipment().getName().equals(itemName)) {
             bI.setQuantity(newNum);
@@ -68,8 +68,38 @@ public class AddtitionalController {
           }
         }
       }
-    }
-    
+      }
+  }
+  /* 
+   * returns a list of all the bundle items name in bundle found with its name 
+   * @param bundle Name 
+   * @author Oliver Cafferty 
+   */
+  public static List<String> getBundleItemNames(String bName){
+	  ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+	  List<String> bINames= new ArrayList<>();
+	  for(EquipmentBundle e:cS.getBundles()) {
+		  if(e.getName().equals(bName)) {
+			  for(BundleItem bI: e.getBundleItems()) {
+				  bINames.add(bI.getEquipment().getName());
+			  }
+			  break;
+		  }
+	  }
+	  return bINames;
+  }
+  public static List<Integer> getBundleItemQuantities(String bName){
+	  ClimbSafe cS = ClimbSafeApplication.getClimbSafe();
+	  List<Integer> bIQ= new ArrayList<>();
+	  for(EquipmentBundle e:cS.getBundles()) {
+		  if(e.getName().equals(bName)) {
+			  for(BundleItem bI: e.getBundleItems()) {
+				  bIQ.add(bI.getQuantity());
+			  }
+			  break;
+		  }
+	  }
+	  return bIQ;
   }
 
   
@@ -218,7 +248,12 @@ public class AddtitionalController {
     }
     return bundleStr;
   }
-  
+  /*
+   * method returning the list of equipment in a bundle
+   * @param name of equipment
+   * @author 
+   */
+
   /*
    * method returning the cost of a specific item 
    * @param name 
