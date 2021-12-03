@@ -96,18 +96,15 @@ public class EquipmentFrame extends JFrame {
         addEquipmentButton.addActionListener(this::addEquipmentButtonActionPerformed);
         previousPage.addActionListener(this::backToPreviousPage);
 
-        ////////////////////////////////////
 
         // listeners for updating equipment
         equipmentNewNameTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
         equipmentNewWeightTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
         equipmentNewPricePerWeekTextField.addActionListener(this::updateEquipmentButtonActionPerformed);
         updateEquipmentButton.addActionListener(this::updateEquipmentButtonActionPerformed);
-        //////////////////////////////////////
 
         // listeners for deleting equipment
         deleteEquipmentButton.addActionListener(this::deleteEquipmentButtonActionPerformed);
-        //////////////////////////////////////
 
         // horizontal line elements
         JSeparator horizontalLineTop = new JSeparator();
@@ -133,8 +130,6 @@ public class EquipmentFrame extends JFrame {
                                 .addComponent(equipmentNewWeightTextField, 200, 200, 400)
                                 .addComponent(equipmentNewPricePerWeekTextField, 200, 200, 400)
                                 .addComponent(updateEquipmentButton)
-                                // .addComponent(equipmentToUpdateList)
-                                // .addComponent(equipmentNameToDeleteTextField,200,200,400)
                                 .addComponent(deleteEquipmentButton).addComponent(nameToDeleteList)
                                 .addComponent(previousPage))));
 

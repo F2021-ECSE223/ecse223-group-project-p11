@@ -19,8 +19,6 @@ import ca.mcgill.ecse.climbsafe.application.ClimbSafeApplication;
 import ca.mcgill.ecse.climbsafe.controller.AddtitionalController;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet1Controller;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet3Controller;
-import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet4Controller;
-import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet6Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
 import ca.mcgill.ecse.climbsafe.view.EquipmentFrame.Executable;
@@ -34,7 +32,7 @@ import ca.mcgill.ecse.climbsafe.view.EquipmentFrame.Executable;
 
 public class GuideFrame extends JFrame {
 
-    private static final long serialVersionUID = 5L;
+    private static final long serialVersionUID = 3827348L;
 
     private JLabel errorMessage = new JLabel(); // element for error message
 
@@ -104,7 +102,6 @@ public class GuideFrame extends JFrame {
         layout.linkSize(SwingConstants.HORIZONTAL, guideList, newGuideNameTextField, newGuidePasswordTextField,
                 newGuideEmergencyContactTextField);
         layout.linkSize(SwingConstants.HORIZONTAL, deleteGuideButton, updateGuideButton);
-        // .addComponent(errorMessage)
         layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
                 .addGroup(layout.createParallelGroup().addComponent(guideLabel).addComponent(guideList))
                 .addGroup(layout.createParallelGroup().addComponent(newGuideNameLabel)
@@ -130,7 +127,7 @@ public class GuideFrame extends JFrame {
         if (error == null || error.isEmpty()) {
             // populate page with data
 
-            // update equipment
+            // update guide
             newGuideNameTextField.setText("");
             newGuidePasswordTextField.setText("");
             newGuideEmergencyContactTextField.setText("");

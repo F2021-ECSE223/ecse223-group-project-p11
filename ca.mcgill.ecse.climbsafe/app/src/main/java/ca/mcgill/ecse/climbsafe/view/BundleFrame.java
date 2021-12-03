@@ -49,12 +49,12 @@ public class BundleFrame extends JFrame {
 	private JTextField itemQTextField = new JTextField();
 	private JLabel itemQLabel = new JLabel("Quantities:");
 
-	private JButton addItemButton = new JButton("Add Item:");
+	private JButton addItemButton = new JButton("Add Item");
 
 	private JTextField bundleDiscountTextField = new JTextField();
 	private JLabel bundleDiscountLabel = new JLabel("Discount:");
 
-	private JButton addBundleButton = new JButton("Add:");
+	private JButton addBundleButton = new JButton("Add");
 
 	// to update Bundles
 	// private JTextField bundleOldNameTextField = new JTextField();
@@ -70,7 +70,7 @@ public class BundleFrame extends JFrame {
 	private JTextField itemNewQTextField = new JTextField();
 	private JLabel itemNewQLabel = new JLabel("New Equipment Quantities:");
 
-	private JButton addUpdatedItemButton = new JButton("Add Updated Item:");
+	private JButton addUpdatedItemButton = new JButton("Add Updated Item");
 
 	private JTextField bundleNewDiscounttTextField = new JTextField();
 	private JLabel bundleNewDiscountLabel = new JLabel("New Discount:");
@@ -85,11 +85,16 @@ public class BundleFrame extends JFrame {
 
 	private JButton previousPage = new JButton("Return to previous page");
 
-    private JTable equipmentBundleOverview = new JTable(new DefaultTableModel()) {
+    private JTable addEquipmentBundleOverview = new JTable(new DefaultTableModel()) {
         private static final long serialVersionUID = 91L;
     };
 
-    private JScrollPane overviewScrollPane = new JScrollPane(equipmentBundleOverview);
+    private JScrollPane addOverviewScrollPane = new JScrollPane(addEquipmentBundleOverview);
+
+    private JTable updateEquipmentBundleOverview = new JTable(new DefaultTableModel()) {
+        private static final long serialVersionUID = 91L;
+    };
+    private JScrollPane updateOverviewScrollPane = new JScrollPane(updateEquipmentBundleOverview);
 
     private static final String[] OVERVIEW_COLUMN_NAMES = { "Booked Item", "Number selected" };
 
@@ -98,6 +103,9 @@ public class BundleFrame extends JFrame {
     public BundleFrame() {
         initComponents();
         refreshData();
+        refreshAddOverview();
+        refreshUpdateOverview();
+
     }
     private void setComboBoxes() {
     	itemBox.addItem("-----");
@@ -108,6 +116,8 @@ public class BundleFrame extends JFrame {
         }
     }
 
+    
+    
     /** This method is called from within the constructor to initialise the form. */
     private void initComponents() {
 
@@ -121,11 +131,11 @@ public class BundleFrame extends JFrame {
         // listeners for adding bundle
        //bundleNameTextField.addActionListener(this::addBundleButtonActionPerformed);
         addItemButton.addActionListener(this::addItemButtonActionPerformed);
-
+        itemQTextField.addActionListener(this::addUpdatedItemActionPerformed);
        // bundleDiscountTextField.addActionListener(this::addBundleButtonActionPerformed);
         addBundleButton.addActionListener(this::addBundleButtonActionPerformed);
         ////////////////////////////////////
-
+        previousPage.addActionListener(this::backToPreviousPage);
         // listeners for updating bundle
         //bundleNewNameTextField.addActionListener(this::updateBundleButtonActionPerformed);
        // itemNewQTextField.addActionListener(this::addUpdatedItemActionPerformed);
@@ -148,6 +158,9 @@ public class BundleFrame extends JFrame {
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
         layout.setHorizontalGroup(layout.createParallelGroup().addComponent(errorMessage)
+        		.addComponent(addBundleButton, 400, 400, 400)
+        		.addComponent(deletebundleButton, 400, 400, 400)
+        		.addComponent(previousPage, 400, 400, 400).addComponent(updatebundleButton, 400, 400, 400).addComponent(addOverviewScrollPane, 400, 400, 400).addComponent(updateOverviewScrollPane, 400, 400, 400)
                 .addComponent(horizontalLineTop).addComponent(horizontalLineBottom)
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup().addComponent(bundleNameLabel).addComponent(itemNameLabel)
@@ -155,26 +168,24 @@ public class BundleFrame extends JFrame {
                                 .addComponent(bundleOldNameLabel).addComponent(bundleNewNameLabel)
                                 .addComponent(itemNewNameLabel).addComponent(itemNewQLabel)
                                 .addComponent(bundleNewDiscountLabel).addComponent(bundleNameToDeleteLabel))
-                        .addGroup(layout.createParallelGroup().addComponent(bundleNameTextField, 200, 200, 400)
-                                .addComponent(itemBox).addComponent(itemQTextField, 200, 200, 400)
-                                .addComponent(addItemButton).addComponent(bundleDiscountTextField, 200, 200, 400)
-                                .addComponent(addBundleButton)
-                                .addComponent(oldNameList).addComponent(bundleNewNameTextField, 200, 200, 400)
-                                .addComponent(itemNewBox).addComponent(itemNewQTextField, 200, 200, 400)
+                        .addGroup(layout.createParallelGroup().addComponent(bundleNameTextField, 200, 200, 200)
+                                .addComponent(itemBox, 200, 200, 200).addComponent(itemQTextField, 200, 200, 200)
+                                .addComponent(addItemButton).addComponent(bundleDiscountTextField, 200, 200, 200)
+                                .addComponent(oldNameList, 200, 200, 200).addComponent(bundleNewNameTextField, 200, 200, 200)
+                                .addComponent(itemNewBox,200, 200, 200).addComponent(itemNewQTextField, 200, 200, 200)
                                 .addComponent(addUpdatedItemButton)
-                                .addComponent(bundleNewDiscounttTextField, 200, 200, 400)
-                                .addComponent(updatebundleButton)
-                                .addComponent(deletebundleButton).addComponent(nameToDeleteList)
-                                .addComponent(previousPage)
+                                .addComponent(bundleNewDiscounttTextField)
+                         
+                                .addComponent(nameToDeleteList, 200, 200, 200)
+                                
                         )
 
                 ));
 
-        layout.linkSize(SwingConstants.HORIZONTAL, addBundleButton, bundleNameTextField, itemQTextField,
+        layout.linkSize(SwingConstants.HORIZONTAL, bundleNameTextField, itemQTextField,
                 bundleDiscountTextField);
-        layout.linkSize(SwingConstants.HORIZONTAL, updatebundleButton,
-                /* bundleOldNameTextField, */ bundleNewNameTextField, itemNewQTextField, bundleNewDiscounttTextField);
-        layout.linkSize(SwingConstants.HORIZONTAL, deletebundleButton /* ,bundleNameToDeleteTextField */);
+        layout.linkSize(SwingConstants.HORIZONTAL,
+                 bundleNewNameTextField, itemNewQTextField, bundleNewDiscounttTextField);
 
         layout.setVerticalGroup(layout.createSequentialGroup().addComponent(errorMessage)
                 .addGroup(layout.createParallelGroup().addComponent(bundleNameLabel).addComponent(bundleNameTextField))
@@ -183,6 +194,8 @@ public class BundleFrame extends JFrame {
                 .addGroup(layout.createParallelGroup().addComponent(addItemButton))
                 .addGroup(layout.createParallelGroup().addComponent(bundleDiscountLabel)
                         .addComponent(bundleDiscountTextField))
+                .addComponent(addOverviewScrollPane, 90, 90, 90)
+
                 .addGroup(layout.createParallelGroup().addComponent(addBundleButton))
 
                 .addGroup(layout.createParallelGroup().addComponent(horizontalLineTop))
@@ -194,16 +207,15 @@ public class BundleFrame extends JFrame {
                 .addGroup(layout.createParallelGroup().addComponent(addUpdatedItemButton))
                 .addGroup(layout.createParallelGroup().addComponent(bundleNewDiscountLabel)
                         .addComponent(bundleNewDiscounttTextField))
-
-                .addGroup(layout.createParallelGroup().addComponent(updatebundleButton))
-
+                .addComponent(updateOverviewScrollPane, 90, 90, 90)
                 .addGroup(layout.createParallelGroup().addComponent(horizontalLineBottom))
                 .addGroup(layout.createParallelGroup().addComponent(bundleNameToDeleteLabel)
                         .addComponent(nameToDeleteList))
-                .addGroup(layout.createParallelGroup().addComponent(deletebundleButton)).addComponent(previousPage)
-
-        );
-        setComboBoxes();
+                .addGroup(layout.createParallelGroup().addComponent(updatebundleButton))
+                .addGroup(layout.createParallelGroup().addComponent(deletebundleButton))
+                .addGroup(layout.createParallelGroup().addComponent(previousPage))
+                );
+		setComboBoxes(); 
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -213,16 +225,16 @@ public class BundleFrame extends JFrame {
     private void refreshData() {
         errorMessage.setText(error);
         if (error == null || error.isEmpty()) {
-            // populate page with data
 
             // add bundle
             bundleNameTextField.setText("");
             bundleDiscountTextField.setText("");
-
+            itemQTextField.setText("");
             // update bundle
             bundleNewNameTextField.setText("");
             bundleNewDiscounttTextField.setText("");
-
+            itemNewQTextField.setText("");
+            
             var lists = List.of(oldNameList, nameToDeleteList);
             lists.forEach(JComboBox::removeAllItems);
 
@@ -234,6 +246,41 @@ public class BundleFrame extends JFrame {
         }
         pack();
     }
+    
+    /**
+     * This method validates the updated item has been added.
+     * @author Maxime Drouin
+     * @param evt
+     */ 
+    private void addUpdatedItemActionPerformed(ActionEvent evt) {
+        System.out.println(1);
+    	error = "";
+        Integer amt = getNumberFromField(itemNewQTextField, "must be a number");
+        
+        String name = (String) itemNewBox.getSelectedItem();
+        String bName= (String) oldNameList.getSelectedItem();
+        
+   
+        if (name.equals("-----")||name.equals("")||itemNewQTextField.getText().equals("")||bName.equals("")) {
+            error = "Please fill all fields!";
+        }
+        errorMessage.setText(error);
+        if (error.isEmpty()) {
+            if (selectedNewEquipmentNames.contains(name)) {
+            	System.out.println("mod");
+            	int index=selectedNewEquipmentNames.indexOf(name);
+            	selectedNewEquipmentQuantities.set(index,amt);
+            	
+            } else {
+            	System.out.println("add");
+            selectedNewEquipmentNames.add(name);
+            selectedNewEquipmentQuantities.add(amt);
+            refreshUpdateOverview();
+   
+            }
+        }
+    }
+    
     /**
      * This method validates the selected item has been added.
      * @author Maxime Drouin
@@ -244,21 +291,33 @@ public class BundleFrame extends JFrame {
       
         String name = (String) itemBox.getSelectedItem();
         int amt = getNumberFromField(itemQTextField, "must be a number");
+        
         if (name.equals("") || itemQTextField.getText().equals("")||name.equals("-----")) {
             error = "Please fill all fields!";
         }
         
-        if (selectedEquipmentNames.contains(name)) {
-            error += " " + name + " is already added!";
-        }
+
         errorMessage.setText(error);
         if (error.isEmpty()) {
-            System.out.println("added");
-            selectedEquipmentNames.add(name);
-            selectedEquipmentQuantities.add(amt);
+            if (selectedEquipmentNames.contains(name)) {
+            	System.out.println("mod");
+            	int index= selectedEquipmentNames.indexOf(name);
+            	selectedEquipmentQuantities.set(index,amt);
+            	
+            } else {
+            	System.out.println("add");
+            	selectedEquipmentNames.add(name);
+            	selectedEquipmentQuantities.add(amt);
+				System.out.println(selectedEquipmentNames.size());
+                refreshAddOverview();
+   
+            }
+            
         }
 
     }
+    
+   
     /**
      * This method validates the equipment bundle has been added.
      * @author Maxime Drouin
@@ -283,47 +342,59 @@ public class BundleFrame extends JFrame {
             if(selectedEquipmentNames.size()>=2) {
             	selectedEquipmentNames.clear();
             	selectedEquipmentQuantities.clear();
+            	refreshAddOverview();
+            	refreshUpdateOverview();
             }
         }
 
         refreshData();
 
     }
-    /**
-     * This method validates the updated item has been added.
+
+    
+
+    /** This methods refresh the equipment data in the overview of add bundle item
+     * 
      * @author Maxime Drouin
-     * @param evt
-     */ 
-    private void addUpdatedItemActionPerformed(ActionEvent evt) {
-        System.out.println(1);
-    	error = "";
-        Integer amt = getNumberFromField(itemNewQTextField, "must be a number");
-        
-        String name = (String) itemNewBox.getSelectedItem();
-        String bName= (String) oldNameList.getSelectedItem();
-        
-   
-        if (name.equals("-----")||name.equals("")||itemNewQTextField.getText().equals("")||bName.equals("")) {
-            error = "Please fill all fields!";
-        }
-        selectedNewEquipmentNames=AddtitionalController.getBundleItemNames(bName);
-      
-        selectedNewEquipmentQuantities=AddtitionalController.getBundleItemQuantities(bName);
-        errorMessage.setText(error);
-        if (error.isEmpty()) {
-            if (selectedNewEquipmentNames.contains(name)) {
-            	System.out.println("mod");
-            	int index=selectedNewEquipmentNames.indexOf(name);
-            	selectedNewEquipmentQuantities.set(index,amt);
-            	
-            } else {
-            	System.out.println("add");
-            selectedNewEquipmentNames.add(name);
-            selectedNewEquipmentQuantities.add(amt);
-            }
-        }
-        
-    }
+     * 
+     */
+    private void refreshAddOverview() {
+		errorMessage.setText(error);
+		if (error == null || error.isEmpty()) {
+			var overviewDtm = new DefaultTableModel(0, 0);
+			overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
+			addEquipmentBundleOverview.setModel(overviewDtm);
+			if (!bundleNameTextField.getText().isEmpty()) {
+				DefaultTableModel model = (DefaultTableModel) addEquipmentBundleOverview.getModel();
+				System.out.println(selectedEquipmentNames.size());
+				for (int i = 0; i < selectedEquipmentNames.size(); i++) {
+					model.addRow(new Object[] { selectedEquipmentNames.get(i), selectedEquipmentQuantities.get(i) });
+				}
+			}
+			itemBox.setSelectedIndex(0);
+		}
+	}
+    
+    /** This methods refresh the equipment data in the overview of update bundle item
+     * 
+     * @author Maxime Drouin
+     * 
+     */
+	private void refreshUpdateOverview() {
+		errorMessage.setText(error);
+		if (error == null || error.isEmpty()) {
+			var overviewDtm = new DefaultTableModel(0, 0);
+			overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
+			updateEquipmentBundleOverview.setModel(overviewDtm);
+			if (oldNameList.getSelectedItem() != null) {
+				DefaultTableModel model = (DefaultTableModel) updateEquipmentBundleOverview.getModel();
+				for (int i = 0; i < selectedNewEquipmentNames.size(); i++) {
+					model.addRow(new Object[] { selectedNewEquipmentNames.get(i), selectedNewEquipmentQuantities.get(i) });
+				}
+			}
+			itemNewBox.setSelectedIndex(0);
+		}
+	}
     /**
      * This method validates the equipment bundle has been updated.
      * @author Maxime Drouin
@@ -345,6 +416,8 @@ public class BundleFrame extends JFrame {
                     selectedNewEquipmentNames, selectedNewEquipmentQuantities));
              selectedNewEquipmentNames.clear();
              selectedNewEquipmentQuantities.clear();
+             refreshUpdateOverview();
+         	 refreshAddOverview();
         }
         refreshData();
     }

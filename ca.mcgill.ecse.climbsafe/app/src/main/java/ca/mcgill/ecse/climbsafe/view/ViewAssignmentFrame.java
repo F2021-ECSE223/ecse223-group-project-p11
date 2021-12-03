@@ -61,9 +61,6 @@ public class ViewAssignmentFrame extends JFrame {
 		assignmentOverview.setModel(overviewDtm);
 
 		for (Assignment a : AddtitionalController.getAllAssignments()) {
-			// { "memberEmail", "memberName", "guideEmail", "guideName" "hotelName",
-			// "startWeek", "endWeek", "totalCostForGuide", "totalCostForEquipment",
-			// "Status" };
 			String guideName;
 			String guideEmail;
 			String hotel;

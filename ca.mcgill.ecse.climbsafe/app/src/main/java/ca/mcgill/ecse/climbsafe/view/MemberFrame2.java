@@ -250,7 +250,7 @@ public class MemberFrame2 extends JFrame {
     private void updateMemberButtonActionPerformed(ActionEvent evt) {
         error = "";
 
-        if (memberPasswordTextField.getText().equals("") || memberNameTextField.getText().equals("")
+        if (memberPasswordTextField.getText().equals("") 
                 || memberEmergencyContactTextField.getText().equals("")
                 || memberWeekNumberTextField.getText().equals("")) {
             error = "Please fill all Fields! ";

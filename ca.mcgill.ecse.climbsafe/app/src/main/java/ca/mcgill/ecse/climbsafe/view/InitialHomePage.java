@@ -67,9 +67,8 @@ public class InitialHomePage extends JFrame {
 						.addGroup(layout.createParallelGroup().addGap(25).addComponent(adminHomePage, 500, 500, 1000).addComponent(memberHomePage,  500, 500, 1000).addComponent(guideHomePage,  500, 500, 1000).addComponent(registerGuideButton,  500, 500, 1000)
 								.addComponent(registerMemberButton, 500, 500, 1000).addGap(25))));
 
-		// .addComponent(errorMessage)
 		layout.setVerticalGroup(layout.createSequentialGroup().addGap(25).addComponent(adminHomePage, 50, 50, 50).addComponent(memberHomePage, 50, 50, 50).addComponent(guideHomePage, 50, 50, 50)
-				.addComponent(registerGuideButton,  50, 50, 50)
+				.addComponent(registerGuideButton, 50, 50, 50)
 				.addComponent(registerMemberButton,  50, 50, 50).addGap(25)
 				.addGroup(layout.createParallelGroup()));
 
