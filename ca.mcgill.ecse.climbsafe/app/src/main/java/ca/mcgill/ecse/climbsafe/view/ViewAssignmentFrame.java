@@ -47,7 +47,7 @@ public class ViewAssignmentFrame extends JFrame {
 
 	// maybe remove status below
 	private static final String[] ASSIGNMENT_COLUMN_NAMES = { "Member Email", "Member Name", "Member Status", "Guide Email", "Guide Name",
-			"Hotel Name", "Start Week", "End Week", "Guide Total Cost", "Equipment Total Cost", "Assignment Status", "Authorization Code", "Refund Amount"};
+			 "Start Week", "End Week", "Guide Total Cost", "Equipment Total Cost", "Assignment Status", "Authorization Code", "Refund Amount"};
 	private static final int HEIGHT_OVERVIEW_TABLE = 200;
 
 	public ViewAssignmentFrame() {// maybe
@@ -74,13 +74,9 @@ public class ViewAssignmentFrame extends JFrame {
 				guideName = a.getGuide().getName();
 				guideEmail = a.getGuide().getEmail();
 			}
-			if (a.getHotel() == null) {
-				hotel = "No Hotel Selected";
-			} else {
-				hotel = a.getHotel().getName();
-			}
+	
 			overviewDtm.addRow(new Object[] { a.getMember().getEmail(), a.getMember().getName(), a.getMember().getBanStatus(), guideEmail, guideName,
-					hotel, a.getStartWeek(), a.getEndWeek(), a.getTotalGuideCost(), a.getTotalEquipmentCost(),
+					 a.getStartWeek(), a.getEndWeek(), a.getTotalGuideCost(), a.getTotalEquipmentCost(),
 					a.getAssignmentStatusFullName(), a.getGivenAuthorizationCode(), a.getRefundPercentage()});
 		}
 		overviewScrollPane

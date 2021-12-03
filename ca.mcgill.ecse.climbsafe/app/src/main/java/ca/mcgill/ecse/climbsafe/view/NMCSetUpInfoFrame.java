@@ -30,7 +30,8 @@ public class NMCSetUpInfoFrame extends JFrame {
 	private String error = "";
 	// Set date format of input box to;"year-month-day"
 	private DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-	private JFormattedTextField startDate = new JFormattedTextField(format);
+	//private JFormattedTextField startDate = new JFormattedTextField(format);
+	private JTextField startDate = new JTextField();
 	private JLabel startDateLabel = new JLabel("Start Date (yyyy-mm-dd)");
 
 	private JTextField numberOfWeeks = new JTextField();
@@ -135,6 +136,22 @@ public class NMCSetUpInfoFrame extends JFrame {
 		}
 		return true;
 	}
+	/**
+	 * @author Lee Brickman
+	 * @param str
+	 * check if inputted characters are actually acceptable integers
+	 * @return
+	 */
+	public boolean characterCheck(JTextField str) {
+	    for (int i = 0; i <= str.getText().length() - 1; i++) {
+	      if (str.getText().charAt(0)=='\u2014') {
+	        continue;}
+	      if (Character.isDigit(str.getText().charAt(i)) == false) {
+	        return false;}
+	      }
+	    return true;
+
+	  }
 
 	/**
 	 * @author Lee Brickman
@@ -142,31 +159,36 @@ public class NMCSetUpInfoFrame extends JFrame {
 	 *          controller and apply data entered
 	 */
 	private void applyAllActionPerformed(ActionEvent e) {
+	  error = "";
+	    if(characterCheck(numberOfWeeks)==false) {
+	      error = "The number of climbing weeks must be greater than or equal to zero";
+	      refreshData();}
+	    if (characterCheck(weeklyGuidePrice)==false) {
+	      error = "The price of guide per week must be greater than or equal to zero";
+	      refreshData();}
+	    
 
-		error = "";
-
-		if (startDate.getText().equals("") || numberOfWeeks.getText().equals("") || weeklyGuidePrice.equals("")) {
-			error = "Please fill out all fields";
-			refreshData();
-		}
-		if (isRealDate(startDate.getText()) == true) {
-			if (Date.valueOf(startDate.getText()).before(today)) {
-				error = "Invalid date";
-
-				refreshData();
-			} else {
-				callController(() -> ClimbSafeFeatureSet1Controller.setup(Date.valueOf(startDate.getText()),
-						Integer.valueOf(numberOfWeeks.getText()), Integer.valueOf(weeklyGuidePrice.getText())));
-				refreshData();
-			}
-		}
-
-		else {
-			error = "Invalid date";
-			refreshData();
-		}
-		// navigate back to admin home screen}
+	   if (error.isEmpty() ) {
+	     if (startDate.getText().isBlank()||numberOfWeeks.getText().isBlank()||weeklyGuidePrice.getText().isBlank()) {
+	       error = "Please fill out all fields";
+	       refreshData();}
+	     if (isRealDate(startDate.getText())==true){
+	         if (Date.valueOf(startDate.getText()).before(today)) {
+	           error = "Invalid date";
+	           refreshData();}
+	         else {
+	           callController(()-> ClimbSafeFeatureSet1Controller.setup(Date.valueOf(startDate.getText()),Integer.valueOf(numberOfWeeks.getText()),Integer.valueOf(weeklyGuidePrice.getText())));
+	           refreshData();}}
+	     else {
+	       error = "Invalid Date";
+	       refreshData();
+	     }}
+	     else {
+	       refreshData();
+	     }
 	}
+
+
 
 	private void backToPreviousPage(ActionEvent evt) {
         HomePageAdminFrame homePage = new HomePageAdminFrame();

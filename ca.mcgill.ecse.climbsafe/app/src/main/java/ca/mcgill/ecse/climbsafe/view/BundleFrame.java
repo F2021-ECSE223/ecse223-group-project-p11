@@ -14,76 +14,76 @@ import ca.mcgill.ecse.climbsafe.application.*;
 
 import ca.mcgill.ecse.climbsafe.controller.*;
 
-
 import java.sql.*;
 import java.time.*;
 
 import java.awt.event.ActionEvent;
 
 /***
- * This class represents the equipment bundle frame. 
- * More specifically, the Add/Update/Delete equipment bundle feature.
+ * This class represents the equipment bundle frame. More specifically, the
+ * Add/Update/Delete equipment bundle feature.
+ * 
  * @author Maxime Drouin
  *
  */
 
 public class BundleFrame extends JFrame {
 
-    private static final long serialVersionUID = -4426310869335015542L;
+	private static final long serialVersionUID = -4426310869335015542L;
 
-    List<String> selectedEquipmentNames = new ArrayList<String>();
-    List<Integer> selectedEquipmentQuantities = new ArrayList<Integer>();
-    List<String> selectedNewEquipmentNames = new ArrayList<String>();
-    List<Integer> selectedNewEquipmentQuantities = new ArrayList<Integer>();
+	List<String> selectedEquipmentNames = new ArrayList<String>();
+	List<Integer> selectedEquipmentQuantities = new ArrayList<Integer>();
+	List<String> selectedNewEquipmentNames = new ArrayList<String>();
+	List<Integer> selectedNewEquipmentQuantities = new ArrayList<Integer>();
 
-    private JLabel errorMessage = new JLabel(); // element for error message
+	private JLabel errorMessage = new JLabel(); // element for error message
 
-    // to edit/remove bundle bundles
+	// to edit/remove bundle bundles
 
-    private JTextField bundleNameTextField = new JTextField();
-    private JLabel bundleNameLabel = new JLabel("Bundle:");
+	private JTextField bundleNameTextField = new JTextField();
+	private JLabel bundleNameLabel = new JLabel("Bundle:");
 
-    private JComboBox<String> itemBox = new JComboBox<>();
-    private JLabel itemNameLabel = new JLabel("Item");
+	private JComboBox<String> itemBox = new JComboBox<>();
+	private JLabel itemNameLabel = new JLabel("Item");
 
-    private JTextField itemQTextField = new JTextField();
-    private JLabel itemQLabel = new JLabel("Quantities:");
+	private JTextField itemQTextField = new JTextField();
+	private JLabel itemQLabel = new JLabel("Quantities:");
 
-    private JButton addItemButton = new JButton("Add Item:");
+	private JButton addItemButton = new JButton("Add Item:");
 
-    private JTextField bundleDiscountTextField = new JTextField();
-    private JLabel bundleDiscountLabel = new JLabel("Discount:");
+	private JTextField bundleDiscountTextField = new JTextField();
+	private JLabel bundleDiscountLabel = new JLabel("Discount:");
 
-    private JButton addBundleButton = new JButton("Add:");
+	private JButton addBundleButton = new JButton("Add:");
 
-    // to update Bundles
-    // private JTextField bundleOldNameTextField = new JTextField();
-    private JComboBox<String> oldNameList = new JComboBox<>();
-    private JLabel bundleOldNameLabel = new JLabel("Old Name:");
+	// to update Bundles
+	// private JTextField bundleOldNameTextField = new JTextField();
+	private JComboBox<String> oldNameList = new JComboBox<>();
+	private JLabel bundleOldNameLabel = new JLabel("Old Name:");
 
-    private JTextField bundleNewNameTextField = new JTextField();
-    private JLabel bundleNewNameLabel = new JLabel("New Name:");
+	private JTextField bundleNewNameTextField = new JTextField();
+	private JLabel bundleNewNameLabel = new JLabel("New Name:");
 
-    private JComboBox<String> itemNewBox = new JComboBox<>();
-    private JLabel itemNewNameLabel = new JLabel("New Equipment Names:");
+	private JComboBox<String> itemNewBox = new JComboBox<>();
+	private JLabel itemNewNameLabel = new JLabel("New Equipment Names:");
 
-    private JTextField itemNewQTextField = new JTextField();
-    private JLabel itemNewQLabel = new JLabel("New Equipment Quantities:");
+	private JTextField itemNewQTextField = new JTextField();
+	private JLabel itemNewQLabel = new JLabel("New Equipment Quantities:");
 
-    private JButton addUpdatedItemButton = new JButton("Add Updated Item:");
+	private JButton addUpdatedItemButton = new JButton("Add Updated Item:");
 
-    private JTextField bundleNewDiscounttTextField = new JTextField();
-    private JLabel bundleNewDiscountLabel = new JLabel("New Discount:");
+	private JTextField bundleNewDiscounttTextField = new JTextField();
+	private JLabel bundleNewDiscountLabel = new JLabel("New Discount:");
 
-    private JButton updatebundleButton = new JButton("Update bundle");
+	private JButton updatebundleButton = new JButton("Update bundle");
 
-    // delete
-    private JComboBox<String> nameToDeleteList = new JComboBox<>();
-    private JLabel bundleNameToDeleteLabel = new JLabel("Name:");
+	// delete
+	private JComboBox<String> nameToDeleteList = new JComboBox<>();
+	private JLabel bundleNameToDeleteLabel = new JLabel("Name:");
 
-    private JButton deletebundleButton = new JButton("Delete bundle");
+	private JButton deletebundleButton = new JButton("Delete bundle");
 
-    private JButton previousPage = new JButton("Return to previous page");
+	private JButton previousPage = new JButton("Return to previous page");
 
     private JTable equipmentBundleOverview = new JTable(new DefaultTableModel()) {
         private static final long serialVersionUID = 91L;

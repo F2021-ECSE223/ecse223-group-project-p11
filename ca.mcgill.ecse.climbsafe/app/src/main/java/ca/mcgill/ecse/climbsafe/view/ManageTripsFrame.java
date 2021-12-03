@@ -22,7 +22,6 @@ import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet1Controller;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet3Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
-import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
 import ca.mcgill.ecse.climbsafe.view.GuideFrame.Executable;
 
 /**
@@ -116,11 +115,7 @@ public class ManageTripsFrame extends JFrame {
 
 			var lists = List.of(memberList);
 			lists.forEach(JComboBox::removeAllItems);
-
-			ClimbSafe climbSafeApp = ClimbSafeApplication.getClimbSafe();
-
-			String eq = climbSafeApp.getEquipment().toString();
-
+			
 			AddtitionalController.getMemberEmails().forEach(memberList::addItem);
 
 			lists.forEach(list -> list.setSelectedIndex(-1));
