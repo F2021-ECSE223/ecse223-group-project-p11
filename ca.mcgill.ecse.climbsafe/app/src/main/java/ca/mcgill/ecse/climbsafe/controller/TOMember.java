@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse.climbsafe.controller;
 
-// line 25 "../../../../../ClimbSafeTransferObjects.ump"
+// line 26 "../../../../../ClimbSafeTransferObjects.ump"
 public class TOMember
 {
 

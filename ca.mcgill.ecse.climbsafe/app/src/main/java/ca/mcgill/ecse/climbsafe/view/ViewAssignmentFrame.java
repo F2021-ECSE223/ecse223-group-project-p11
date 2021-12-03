@@ -60,21 +60,24 @@ public class ViewAssignmentFrame extends JFrame {
 		overviewDtm.setColumnIdentifiers(ASSIGNMENT_COLUMN_NAMES);
 		assignmentOverview.setModel(overviewDtm);
 
-		for (Assignment a : AddtitionalController.getAllAssignments()) {
+		for (TOAssignment a : ClimbSafeFeatureSet6Controller.getAssignments()) {
+			// { "memberEmail", "memberName", "guideEmail", "guideName" "hotelName",
+			// "startWeek", "endWeek", "totalCostForGuide", "totalCostForEquipment",
+			// "Status" };
 			String guideName;
 			String guideEmail;
 			String hotel;
-			if (a.getGuide() == null) {
+			
+			if (a.getGuideEmail() == null) {
 				guideName = "No Guide Selected";
 				guideEmail = "No Guide Selected";
 			} else {
-				guideName = a.getGuide().getName();
-				guideEmail = a.getGuide().getEmail();
+				guideName = a.getGuideName();
+				guideEmail = a.getGuideEmail();
 			}
-	
-			overviewDtm.addRow(new Object[] { a.getMember().getEmail(), a.getMember().getName(), a.getMember().getBanStatus(), guideEmail, guideName,
-					 a.getStartWeek(), a.getEndWeek(), a.getTotalGuideCost(), a.getTotalEquipmentCost(),
-					a.getAssignmentStatusFullName(), a.getGivenAuthorizationCode(), a.getRefundPercentage()});
+			overviewDtm.addRow(new Object[] { a.getMemberBanStatus(), a.getMemberEmail(), a.getMemberName(),  guideEmail, guideName,
+				 a.getStartWeek(), a.getEndWeek(), a.getTotalCostForGuide(), a.getTotalCostForEquipment(),
+					a.getStatus(), a.getAuthorizationCode(), a.getRefundedPercentageAmount()});
 		}
 		overviewScrollPane
 				.setPreferredSize(new Dimension(assignmentOverview.getPreferredSize().width, HEIGHT_OVERVIEW_TABLE));

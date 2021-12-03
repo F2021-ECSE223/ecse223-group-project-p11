@@ -165,12 +165,6 @@ public class AddtitionalController {
    * method returning all of the assignments in the climbsafe application
    * @author Anaelle Drai-Laguens
    */
-  
-  public static List<Assignment> getAllAssignments(){
-    ClimbSafe cS= ClimbSafeApplication.getClimbSafe();
-    return cS.getAssignments();
-  }
-  
 
   
   
