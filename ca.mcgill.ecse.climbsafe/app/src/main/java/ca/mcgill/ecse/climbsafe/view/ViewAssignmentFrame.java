@@ -19,7 +19,6 @@ import ca.mcgill.ecse.climbsafe.controller.*;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet6Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOEquipment;
-import ca.mcgill.ecse.climbsafe.model.Assignment;
 import ca.mcgill.ecse.climbsafe.controller.AddtitionalController;
 
 import java.sql.*;
@@ -50,7 +49,7 @@ public class ViewAssignmentFrame extends JFrame {
 			 "Start Week", "End Week", "Guide Total Cost", "Equipment Total Cost", "Assignment Status", "Authorization Code", "Refund Amount"};
 	private static final int HEIGHT_OVERVIEW_TABLE = 200;
 
-	public ViewAssignmentFrame() {// maybe
+	public ViewAssignmentFrame() {
 		setTable();
 		initComponents();
 	}
@@ -61,9 +60,6 @@ public class ViewAssignmentFrame extends JFrame {
 		assignmentOverview.setModel(overviewDtm);
 
 		for (TOAssignment a : ClimbSafeFeatureSet6Controller.getAssignments()) {
-			// { "memberEmail", "memberName", "guideEmail", "guideName" "hotelName",
-			// "startWeek", "endWeek", "totalCostForGuide", "totalCostForEquipment",
-			// "Status" };
 			String guideName;
 			String guideEmail;
 			String hotel;
@@ -89,7 +85,6 @@ public class ViewAssignmentFrame extends JFrame {
 		
 		JSeparator horizontalLineTop = new JSeparator();
 
-		//add(overviewScrollPane);
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);

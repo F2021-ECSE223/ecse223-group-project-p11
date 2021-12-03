@@ -87,7 +87,6 @@ public class ManageTripsFrame extends JFrame {
 
 		layout.linkSize(SwingConstants.HORIZONTAL, weekNumber, memberList);
 		layout.linkSize(SwingConstants.HORIZONTAL, startTripsButton, finishTripButton, cancelTripButton);
-		// .addComponent(errorMessage)
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup().addComponent(weekNumber).addComponent(weekNumberLabel))
 				.addComponent(startTripsButton)
@@ -109,7 +108,6 @@ public class ManageTripsFrame extends JFrame {
 		if (error == null || error.isEmpty()) {
 			// populate page with data
 
-			// update equipment
 			weekNumber.setText("");
 
 
