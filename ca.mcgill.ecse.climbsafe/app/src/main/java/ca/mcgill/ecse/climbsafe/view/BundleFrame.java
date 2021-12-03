@@ -13,7 +13,6 @@ import javax.swing.text.AttributeSet.ColorAttribute;
 import ca.mcgill.ecse.climbsafe.application.*;
 
 import ca.mcgill.ecse.climbsafe.controller.*;
-import ca.mcgill.ecse.climbsafe.model.Equipment;
 
 import java.sql.*;
 import java.time.*;

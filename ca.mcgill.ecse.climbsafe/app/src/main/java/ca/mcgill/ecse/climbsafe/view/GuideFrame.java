@@ -23,8 +23,6 @@ import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet4Controller;
 import ca.mcgill.ecse.climbsafe.controller.ClimbSafeFeatureSet6Controller;
 import ca.mcgill.ecse.climbsafe.controller.InvalidInputException;
 import ca.mcgill.ecse.climbsafe.controller.TOGuide;
-import ca.mcgill.ecse.climbsafe.model.ClimbSafe;
-import ca.mcgill.ecse.climbsafe.model.Equipment;
 import ca.mcgill.ecse.climbsafe.view.EquipmentFrame.Executable;
 
 /***
