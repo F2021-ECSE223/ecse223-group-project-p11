@@ -76,7 +76,6 @@ public class MemberFrame2 extends JFrame {
     // viewing the selected equipment in table for registering member
 
     private JButton deleteItemButton = new JButton("Remove Selected Item");
-    // private JComboBox<String> selectedItemsList = new JComboBox<>();
 
     private JTable equipmentOverview = new JTable(new DefaultTableModel()) {
         private static final long serialVersionUID = 99L;
@@ -230,8 +229,7 @@ public class MemberFrame2 extends JFrame {
             overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
             equipmentOverview.setModel(overviewDtm);
             if (equipmentAvailableList.getSelectedItem() != null) {
-                // String equipmentNameText =
-                // equipmentAvailableList.getSelectedItem().toString();
+
                 DefaultTableModel model = (DefaultTableModel) equipmentOverview.getModel();
                 for (int i = 0; i < selectedItemNames.size(); i++) {
                     model.addRow(new Object[] { selectedItemNames.get(i), selectedItemQuantities.get(i),

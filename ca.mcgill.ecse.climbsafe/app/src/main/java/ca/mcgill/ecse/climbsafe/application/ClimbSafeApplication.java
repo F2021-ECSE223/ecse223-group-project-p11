@@ -29,8 +29,6 @@ public class ClimbSafeApplication {
 			e.printStackTrace();
 		}
 
-//	  	HomePageMemberFrame homepagemember = new HomePageMemberFrame("samuel@mcgill.ca");
-//	  	homepagemember.setVisible(true);
 		EventQueue.invokeLater(InitialHomePage::new);
 	}
 

@@ -57,15 +57,13 @@ public class MemberFrame extends JFrame {
 	private JCheckBox memberGuideCheckBox = new JCheckBox("Guide", false);
 	private JCheckBox memberHotelCheckBox = new JCheckBox("Hotel", false);
 
-	// increments week numbers by one, replace the 50 with whatever the max num of
-	// weeks is when NMC is setup
 
 	private JTextField memberWeekNumberTextField = new JTextField();
 	private JLabel memberWeekNumberLabel = new JLabel("Number of weeks");
 
 	private JButton addMemberButton = new JButton("Create Account and Book Trip");
 
-	// private JButton deleteMemberButton = new JButton("Delete Account");
+
 
 	private JComboBox<String> equipmentAvailableList = new JComboBox<>();
 	private JButton addEquipmentButton = new JButton("Add Selected Item");
@@ -76,7 +74,6 @@ public class MemberFrame extends JFrame {
 	// viewing the selected equipment in table for registering member
 
 	private JButton deleteItemButton = new JButton("Remove Selected Item");
-	// private JComboBox<String> selectedItemsList = new JComboBox<>();
 
 	private JButton previousPage = new JButton("Return to previous page");
 
@@ -121,10 +118,6 @@ public class MemberFrame extends JFrame {
 		}
 		// listeners for member
 		addMemberButton.addActionListener(this::addMemberButtonActionPerformed); // Respond to Enter/Return key
-
-		// deleteMemberButton.addActionListener(this::deleteMemberButtonActionPerformed);
-
-		// updateMemberButton.addActionListener(this::updateMemberButtonActionPerformed);
 
 		addEquipmentButton.addActionListener(this::addEquipmentButtonActionPerformed);
 
@@ -227,8 +220,6 @@ public class MemberFrame extends JFrame {
 			overviewDtm.setColumnIdentifiers(OVERVIEW_COLUMN_NAMES);
 			equipmentOverview.setModel(overviewDtm);
 			if (equipmentAvailableList.getSelectedItem() != null) {
-				// String equipmentNameText =
-				// equipmentAvailableList.getSelectedItem().toString();
 				DefaultTableModel model = (DefaultTableModel) equipmentOverview.getModel();
 				for (int i = 0; i < selectedItemNames.size(); i++) {
 					model.addRow(new Object[] { selectedItemNames.get(i), selectedItemQuantities.get(i),
@@ -248,18 +239,12 @@ public class MemberFrame extends JFrame {
 		// clear error message
 		error = "";
 
-//		if (memberEmailTextField.getText().equals("") || memberPasswordTextField.getText().equals("")
-//				|| memberNameTextField.getText().equals("") || memberEmergencyContactTextField.getText().equals("")
-//				|| memberWeekNumberTextField.getText().equals("")) {
-//			error = "Please fill all Fields! ";
-//		}
 
 		int weekNumber = getNumberFromField(memberWeekNumberTextField, "Must be a number!");
 		error.trim();
 
 		if (error.isEmpty()) {
 
-			// temporary until other frames finished
 
 			callController(() -> ClimbSafeFeatureSet2Controller.registerMember(memberEmailTextField.getText(),
 					memberPasswordTextField.getText(), memberNameTextField.getText(),
